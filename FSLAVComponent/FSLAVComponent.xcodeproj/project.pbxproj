@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */; };
+		D74310EF22BCBD4B0055E0C2 /* FSLAVComponent.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */; };
+		D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D743113A22BCCC7E0055E0C2 /* FSLAVFileManager.m */; };
+		D743113F22BCD5740055E0C2 /* FSLAVRecordCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743113E22BCD5740055E0C2 /* FSLAVRecordCoreBase.m */; };
+		D743114222BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743114122BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m */; };
+		D743114522BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743114422BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m */; };
+		D743114822BCD6060055E0C2 /* FSLAVPlayCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743114722BCD6060055E0C2 /* FSLAVPlayCoreBase.m */; };
+		D743114B22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743114A22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m */; };
+		D743114E22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743114D22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m */; };
+		D743115422BCF6200055E0C2 /* FSLAVEncoderCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743115322BCF6200055E0C2 /* FSLAVEncoderCoreBase.m */; };
+		D743115722BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D743115622BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m */; };
+		D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */; };
+		D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */; };
+		D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */; };
+		D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D74310E722BCBD4B0055E0C2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				D74310EF22BCBD4B0055E0C2 /* FSLAVComponent.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D74310E922BCBD4B0055E0C2 /* libFSLAVComponent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSLAVComponent.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVComponent.h; sourceTree = "<group>"; };
+		D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVComponent.m; sourceTree = "<group>"; };
+		D743113922BCCC7E0055E0C2 /* FSLAVFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVFileManager.h; sourceTree = "<group>"; };
+		D743113A22BCCC7E0055E0C2 /* FSLAVFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVFileManager.m; sourceTree = "<group>"; };
+		D743113D22BCD5740055E0C2 /* FSLAVRecordCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecordCoreBase.h; sourceTree = "<group>"; };
+		D743113E22BCD5740055E0C2 /* FSLAVRecordCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRecordCoreBase.m; sourceTree = "<group>"; };
+		D743114022BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecordVideoCoreBase.h; sourceTree = "<group>"; };
+		D743114122BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRecordVideoCoreBase.m; sourceTree = "<group>"; };
+		D743114322BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecordAudioCoreBase.h; sourceTree = "<group>"; };
+		D743114422BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRecordAudioCoreBase.m; sourceTree = "<group>"; };
+		D743114622BCD6060055E0C2 /* FSLAVPlayCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVPlayCoreBase.h; sourceTree = "<group>"; };
+		D743114722BCD6060055E0C2 /* FSLAVPlayCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVPlayCoreBase.m; sourceTree = "<group>"; };
+		D743114922BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVPlayVideoCoreBase.h; sourceTree = "<group>"; };
+		D743114A22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVPlayVideoCoreBase.m; sourceTree = "<group>"; };
+		D743114C22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVPlayAudioCoreBase.h; sourceTree = "<group>"; };
+		D743114D22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVPlayAudioCoreBase.m; sourceTree = "<group>"; };
+		D743115222BCF6200055E0C2 /* FSLAVEncoderCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVEncoderCoreBase.h; sourceTree = "<group>"; };
+		D743115322BCF6200055E0C2 /* FSLAVEncoderCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVEncoderCoreBase.m; sourceTree = "<group>"; };
+		D743115522BCF64D0055E0C2 /* FSLAVDecoderCoreBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVDecoderCoreBase.h; sourceTree = "<group>"; };
+		D743115622BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVDecoderCoreBase.m; sourceTree = "<group>"; };
+		D743115B22BCF7940055E0C2 /* FSLAVH264VideoEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264VideoEncoder.h; sourceTree = "<group>"; };
+		D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH264VideoEncoder.m; sourceTree = "<group>"; };
+		D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264VideoConfiguration.h; sourceTree = "<group>"; };
+		D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH264VideoConfiguration.m; sourceTree = "<group>"; };
+		D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264VideoEncoderInterface.h; sourceTree = "<group>"; };
+		D7DE246222C0C97B001F7ACD /* FSLAVRTMPFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRTMPFrame.h; sourceTree = "<group>"; };
+		D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRTMPFrame.m; sourceTree = "<group>"; };
+		D7DE246522C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRTMPFrame.h; sourceTree = "<group>"; };
+		D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVVideoRTMPFrame.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D74310E622BCBD4B0055E0C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D74310E022BCBD4B0055E0C2 = {
+			isa = PBXGroup;
+			children = (
+				D74310EB22BCBD4B0055E0C2 /* FSLAVComponent */,
+				D74310EA22BCBD4B0055E0C2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D74310EA22BCBD4B0055E0C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D74310E922BCBD4B0055E0C2 /* libFSLAVComponent.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D74310EB22BCBD4B0055E0C2 /* FSLAVComponent */ = {
+			isa = PBXGroup;
+			children = (
+				D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */,
+				D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */,
+				D743113422BCC0250055E0C2 /* Components */,
+			);
+			path = FSLAVComponent;
+			sourceTree = "<group>";
+		};
+		D743113422BCC0250055E0C2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D7DE246122C0C919001F7ACD /* Data */,
+				D743113C22BCD3660055E0C2 /* Tools */,
+				D743113622BCC6810055E0C2 /* Core */,
+				D743113822BCC68F0055E0C2 /* Audio */,
+				D743113722BCC6870055E0C2 /* Video */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		D743113622BCC6810055E0C2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D743113D22BCD5740055E0C2 /* FSLAVRecordCoreBase.h */,
+				D743113E22BCD5740055E0C2 /* FSLAVRecordCoreBase.m */,
+				D743114022BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.h */,
+				D743114122BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m */,
+				D743114322BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.h */,
+				D743114422BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m */,
+				D743114622BCD6060055E0C2 /* FSLAVPlayCoreBase.h */,
+				D743114722BCD6060055E0C2 /* FSLAVPlayCoreBase.m */,
+				D743114922BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.h */,
+				D743114A22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m */,
+				D743114C22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.h */,
+				D743114D22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m */,
+				D743115222BCF6200055E0C2 /* FSLAVEncoderCoreBase.h */,
+				D743115322BCF6200055E0C2 /* FSLAVEncoderCoreBase.m */,
+				D743115522BCF64D0055E0C2 /* FSLAVDecoderCoreBase.h */,
+				D743115622BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		D743113722BCC6870055E0C2 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				D7DE246922C0D977001F7ACD /* Recorder */,
+				D7DE246822C0D918001F7ACD /* Encoder */,
+				D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */,
+				D743115B22BCF7940055E0C2 /* FSLAVH264VideoEncoder.h */,
+				D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */,
+				D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */,
+				D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */,
+			);
+			name = Video;
+			sourceTree = "<group>";
+		};
+		D743113822BCC68F0055E0C2 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		D743113C22BCD3660055E0C2 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				D743113922BCCC7E0055E0C2 /* FSLAVFileManager.h */,
+				D743113A22BCCC7E0055E0C2 /* FSLAVFileManager.m */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		D7DE246122C0C919001F7ACD /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D7DE246222C0C97B001F7ACD /* FSLAVRTMPFrame.h */,
+				D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */,
+				D7DE246522C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.h */,
+				D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		D7DE246822C0D918001F7ACD /* Encoder */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Encoder;
+			sourceTree = "<group>";
+		};
+		D7DE246922C0D977001F7ACD /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Recorder;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D74310E822BCBD4B0055E0C2 /* FSLAVComponent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D74310F222BCBD4B0055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVComponent" */;
+			buildPhases = (
+				D74310E522BCBD4B0055E0C2 /* Sources */,
+				D74310E622BCBD4B0055E0C2 /* Frameworks */,
+				D74310E722BCBD4B0055E0C2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FSLAVComponent;
+			productName = FSLAVComponent;
+			productReference = D74310E922BCBD4B0055E0C2 /* libFSLAVComponent.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D74310E122BCBD4B0055E0C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = tutu;
+				TargetAttributes = {
+					D74310E822BCBD4B0055E0C2 = {
+						CreatedOnToolsVersion = 10.2;
+					};
+				};
+			};
+			buildConfigurationList = D74310E422BCBD4B0055E0C2 /* Build configuration list for PBXProject "FSLAVComponent" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D74310E022BCBD4B0055E0C2;
+			productRefGroup = D74310EA22BCBD4B0055E0C2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D74310E822BCBD4B0055E0C2 /* FSLAVComponent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D74310E522BCBD4B0055E0C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D743114822BCD6060055E0C2 /* FSLAVPlayCoreBase.m in Sources */,
+				D743115722BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m in Sources */,
+				D743115422BCF6200055E0C2 /* FSLAVEncoderCoreBase.m in Sources */,
+				D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */,
+				D743114522BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m in Sources */,
+				D743113F22BCD5740055E0C2 /* FSLAVRecordCoreBase.m in Sources */,
+				D743114E22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m in Sources */,
+				D743114B22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m in Sources */,
+				D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */,
+				D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */,
+				D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */,
+				D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */,
+				D743114222BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m in Sources */,
+				D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D74310F022BCBD4B0055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D74310F122BCBD4B0055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D74310F322BCBD4B0055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D74310F422BCBD4B0055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D74310E422BCBD4B0055E0C2 /* Build configuration list for PBXProject "FSLAVComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310F022BCBD4B0055E0C2 /* Debug */,
+				D74310F122BCBD4B0055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D74310F222BCBD4B0055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVComponent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310F322BCBD4B0055E0C2 /* Debug */,
+				D74310F422BCBD4B0055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D74310E122BCBD4B0055E0C2 /* Project object */;
+}

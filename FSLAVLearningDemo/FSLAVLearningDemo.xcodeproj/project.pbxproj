@@ -1,0 +1,870 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		220CE6A4CC4D8DE2501FA6C1 /* libPods-FSLAVLearningDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 108E63205B25C264D87C931B /* libPods-FSLAVLearningDemoUITests.a */; };
+		324F2479A87A566A7A706D3C /* libPods-FSLAVLearningDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */; };
+		D74310BD22BCBD130055E0C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310BC22BCBD130055E0C2 /* main.m */; };
+		D74310C722BCBD130055E0C2 /* FSLAVLearningDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310C622BCBD130055E0C2 /* FSLAVLearningDemoTests.m */; };
+		D74310D222BCBD130055E0C2 /* FSLAVLearningDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310D122BCBD130055E0C2 /* FSLAVLearningDemoUITests.m */; };
+		D74310FA22BCBE8C0055E0C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D74310F622BCBE8B0055E0C2 /* Assets.xcassets */; };
+		D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310FC22BCBEBD0055E0C2 /* AppDelegate.m */; };
+		D743112422BCBEC70055E0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D74310FD22BCBEBD0055E0C2 /* Main.storyboard */; };
+		D743112522BCBEC70055E0C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310FE22BCBEBD0055E0C2 /* ViewController.m */; };
+		D743112622BCBEC70055E0C2 /* 123.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D743110122BCBEC40055E0C2 /* 123.mp3 */; };
+		D743112722BCBEC70055E0C2 /* 111.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D743110222BCBEC40055E0C2 /* 111.mp3 */; };
+		D743112822BCBEC70055E0C2 /* GeneralParamItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D743110422BCBEC40055E0C2 /* GeneralParamItemModel.m */; };
+		D743112922BCBEC70055E0C2 /* GeneralParamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D743110822BCBEC40055E0C2 /* GeneralParamModel.m */; };
+		D743112A22BCBEC70055E0C2 /* GeneralGetDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D743110922BCBEC40055E0C2 /* GeneralGetDataManager.m */; };
+		D743112B22BCBEC70055E0C2 /* FunctionList.json in Resources */ = {isa = PBXBuildFile; fileRef = D743110A22BCBEC40055E0C2 /* FunctionList.json */; };
+		D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D743110E22BCBEC50055E0C2 /* HUDManager.m */; };
+		D743112D22BCBEC70055E0C2 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D743110F22BCBEC50055E0C2 /* MBProgressHUD.bundle */; };
+		D743112E22BCBEC70055E0C2 /* VideoRecorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111222BCBEC70055E0C2 /* VideoRecorViewController.m */; };
+		D743112F22BCBEC70055E0C2 /* HWCutMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */; };
+		D743113022BCBEC70055E0C2 /* AudioRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */; };
+		D743113122BCBEC70055E0C2 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111D22BCBEC70055E0C2 /* BaseViewController.m */; };
+		D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */; };
+		D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */; };
+		D743115022BCD8130055E0C2 /* libFSLAVComponent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */; };
+		D7DE246022C0A744001F7ACD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7DE245F22C0A744001F7ACD /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EB10D4F124697C592846E82F /* libPods-FSLAVLearningDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D74310C322BCBD130055E0C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D74310A222BCBD120055E0C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D74310A922BCBD120055E0C2;
+			remoteInfo = FSLAVLearningDemo;
+		};
+		D74310CE22BCBD130055E0C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D74310A222BCBD120055E0C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D74310A922BCBD120055E0C2;
+			remoteInfo = FSLAVLearningDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		108E63205B25C264D87C931B /* libPods-FSLAVLearningDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSLAVLearningDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		125B76A4C815B99C7A74D7C5 /* Pods-FSLAVLearningDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemoUITests/Pods-FSLAVLearningDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		2318A1D31651068FDC9B2284 /* Pods-FSLAVLearningDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemoTests.release.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemoTests/Pods-FSLAVLearningDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		292529B81B48216320ED1113 /* Pods-FSLAVLearningDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemoTests/Pods-FSLAVLearningDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSLAVLearningDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70EEDE6BC151CDB0AFD8595E /* Pods-FSLAVLearningDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemo.release.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemo/Pods-FSLAVLearningDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B2B6B58D8DB1265E52DE4AD7 /* Pods-FSLAVLearningDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemoUITests/Pods-FSLAVLearningDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D74310AA22BCBD120055E0C2 /* FSLAVLearningDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSLAVLearningDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D74310BB22BCBD130055E0C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D74310BC22BCBD130055E0C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D74310C222BCBD130055E0C2 /* FSLAVLearningDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSLAVLearningDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D74310C622BCBD130055E0C2 /* FSLAVLearningDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVLearningDemoTests.m; sourceTree = "<group>"; };
+		D74310C822BCBD130055E0C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D74310CD22BCBD130055E0C2 /* FSLAVLearningDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSLAVLearningDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D74310D122BCBD130055E0C2 /* FSLAVLearningDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVLearningDemoUITests.m; sourceTree = "<group>"; };
+		D74310D322BCBD130055E0C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D74310F622BCBE8B0055E0C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D74310F722BCBE8B0055E0C2 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		D74310F822BCBE8C0055E0C2 /* AudioVideoConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVideoConstants.h; sourceTree = "<group>"; };
+		D74310F922BCBE8C0055E0C2 /* LayoutAapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutAapter.h; sourceTree = "<group>"; };
+		D74310FB22BCBEBC0055E0C2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D74310FC22BCBEBD0055E0C2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D74310FD22BCBEBD0055E0C2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		D74310FE22BCBEBD0055E0C2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D74310FF22BCBEBD0055E0C2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D743110122BCBEC40055E0C2 /* 123.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 123.mp3; sourceTree = "<group>"; };
+		D743110222BCBEC40055E0C2 /* 111.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 111.mp3; sourceTree = "<group>"; };
+		D743110422BCBEC40055E0C2 /* GeneralParamItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralParamItemModel.m; sourceTree = "<group>"; };
+		D743110522BCBEC40055E0C2 /* GeneralParamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralParamModel.h; sourceTree = "<group>"; };
+		D743110622BCBEC40055E0C2 /* GeneralGetDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralGetDataManager.h; sourceTree = "<group>"; };
+		D743110722BCBEC40055E0C2 /* GeneralParamItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralParamItemModel.h; sourceTree = "<group>"; };
+		D743110822BCBEC40055E0C2 /* GeneralParamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralParamModel.m; sourceTree = "<group>"; };
+		D743110922BCBEC40055E0C2 /* GeneralGetDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralGetDataManager.m; sourceTree = "<group>"; };
+		D743110A22BCBEC40055E0C2 /* FunctionList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FunctionList.json; sourceTree = "<group>"; };
+		D743110D22BCBEC50055E0C2 /* HUDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDManager.h; sourceTree = "<group>"; };
+		D743110E22BCBEC50055E0C2 /* HUDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDManager.m; sourceTree = "<group>"; };
+		D743110F22BCBEC50055E0C2 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		D743111222BCBEC70055E0C2 /* VideoRecorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoRecorViewController.m; sourceTree = "<group>"; };
+		D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWCutMusicViewController.m; sourceTree = "<group>"; };
+		D743111422BCBEC70055E0C2 /* VideoRecorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRecorViewController.h; sourceTree = "<group>"; };
+		D743111522BCBEC70055E0C2 /* HWCutMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWCutMusicViewController.h; sourceTree = "<group>"; };
+		D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordViewController.m; sourceTree = "<group>"; };
+		D743111922BCBEC70055E0C2 /* AudioRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordViewController.h; sourceTree = "<group>"; };
+		D743111D22BCBEC70055E0C2 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopNavigationBar.m; sourceTree = "<group>"; };
+		D743111F22BCBEC70055E0C2 /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
+		D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
+		D743112122BCBEC70055E0C2 /* TopNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopNavigationBar.h; sourceTree = "<group>"; };
+		D743112222BCBEC70055E0C2 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFSLAVComponent.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7DE245F22C0A744001F7ACD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSLAVLearningDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F442E5C6E5C499A3072BFA71 /* Pods-FSLAVLearningDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemo.debug.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemo/Pods-FSLAVLearningDemo.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D74310A722BCBD120055E0C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D7DE246022C0A744001F7ACD /* AVFoundation.framework in Frameworks */,
+				D743115022BCD8130055E0C2 /* libFSLAVComponent.a in Frameworks */,
+				324F2479A87A566A7A706D3C /* libPods-FSLAVLearningDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310BF22BCBD130055E0C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB10D4F124697C592846E82F /* libPods-FSLAVLearningDemoTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310CA22BCBD130055E0C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				220CE6A4CC4D8DE2501FA6C1 /* libPods-FSLAVLearningDemoUITests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C977C5A34265D8EBA823B98 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F442E5C6E5C499A3072BFA71 /* Pods-FSLAVLearningDemo.debug.xcconfig */,
+				70EEDE6BC151CDB0AFD8595E /* Pods-FSLAVLearningDemo.release.xcconfig */,
+				292529B81B48216320ED1113 /* Pods-FSLAVLearningDemoTests.debug.xcconfig */,
+				2318A1D31651068FDC9B2284 /* Pods-FSLAVLearningDemoTests.release.xcconfig */,
+				125B76A4C815B99C7A74D7C5 /* Pods-FSLAVLearningDemoUITests.debug.xcconfig */,
+				B2B6B58D8DB1265E52DE4AD7 /* Pods-FSLAVLearningDemoUITests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		6321285D5732EFBAE58F1F1F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D7DE245F22C0A744001F7ACD /* AVFoundation.framework */,
+				D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */,
+				4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */,
+				DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */,
+				108E63205B25C264D87C931B /* libPods-FSLAVLearningDemoUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D74310A122BCBD120055E0C2 = {
+			isa = PBXGroup;
+			children = (
+				D74310AC22BCBD120055E0C2 /* FSLAVLearningDemo */,
+				D74310C522BCBD130055E0C2 /* FSLAVLearningDemoTests */,
+				D74310D022BCBD130055E0C2 /* FSLAVLearningDemoUITests */,
+				6321285D5732EFBAE58F1F1F /* Frameworks */,
+				2C977C5A34265D8EBA823B98 /* Pods */,
+				D74310AB22BCBD120055E0C2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D74310AB22BCBD120055E0C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D74310AA22BCBD120055E0C2 /* FSLAVLearningDemo.app */,
+				D74310C222BCBD130055E0C2 /* FSLAVLearningDemoTests.xctest */,
+				D74310CD22BCBD130055E0C2 /* FSLAVLearningDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D74310AC22BCBD120055E0C2 /* FSLAVLearningDemo */ = {
+			isa = PBXGroup;
+			children = (
+				D74310FB22BCBEBC0055E0C2 /* AppDelegate.h */,
+				D74310FC22BCBEBD0055E0C2 /* AppDelegate.m */,
+				D74310FF22BCBEBD0055E0C2 /* ViewController.h */,
+				D74310FE22BCBEBD0055E0C2 /* ViewController.m */,
+				D74310FD22BCBEBD0055E0C2 /* Main.storyboard */,
+				D743111022BCBEC70055E0C2 /* Classes */,
+				D743110022BCBEC40055E0C2 /* Resource */,
+				D743110B22BCBEC50055E0C2 /* Tool */,
+				D74310F522BCBE380055E0C2 /* Suportting Files */,
+			);
+			path = FSLAVLearningDemo;
+			sourceTree = "<group>";
+		};
+		D74310C522BCBD130055E0C2 /* FSLAVLearningDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				D74310C622BCBD130055E0C2 /* FSLAVLearningDemoTests.m */,
+				D74310C822BCBD130055E0C2 /* Info.plist */,
+			);
+			path = FSLAVLearningDemoTests;
+			sourceTree = "<group>";
+		};
+		D74310D022BCBD130055E0C2 /* FSLAVLearningDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D74310D122BCBD130055E0C2 /* FSLAVLearningDemoUITests.m */,
+				D74310D322BCBD130055E0C2 /* Info.plist */,
+			);
+			path = FSLAVLearningDemoUITests;
+			sourceTree = "<group>";
+		};
+		D74310F522BCBE380055E0C2 /* Suportting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D74310F622BCBE8B0055E0C2 /* Assets.xcassets */,
+				D74310F822BCBE8C0055E0C2 /* AudioVideoConstants.h */,
+				D74310F922BCBE8C0055E0C2 /* LayoutAapter.h */,
+				D74310F722BCBE8B0055E0C2 /* PrefixHeader.pch */,
+				D74310BB22BCBD130055E0C2 /* Info.plist */,
+				D74310BC22BCBD130055E0C2 /* main.m */,
+			);
+			path = "Suportting Files";
+			sourceTree = "<group>";
+		};
+		D743110022BCBEC40055E0C2 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				D743110122BCBEC40055E0C2 /* 123.mp3 */,
+				D743110222BCBEC40055E0C2 /* 111.mp3 */,
+				D743110322BCBEC40055E0C2 /* Model */,
+				D743110A22BCBEC40055E0C2 /* FunctionList.json */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		D743110322BCBEC40055E0C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D743110422BCBEC40055E0C2 /* GeneralParamItemModel.m */,
+				D743110522BCBEC40055E0C2 /* GeneralParamModel.h */,
+				D743110622BCBEC40055E0C2 /* GeneralGetDataManager.h */,
+				D743110722BCBEC40055E0C2 /* GeneralParamItemModel.h */,
+				D743110822BCBEC40055E0C2 /* GeneralParamModel.m */,
+				D743110922BCBEC40055E0C2 /* GeneralGetDataManager.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D743110B22BCBEC50055E0C2 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				D743110C22BCBEC50055E0C2 /* HUDManager */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		D743110C22BCBEC50055E0C2 /* HUDManager */ = {
+			isa = PBXGroup;
+			children = (
+				D743110D22BCBEC50055E0C2 /* HUDManager.h */,
+				D743110E22BCBEC50055E0C2 /* HUDManager.m */,
+				D743110F22BCBEC50055E0C2 /* MBProgressHUD.bundle */,
+			);
+			path = HUDManager;
+			sourceTree = "<group>";
+		};
+		D743111022BCBEC70055E0C2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D743111122BCBEC70055E0C2 /* Controller */,
+				D743111622BCBEC70055E0C2 /* Audio */,
+				D743111C22BCBEC70055E0C2 /* Base */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		D743111122BCBEC70055E0C2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D743111522BCBEC70055E0C2 /* HWCutMusicViewController.h */,
+				D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */,
+				D743111422BCBEC70055E0C2 /* VideoRecorViewController.h */,
+				D743111222BCBEC70055E0C2 /* VideoRecorViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D743111622BCBEC70055E0C2 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				D743111722BCBEC70055E0C2 /* Controller */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		D743111722BCBEC70055E0C2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */,
+				D743111922BCBEC70055E0C2 /* AudioRecordViewController.h */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D743111C22BCBEC70055E0C2 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D743111D22BCBEC70055E0C2 /* BaseViewController.m */,
+				D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */,
+				D743111F22BCBEC70055E0C2 /* BaseNavigationViewController.h */,
+				D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */,
+				D743112122BCBEC70055E0C2 /* TopNavigationBar.h */,
+				D743112222BCBEC70055E0C2 /* BaseViewController.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D74310A922BCBD120055E0C2 /* FSLAVLearningDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D74310D622BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemo" */;
+			buildPhases = (
+				99A8C19F2B71E7ED2987E467 /* [CP] Check Pods Manifest.lock */,
+				D74310A622BCBD120055E0C2 /* Sources */,
+				D74310A722BCBD120055E0C2 /* Frameworks */,
+				D74310A822BCBD120055E0C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FSLAVLearningDemo;
+			productName = FSLAVLearningDemo;
+			productReference = D74310AA22BCBD120055E0C2 /* FSLAVLearningDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D74310C122BCBD130055E0C2 /* FSLAVLearningDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D74310D922BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemoTests" */;
+			buildPhases = (
+				ACB238944ACD1577482542A2 /* [CP] Check Pods Manifest.lock */,
+				D74310BE22BCBD130055E0C2 /* Sources */,
+				D74310BF22BCBD130055E0C2 /* Frameworks */,
+				D74310C022BCBD130055E0C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D74310C422BCBD130055E0C2 /* PBXTargetDependency */,
+			);
+			name = FSLAVLearningDemoTests;
+			productName = FSLAVLearningDemoTests;
+			productReference = D74310C222BCBD130055E0C2 /* FSLAVLearningDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D74310CC22BCBD130055E0C2 /* FSLAVLearningDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D74310DC22BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemoUITests" */;
+			buildPhases = (
+				DD9EFFDA6CE87D005B775471 /* [CP] Check Pods Manifest.lock */,
+				D74310C922BCBD130055E0C2 /* Sources */,
+				D74310CA22BCBD130055E0C2 /* Frameworks */,
+				D74310CB22BCBD130055E0C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D74310CF22BCBD130055E0C2 /* PBXTargetDependency */,
+			);
+			name = FSLAVLearningDemoUITests;
+			productName = FSLAVLearningDemoUITests;
+			productReference = D74310CD22BCBD130055E0C2 /* FSLAVLearningDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D74310A222BCBD120055E0C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = tutu;
+				TargetAttributes = {
+					D74310A922BCBD120055E0C2 = {
+						CreatedOnToolsVersion = 10.2;
+					};
+					D74310C122BCBD130055E0C2 = {
+						CreatedOnToolsVersion = 10.2;
+						TestTargetID = D74310A922BCBD120055E0C2;
+					};
+					D74310CC22BCBD130055E0C2 = {
+						CreatedOnToolsVersion = 10.2;
+						TestTargetID = D74310A922BCBD120055E0C2;
+					};
+				};
+			};
+			buildConfigurationList = D74310A522BCBD120055E0C2 /* Build configuration list for PBXProject "FSLAVLearningDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D74310A122BCBD120055E0C2;
+			productRefGroup = D74310AB22BCBD120055E0C2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D74310A922BCBD120055E0C2 /* FSLAVLearningDemo */,
+				D74310C122BCBD130055E0C2 /* FSLAVLearningDemoTests */,
+				D74310CC22BCBD130055E0C2 /* FSLAVLearningDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D74310A822BCBD120055E0C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D743112722BCBEC70055E0C2 /* 111.mp3 in Resources */,
+				D743112B22BCBEC70055E0C2 /* FunctionList.json in Resources */,
+				D743112622BCBEC70055E0C2 /* 123.mp3 in Resources */,
+				D74310FA22BCBE8C0055E0C2 /* Assets.xcassets in Resources */,
+				D743112422BCBEC70055E0C2 /* Main.storyboard in Resources */,
+				D743112D22BCBEC70055E0C2 /* MBProgressHUD.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310C022BCBD130055E0C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310CB22BCBD130055E0C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		99A8C19F2B71E7ED2987E467 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSLAVLearningDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ACB238944ACD1577482542A2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSLAVLearningDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD9EFFDA6CE87D005B775471 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSLAVLearningDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D74310A622BCBD120055E0C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D743113022BCBEC70055E0C2 /* AudioRecordViewController.m in Sources */,
+				D743112F22BCBEC70055E0C2 /* HWCutMusicViewController.m in Sources */,
+				D743113122BCBEC70055E0C2 /* BaseViewController.m in Sources */,
+				D743112922BCBEC70055E0C2 /* GeneralParamModel.m in Sources */,
+				D743112522BCBEC70055E0C2 /* ViewController.m in Sources */,
+				D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */,
+				D743112822BCBEC70055E0C2 /* GeneralParamItemModel.m in Sources */,
+				D743112A22BCBEC70055E0C2 /* GeneralGetDataManager.m in Sources */,
+				D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */,
+				D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */,
+				D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */,
+				D743112E22BCBEC70055E0C2 /* VideoRecorViewController.m in Sources */,
+				D74310BD22BCBD130055E0C2 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310BE22BCBD130055E0C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D74310C722BCBD130055E0C2 /* FSLAVLearningDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D74310C922BCBD130055E0C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D74310D222BCBD130055E0C2 /* FSLAVLearningDemoUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D74310C422BCBD130055E0C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D74310A922BCBD120055E0C2 /* FSLAVLearningDemo */;
+			targetProxy = D74310C322BCBD130055E0C2 /* PBXContainerItemProxy */;
+		};
+		D74310CF22BCBD130055E0C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D74310A922BCBD120055E0C2 /* FSLAVLearningDemo */;
+			targetProxy = D74310CE22BCBD130055E0C2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D74310D422BCBD130055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D74310D522BCBD130055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D74310D722BCBD130055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F442E5C6E5C499A3072BFA71 /* Pods-FSLAVLearningDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				GCC_PREFIX_HEADER = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MJExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"$(SRCROOT)/../FSLAVComponent/FSLAVComponent\"",
+				);
+				INFOPLIST_FILE = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D74310D822BCBD130055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70EEDE6BC151CDB0AFD8595E /* Pods-FSLAVLearningDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				GCC_PREFIX_HEADER = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MJExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"$(SRCROOT)/../FSLAVComponent/FSLAVComponent\"",
+				);
+				INFOPLIST_FILE = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D74310DA22BCBD130055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 292529B81B48216320ED1113 /* Pods-FSLAVLearningDemoTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				INFOPLIST_FILE = FSLAVLearningDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FSLAVLearningDemo.app/FSLAVLearningDemo";
+			};
+			name = Debug;
+		};
+		D74310DB22BCBD130055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2318A1D31651068FDC9B2284 /* Pods-FSLAVLearningDemoTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				INFOPLIST_FILE = FSLAVLearningDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FSLAVLearningDemo.app/FSLAVLearningDemo";
+			};
+			name = Release;
+		};
+		D74310DD22BCBD130055E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 125B76A4C815B99C7A74D7C5 /* Pods-FSLAVLearningDemoUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				INFOPLIST_FILE = FSLAVLearningDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FSLAVLearningDemo;
+			};
+			name = Debug;
+		};
+		D74310DE22BCBD130055E0C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2B6B58D8DB1265E52DE4AD7 /* Pods-FSLAVLearningDemoUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9U2KRZU6GT;
+				INFOPLIST_FILE = FSLAVLearningDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tutu.FSLAVLearningDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FSLAVLearningDemo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D74310A522BCBD120055E0C2 /* Build configuration list for PBXProject "FSLAVLearningDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310D422BCBD130055E0C2 /* Debug */,
+				D74310D522BCBD130055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D74310D622BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310D722BCBD130055E0C2 /* Debug */,
+				D74310D822BCBD130055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D74310D922BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310DA22BCBD130055E0C2 /* Debug */,
+				D74310DB22BCBD130055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D74310DC22BCBD130055E0C2 /* Build configuration list for PBXNativeTarget "FSLAVLearningDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D74310DD22BCBD130055E0C2 /* Debug */,
+				D74310DE22BCBD130055E0C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D74310A222BCBD120055E0C2 /* Project object */;
+}

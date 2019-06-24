@@ -1,0 +1,33 @@
+{
+    "code": "100",
+    "functionTitle": [
+        {
+            "title" : "音频组件",
+            "itemArr" : [
+                {
+                    "itemName" : "音频录制与播放"
+                },
+                {
+                    "itemName" : "音频AAC编码"
+                },
+                {
+                    "itemName" : "音频PCM编码"
+                }
+            ]
+        },
+        {
+            "title" : "视频组件",
+            "itemArr" : [
+                {
+                    "itemName" : "录制视频并混合音频"
+                },
+                {
+                    "itemName" : "视频h264编码"
+                },
+                {
+                    "itemName" : "音频PCM编码"
+                }
+            ]
+        }
+    ]
+}
