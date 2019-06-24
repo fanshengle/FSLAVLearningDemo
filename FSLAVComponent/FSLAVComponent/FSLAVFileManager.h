@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param suffixFormat 文件后缀名
  @return  指定后缀带有日期的字符串
  */
-+ (NSString *)pathAppendDefaultDatePath:(NSString *)filePath;
++ (NSString *)pathAppendDefaultDatePath:(NSString *)suffixFormat;
 
 /**
  生成指定文件后缀带有日期的字符串，避免了文件名重复

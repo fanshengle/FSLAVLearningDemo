@@ -22,6 +22,7 @@
 		D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */; };
 		D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */; };
 		D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */; };
+		D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,8 @@
 		D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRTMPFrame.m; sourceTree = "<group>"; };
 		D7DE246522C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRTMPFrame.h; sourceTree = "<group>"; };
 		D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVVideoRTMPFrame.m; sourceTree = "<group>"; };
+		D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVFirstVideoRecorder.m; sourceTree = "<group>"; };
+		D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVFirstVideoRecorder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +196,8 @@
 		D7DE246922C0D977001F7ACD /* Recorder */ = {
 			isa = PBXGroup;
 			children = (
+				D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */,
+				D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */,
 			);
 			name = Recorder;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				D743114B22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m in Sources */,
 				D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */,
 				D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */,
+				D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */,
 				D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */,
 				D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */,
 				D743114222BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m in Sources */,
