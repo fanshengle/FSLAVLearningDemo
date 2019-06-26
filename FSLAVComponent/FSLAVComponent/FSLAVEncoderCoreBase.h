@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FSLAVEncoderCoreBase : FSLAVRecordCoreBase
+@interface FSLAVEncoderCoreBase : NSObject
 {
     @protected
     /**编码线程*/
@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-@property (nonatomic,strong) NSFileHandle *fileHandle;
+@property (nonatomic,strong,readonly) NSFileHandle *fileHandle;
 
-@property (nonatomic) FILE *fileHandle2;
+@property (nonatomic,readonly) FILE *fileHandle2;
 
 @end
 

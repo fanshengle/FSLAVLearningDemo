@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		220CE6A4CC4D8DE2501FA6C1 /* libPods-FSLAVLearningDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 108E63205B25C264D87C931B /* libPods-FSLAVLearningDemoUITests.a */; };
 		324F2479A87A566A7A706D3C /* libPods-FSLAVLearningDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */; };
+		D71A68B022C1EBDD00FC4C4A /* FSLH264VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71A68AF22C1EBDD00FC4C4A /* FSLH264VideoViewController.m */; };
 		D74310BD22BCBD130055E0C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310BC22BCBD130055E0C2 /* main.m */; };
 		D74310C722BCBD130055E0C2 /* FSLAVLearningDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310C622BCBD130055E0C2 /* FSLAVLearningDemoTests.m */; };
 		D74310D222BCBD130055E0C2 /* FSLAVLearningDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310D122BCBD130055E0C2 /* FSLAVLearningDemoUITests.m */; };
@@ -60,6 +61,8 @@
 		4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSLAVLearningDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70EEDE6BC151CDB0AFD8595E /* Pods-FSLAVLearningDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemo.release.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemo/Pods-FSLAVLearningDemo.release.xcconfig"; sourceTree = "<group>"; };
 		B2B6B58D8DB1265E52DE4AD7 /* Pods-FSLAVLearningDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemoUITests/Pods-FSLAVLearningDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D71A68AE22C1EBDD00FC4C4A /* FSLH264VideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLH264VideoViewController.h; sourceTree = "<group>"; };
+		D71A68AF22C1EBDD00FC4C4A /* FSLH264VideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLH264VideoViewController.m; sourceTree = "<group>"; };
 		D74310AA22BCBD120055E0C2 /* FSLAVLearningDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSLAVLearningDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74310BB22BCBD130055E0C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D74310BC22BCBD130055E0C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -162,6 +165,15 @@
 				108E63205B25C264D87C931B /* libPods-FSLAVLearningDemoUITests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D71A68AC22C1EBA500FC4C4A /* video */ = {
+			isa = PBXGroup;
+			children = (
+				D71A68AE22C1EBDD00FC4C4A /* FSLH264VideoViewController.h */,
+				D71A68AF22C1EBDD00FC4C4A /* FSLH264VideoViewController.m */,
+			);
+			path = video;
 			sourceTree = "<group>";
 		};
 		D74310A122BCBD120055E0C2 = {
@@ -278,6 +290,7 @@
 		D743111022BCBEC70055E0C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D71A68AC22C1EBA500FC4C4A /* video */,
 				D743111122BCBEC70055E0C2 /* Controller */,
 				D743111622BCBEC70055E0C2 /* Audio */,
 				D743111C22BCBEC70055E0C2 /* Base */,
@@ -541,6 +554,7 @@
 				D743112A22BCBEC70055E0C2 /* GeneralGetDataManager.m in Sources */,
 				D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */,
 				D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */,
+				D71A68B022C1EBDD00FC4C4A /* FSLH264VideoViewController.m in Sources */,
 				D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */,
 				D743112E22BCBEC70055E0C2 /* VideoRecorViewController.m in Sources */,
 				D74310BD22BCBD130055E0C2 /* main.m in Sources */,

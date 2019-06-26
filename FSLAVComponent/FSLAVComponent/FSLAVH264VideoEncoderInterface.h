@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FSLAVH264VideoEncoderDelegate <NSObject>
 
+@optional
 /**
  编码器编码后回调
  
@@ -66,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param delegate 代理
  */
-- (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate;
+//- (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate;
 
 /**
  停止编码

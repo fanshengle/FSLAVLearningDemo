@@ -19,16 +19,6 @@
 }
 
 /**
- 视频配置项
- */
-@property (nonatomic, strong) FSLAVH264VideoConfiguration *configuration;
-
-/**
- 代理
- */
-@property (nonatomic, weak) id<FSLAVH264VideoEncoderDelegate> h264Delegate;
-
-/**
  进入后台
  */
 @property (nonatomic) BOOL isBackGround;
@@ -46,20 +36,15 @@
     self = [super init];
     if (self) {
         
-       // _encodeQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        
-        _outputFileName = @"h264File";
-        _saveSuffixFormat = @"h264";
-        
         [self addNotifaction];
     }
     return self;
 }
 
-
 - (instancetype)initWithVideoStreamConfiguration:(FSLAVH264VideoConfiguration *)configuration{
-    if (self = [super init]) {
-        
+    
+    if (self = [self init]) {
+       
         _configuration = configuration;
         [self initCompressionSession];
     }
@@ -76,6 +61,7 @@
     // app进入前台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
+
 /**
  销毁编码会话
  */
@@ -138,7 +124,27 @@
     // 3.准备编码
     VTCompressionSessionPrepareToEncodeFrames(compressionSession);
 }
+
 #pragma mark -- public Set
+
+#pragma mark -- 文件写入对象一
+- (NSFileHandle *)fileHandle{
+    if (!_fileHandle) {
+        
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration getSaveDatePath]];
+    }
+    return _fileHandle;
+}
+
+#pragma mark -- 文件写入对象二
+- (FILE *)fileHandle2{
+    
+    if (!_fileHandle2) {
+        
+        _fileHandle2 = fopen([[_configuration getSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
+    }
+    return _fileHandle2;
+}
 
 /**
  设置码率
@@ -164,8 +170,18 @@
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef)@(videoFrameRate));
 }
 
+/**
+ 设置代理
+ 
+ @param delegate 代理
+ */
+- (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate
+{
+    _h264Delegate = delegate;
+}
 
 #pragma mark -- publice methods
+
 /**
  停止编码
  */
@@ -362,7 +378,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
     const char bytes[] = "\x00\x00\x00\x01";
     size_t length = (sizeof bytes) - 1;
     NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-    
+
     // 2.将NALU的头&NALU的体写入文件
     [self.fileHandle writeData:ByteHeader];
     [self.fileHandle writeData:sps];
@@ -380,7 +396,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
 - (void)writeEncodedData:(NSData*)data isKeyFrame:(BOOL)isKeyFrame
 {
     NSLog(@"gotEncodedData %d", (int)[data length]);
-    if (_fileHandle != NULL)
+    if (self.fileHandle != NULL)
     {
         const char bytes[] = "\x00\x00\x00\x01";
         size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'

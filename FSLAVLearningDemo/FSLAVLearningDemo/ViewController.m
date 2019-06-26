@@ -11,6 +11,7 @@
 #import "AudioRecordViewController.h"
 #import "VideoRecorViewController.h"
 #import "HWCutMusicViewController.h"
+#import "FSLH264VideoViewController.h"
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -170,8 +171,13 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }
                 break;
+            case 2:
+            {
+                FSLH264VideoViewController *vc = [[FSLH264VideoViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
             
-                
             default:
                 break;
         }

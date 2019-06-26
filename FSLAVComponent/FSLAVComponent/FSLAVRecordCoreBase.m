@@ -10,28 +10,38 @@
 
 @implementation FSLAVRecordCoreBase
 
-@synthesize savePathURL = _savePathURL;
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-        _isAutomaticStop = NO;
-        _maxRecordDelay = 0;
-    }
-    return self;
-}
-
-/**
- 获取数据操作的本地路径
- 
- @return 文件保存的本地目录
- */
-- (NSString *)getSaveDatePath{
+- (void)dealloc{
     
-    return nil;
+    [self removeRecordTimer];
 }
 
+#pragma mark --  定时器
+//添加定时器
+- (void)addRecordTimer
+{
+    if (!_recordTimer) {
+        
+        _recordTime = 0;
+        _recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(recordTimerAction) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_recordTimer forMode:NSRunLoopCommonModes];
+    }
+}
+
+//定时器事件
+- (void)recordTimerAction
+{
+    _recordTime ++;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangeRecordTime:)]) {
+        [self.delegate didChangeRecordTime:_recordTime];
+    }
+    //NSLog(@"++++++++>>>%ld",(long)self.recordTime);
+}
+
+//移除定时器
+- (void)removeRecordTimer
+{
+    [_recordTimer invalidate];
+    _recordTimer = nil;
+}
 
 @end

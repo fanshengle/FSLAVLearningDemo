@@ -7,66 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "FSLAVFileManager.h"
+#import <UIKit/UIKit.h>
+#import "FSLAVRecordCoreBaseInterface.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  音视频录制的基础类
  */
-@interface FSLAVRecordCoreBase : NSObject
-/**定义实例变量*/
+@interface FSLAVRecordCoreBase : NSObject<FSLAVRecordCoreBaseInterface>
 {
     
-    NSString *_outputFileName;
-    NSString *_saveSuffixFormat;
-    NSURL *_savePathURL;
-    BOOL _isAutomaticStop;
-    NSUInteger _maxRecordDelay;
-    NSTimeInterval _recordTimeLength;
+    NSTimer *_recordTimer;//录制定时器
+    NSTimeInterval _recordTime;//录制时长
 }
 
-/**定义属性变量*/
+@property (nonatomic, strong, readonly) NSTimer *recordTimer;//录制定时器
+
+@property (nonatomic, assign, readonly) NSTimeInterval recordTime;//录制时长
 
 /**
- 保存到本地document下的文件路径名称
+ 代理
  */
-@property (nonatomic,strong) NSString *outputFileName;
+@property (nonatomic, weak) id<FSLAVRecordCoreBaseDelegate> delegate;
 
-/**
- 保存到本地document下的音视频文件格式：如：mp4、mov、aac、caf
- */
-@property (nonatomic,strong) NSString *saveSuffixFormat;
-
-/**
- 保存到本地document下的音视频文件URL路径
- */
-@property (nonatomic,strong,readonly) NSURL *savePathURL;
-
-/**
- 是否开启自动停止录制,默认是no
- */
-@property (nonatomic, assign) BOOL isAutomaticStop;
-
-/**
- 自动停止录制的最大录制时间，默认0s,可以一直录制
- */
-@property (nonatomic, assign) NSUInteger maxRecordDelay;
-
-/**
- 当前的录制音视频的总时长
- */
-@property (nonatomic, assign) NSTimeInterval recordTimeLength;
-
-
-/**
- 获取数据操作的本地路径
-
- @return 文件保存的本地目录
- */
-- (NSString *)getSaveDatePath;
 
 @end
 

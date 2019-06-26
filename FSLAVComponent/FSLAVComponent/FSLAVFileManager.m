@@ -54,7 +54,8 @@
  */
 + (NSString *)pathAppendDefaultDatePath:(NSString *)suffixFormat;
 {
-    return [self pathAppendDateFormat:@"HHmmss" stringFormat:@"" suffixFormat:suffixFormat];
+    //return [self pathAppendDateFormat:@"HHmmss" stringFormat:@"" suffixFormat:suffixFormat];
+    return [self pathAppendDateFormat:@"YYYYMMdd-HHmmss" stringFormat:@"" suffixFormat:suffixFormat];
 }
 
 /**
@@ -396,15 +397,53 @@
 }
 
 /**
+ 
+ 创建文件名文件路径
+
+ @param filePath 带文件名的路径，最后一级为文件名
+ @return 返回文件路径
+ */
++ (NSString *)createFilePath:(NSString *)filePath;
+{
+    //1、先判断文件夹路径是否存在，不存在则先创建文件夹路径
+    if (![self isExistDirAtPath:filePath]) {//不存在文件夹路径，不可以创建文件路径，得先创建路径下的文件夹，才能创建文件名路径
+        
+        NSString *folderPath = filePath;
+        NSMutableArray *paths = [[filePath componentsSeparatedByString:@"/"] mutableCopy];
+        NSString *lastStr = [paths lastObject];
+        if ([lastStr containsString:@"."]) {//文件名路径
+            
+            [paths removeLastObject];
+            folderPath = [paths componentsJoinedByString:@"/"];
+            //2、创建文件夹路径
+            [self createDir:folderPath];
+        }
+        
+        //3、再判断文件名路径是否存在，不存在则创建
+        if (![self isExistFileAtPath:filePath]) {
+            
+            if ([[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil]) {
+                
+                return filePath;
+            } else {
+                
+                return nil;
+            }
+        }
+    }
+    return filePath;
+}
+
+/**
  *  在本地添加文件夹
  *
- *  @param path 路径
+ *  @param Dir 路径，带文件夹到路径，最后一级为文件夹
  *
  *  @return 本地添加文件夹路径
  */
-+ (NSString *)createDir:(NSString *)path;
++ (NSString *)createDir:(NSString *)Dir;
 {
-    NSMutableString *currentPath = [[NSMutableString alloc] initWithString:path];
+    NSMutableString *currentPath = [[NSMutableString alloc] initWithString:Dir];
     
     NSArray *paths = [currentPath componentsSeparatedByString:@"/"];
     if (![[paths objectAtIndex:([paths count] - 1)] isEqualToString:@""]) {
@@ -423,7 +462,7 @@
 }
 
 /**
- *  在本地目录下添加文件夹
+ *  在给出的文件目录下添加文件夹
  *
  *  @param dirName 文件夹
  *  @param path    路径
@@ -462,12 +501,48 @@
  *
  *  @param paths 路径列表
  */
-+ (void)deletePaths:(NSArray *)paths;
++ (BOOL)deletePaths:(NSArray *)paths;
 {
     if (paths && paths.count > 0) {
         for (NSString *path in paths) {
-            [self deletePath:path];
+            return [self deletePath:path];
         }
+    }
+    
+    return NO;
+}
+
+/**
+ 清除该路径文件路径文件夹下缓存数据
+
+ @param path 带文件夹的文件路径
+ @return 清除是否成功
+ */
++ (BOOL)deleteCacheOnFilePath:(NSString *)path;
+{
+    if ([self isExistFileAtPath:path]) {
+        
+        return [self deletePath:path];
+    } else if([self isExistDirAtPath:path]) {
+        
+        NSError *error;
+        NSArray *subPathArr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+        //将路径拼接全
+        for (NSString *subPath in subPathArr) {
+            
+            NSString *fullPath = [self filePathAtBasicPath:path WithFileName:subPath];
+            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error];
+            if (error) {
+                
+                return NO;
+                NSAssert(YES, @"当前路径不存在");
+            }
+        }
+        return YES;
+        
+    }else{
+        
+        return NO;
     }
 }
 

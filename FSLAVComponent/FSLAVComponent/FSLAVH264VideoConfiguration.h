@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FSLAVConfiguraction.h"
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <VideoToolbox/VideoToolbox.h>
@@ -54,7 +54,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
 /**
  视频编码配置项
  */
-@interface FSLAVH264VideoConfiguration : NSObject<NSCoding, NSCopying>
+@interface FSLAVH264VideoConfiguration : FSLAVConfiguraction<NSCoding, NSCopying>
 
 /**
  默认视频配置
@@ -69,7 +69,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  @param videoQuality 视频质量
  @return FSLAVH264VideoConfiguration
  */
-+ (instancetype)defaultConfigurationForQuality:( FSLAVH264VideoQuality)videoQuality;
++ (instancetype)defaultConfigurationForQuality:(FSLAVH264VideoQuality)videoQuality;
 /**
  视频配置(质量&是否是横屏)
  
@@ -77,7 +77,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  @param outputImageOrientation 屏幕方向
  @return FSLAVH264VideoConfiguration
  */
-+ (instancetype)defaultConfigurationForQuality:( FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
++ (instancetype)defaultConfigurationForQuality:(FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 
 /**
  视频的分辨率，宽高务必设定为2的倍数，否则解码播放时可能出现绿边

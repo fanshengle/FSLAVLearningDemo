@@ -141,6 +141,10 @@
     configuration.videoProfileLevel =  (__bridge NSString *)(kVTProfileLevel_H264_Baseline_4_0);
     configuration.sessionPreset = [configuration supportSessionPreset:configuration.sessionPreset];
     configuration.videoMaxKeyframeInterval = configuration.videoFrameRate*3;
+
+    configuration.outputFileName = @"h264File";
+    configuration.saveSuffixFormat =  @"h264";
+    
     return configuration;
 }
 
@@ -153,7 +157,7 @@
  @param sessionPreset 视频分辨率
  @return sessionPreset 当前视频分辨率
  */
-- ( FSLAVH264CaptureSessionPreset)supportSessionPreset:( FSLAVH264CaptureSessionPreset)sessionPreset
+- (FSLAVH264CaptureSessionPreset)supportSessionPreset:(FSLAVH264CaptureSessionPreset)sessionPreset
 {
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     AVCaptureDevice *inputCamera;
@@ -193,7 +197,8 @@
 //拿到所有可用的摄像头(video)设备
 - (NSArray *)obtainAvailableDevices{
     
-    if (@available(iOS 10.0, *)) {
+    NSInteger phoneVersion = [[[UIDevice currentDevice] systemName] integerValue];
+    if (phoneVersion > 10.0) {
         
         AVCaptureDeviceDiscoverySession *deviceSession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
         return deviceSession.devices;

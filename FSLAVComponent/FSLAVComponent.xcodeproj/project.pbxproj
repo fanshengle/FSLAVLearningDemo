@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */; };
+		D73DAC8F22C3431600CDE079 /* FSLAVConfiguraction.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */; };
 		D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */; };
 		D74310EF22BCBD4B0055E0C2 /* FSLAVComponent.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */; };
 		D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D743113A22BCCC7E0055E0C2 /* FSLAVFileManager.m */; };
@@ -39,6 +41,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D71A68A822C1C9B900FC4C4A /* FSLAVVideoRecorderInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRecorderInterface.h; sourceTree = "<group>"; };
+		D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRecorderConfiguration.h; sourceTree = "<group>"; };
+		D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVVideoRecorderConfiguration.m; sourceTree = "<group>"; };
+		D73DAC8D22C3431600CDE079 /* FSLAVConfiguraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVConfiguraction.h; sourceTree = "<group>"; };
+		D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVConfiguraction.m; sourceTree = "<group>"; };
+		D73DAC9022C3786500CDE079 /* FSLAVRecordCoreBaseInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecordCoreBaseInterface.h; sourceTree = "<group>"; };
 		D74310E922BCBD4B0055E0C2 /* libFSLAVComponent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFSLAVComponent.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVComponent.h; sourceTree = "<group>"; };
 		D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVComponent.m; sourceTree = "<group>"; };
@@ -103,8 +111,8 @@
 		D74310EB22BCBD4B0055E0C2 /* FSLAVComponent */ = {
 			isa = PBXGroup;
 			children = (
-				D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */,
 				D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */,
+				D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */,
 				D743113422BCC0250055E0C2 /* Components */,
 			);
 			path = FSLAVComponent;
@@ -125,6 +133,7 @@
 		D743113622BCC6810055E0C2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D73DAC9022C3786500CDE079 /* FSLAVRecordCoreBaseInterface.h */,
 				D743113D22BCD5740055E0C2 /* FSLAVRecordCoreBase.h */,
 				D743113E22BCD5740055E0C2 /* FSLAVRecordCoreBase.m */,
 				D743114022BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.h */,
@@ -141,6 +150,8 @@
 				D743115322BCF6200055E0C2 /* FSLAVEncoderCoreBase.m */,
 				D743115522BCF64D0055E0C2 /* FSLAVDecoderCoreBase.h */,
 				D743115622BCF64D0055E0C2 /* FSLAVDecoderCoreBase.m */,
+				D73DAC8D22C3431600CDE079 /* FSLAVConfiguraction.h */,
+				D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -150,11 +161,6 @@
 			children = (
 				D7DE246922C0D977001F7ACD /* Recorder */,
 				D7DE246822C0D918001F7ACD /* Encoder */,
-				D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */,
-				D743115B22BCF7940055E0C2 /* FSLAVH264VideoEncoder.h */,
-				D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */,
-				D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */,
-				D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -189,6 +195,11 @@
 		D7DE246822C0D918001F7ACD /* Encoder */ = {
 			isa = PBXGroup;
 			children = (
+				D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */,
+				D743115B22BCF7940055E0C2 /* FSLAVH264VideoEncoder.h */,
+				D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */,
+				D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */,
+				D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */,
 			);
 			name = Encoder;
 			sourceTree = "<group>";
@@ -196,8 +207,11 @@
 		D7DE246922C0D977001F7ACD /* Recorder */ = {
 			isa = PBXGroup;
 			children = (
+				D71A68A822C1C9B900FC4C4A /* FSLAVVideoRecorderInterface.h */,
 				D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */,
 				D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */,
+				D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.h */,
+				D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */,
 			);
 			name = Recorder;
 			sourceTree = "<group>";
@@ -265,11 +279,13 @@
 				D743114522BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m in Sources */,
 				D743113F22BCD5740055E0C2 /* FSLAVRecordCoreBase.m in Sources */,
 				D743114E22BCD6320055E0C2 /* FSLAVPlayAudioCoreBase.m in Sources */,
+				D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m in Sources */,
 				D743114B22BCD6220055E0C2 /* FSLAVPlayVideoCoreBase.m in Sources */,
 				D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */,
 				D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */,
 				D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */,
 				D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */,
+				D73DAC8F22C3431600CDE079 /* FSLAVConfiguraction.m in Sources */,
 				D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */,
 				D743114222BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m in Sources */,
 				D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */,

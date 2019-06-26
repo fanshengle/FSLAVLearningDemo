@@ -13,45 +13,26 @@
 <AVCaptureFileOutputRecordingDelegate,
 AVCaptureVideoDataOutputSampleBufferDelegate>
 
-
-@property (nonatomic, strong) AVCaptureDevice *device;//获得输入设备（前置摄像头
-@property (nonatomic, strong) AVCaptureDeviceInput *captureDeviceInput;//负责从AVCaptureDevice获得输入数据
-@property (nonatomic, strong) AVCaptureDevice *audioCaptureDevice;//添加一个音频输入设备
-@property (nonatomic, strong) AVCaptureDeviceInput *audioCaptureDeviceInput;//添加一个音频输入设备
-@property (nonatomic, strong) AVCaptureSession *captureSession;//负责输入和输出设置之间的数据传递
-@property (nonatomic, strong) AVCaptureConnection *captureConnection;//捕获会话中特定的一对捕获输入和捕获输出对象之间的连接。
-
-@property (nonatomic, strong) AVCaptureOutput *captureOutput;
-@property (nonatomic, strong) AVCaptureMovieFileOutput *captureMovieFileOutput;//将数据视频输出流写入文件
-@property (nonatomic, strong) AVCaptureVideoDataOutput *captureVideoDataOutput;//获取视频帧数据
-
-@property (nonatomic, strong) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;//相机拍摄预览图层
-@property (nonatomic, assign) AVCaptureDevicePosition devicePosion;//摄像头位置
-
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;//后台任务标识
-
-/**相机捕获会话的容器视图*/
-@property (nonatomic,strong) UIView *cameraContainerView;
-
 @end
 
 @implementation FSLAVFirstVideoRecorder
+@dynamic delegate;
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
+- (instancetype)initWithVideoRecordConfiguration:(FSLAVVideoRecorderConfiguration *)configuration{
+    if (self = [super init]) {
         
-        _recordPosition = FSLAVVideoRecordPositionFront;
-        _recordVoiceType =FSLAVVideoRecordVoiceTypeSoundType;
-        _recordOutputType =FSLAVVideoRecordMovieFileOutput;
+        _configuration = configuration;
         
+        [self initAVCaptureSession];
     }
     return self;
 }
 
 #pragma mark - 设备配置
 - (void)initAVCaptureSession{
+
+    //摄像头为前置
+    self.videoCaptureDevice = [self deviceWithPosition:_configuration.devicePosition];
     
     if (![self.captureSession canAddInput:self.captureDeviceInput]) return;
     if (![self.captureSession canAddOutput:self.captureOutput]) return;
@@ -62,6 +43,12 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     //将设备输出添加到会话中
     [self.captureSession addOutput:self.captureOutput];
+    
+    //设置一系列的参数
+    //设置分辨率
+    if ([self.captureSession canSetSessionPreset:_configuration.avSessionPreset]) {
+        self.captureSession.sessionPreset = _configuration.avSessionPreset;
+    }
     
     //设置输出对象的一些属性
     //返回带有指定媒体类型的输入端口的连接数组中的第一个连接。
@@ -74,44 +61,18 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     //最适合与连接一起使用的稳定模式。
     self.captureConnection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;
     
+    //保证视频预览层的视频方向是正确的
+    self.captureVideoPreviewLayer.connection.videoOrientation = [self getCaptureVideoOrientation];
+    
     //摄像头方向
     self.captureConnection = [self.captureVideoPreviewLayer connection];
     self.captureConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
-    
+
     //初始化缩放比例
     //self.effectiveScale = self.beginGestureScale = 1.0f;
-}
-
-#pragma mark -- 初始化设备硬件
-//获得输入设备（前置摄像头）
-- (AVCaptureDevice *)device{
-    if (!_device) {
-        
-        _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    }
-    return _device;
-}
-
-//添加一个音频输入设备
-- (AVCaptureDevice *)audioCaptureDevice{
-    if (!_audioCaptureDevice) {
-        
-        _audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-    }
-    return _audioCaptureDevice;
-}
-
-//初始化会话
-- (AVCaptureSession *)captureSession{
-    if (!_captureSession) {
-        
-        _captureSession = [[AVCaptureSession alloc] init];
-        //设置分辨率
-        if ([_captureSession canSetSessionPreset:AVCaptureSessionPresetHigh]) {
-            _captureSession.sessionPreset = AVCaptureSessionPresetHigh;
-        }
-    }
-    return _captureSession;
+    
+    //给设备添加通知
+    [self addNotificationToCaptureDevice:self.videoCaptureDevice ];
 }
 
 //容纳不同输出
@@ -119,93 +80,62 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     if (!_captureOutput) {
         
-        if (_recordOutputType ==FSLAVVideoRecordMovieFileOutput) {
+        if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
             
             _captureOutput = self.captureMovieFileOutput;
         }else{
             
             _captureOutput = self.captureVideoDataOutput;
+            
+            //摄像头采集queue
+            dispatch_queue_t queue = dispatch_queue_create("VideoCaptureQueue", DISPATCH_QUEUE_SERIAL);
+            [self.captureVideoDataOutput setSampleBufferDelegate:self queue:queue]; // 摄像头数据输出delegate
         }
     }
     return _captureOutput;
 }
 
-//根据摄像机输入设备初始化设备输入对象，用于获得输入数据
-- (AVCaptureDeviceInput *)captureDeviceInput{
-    if (!_captureDeviceInput) {
+#pragma mark -- private methods
+/**
+ 移除视频捕捉预览layer
+ */
+- (BOOL)isRemovePreviewLayer{
+    
+    if (_captureVideoPreviewLayer) {
         
-        if(!self.device) return nil;
-        NSError *error;
-        _captureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.device error:&error];
-        if(error) return nil;
+        if (_configuration.isOutPreview) {
+            
+            [_captureVideoPreviewLayer removeFromSuperlayer];
+        }
     }
-    return _captureDeviceInput;
+    
+    return _configuration.isOutPreview;
 }
 
-//根据音频输入设备初始化设备输入对象
-- (AVCaptureDeviceInput *)audioCaptureDeviceInput{
-    if (!_audioCaptureDeviceInput) {
-        
-        if(!self.device) return nil;
-        //添加音频设备
-        NSError *error = nil;
-        _audioCaptureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.audioCaptureDevice error:&error];
-        if(error) return nil;
+/**
+ 添加视频捕捉预览layer到容器视图上
+ */
+
+- (BOOL)isAddPreviewLayer{
+    BOOL isAdd = NO;
+    if (_captureVideoPreviewLayer) {
+        if (!_containerView.layer.sublayers) {// 为空
+            isAdd = YES;
+            [_containerView.layer addSublayer:_captureVideoPreviewLayer];
+        }
     }
-    return _audioCaptureDeviceInput;
+    return isAdd;
 }
 
-//初始化设备输出对象，用于将输出数据保存到本地
-- (AVCaptureMovieFileOutput *)captureMovieFileOutput{
-    if (!_captureMovieFileOutput) {
-        
-        //初始化设备输出对象，用于获得输出数据
-        _captureMovieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-        //不设置这个属性，超过10s的视频会没有声音
-        _captureMovieFileOutput.movieFragmentInterval = kCMTimeInvalid;
-        
-    }
-    return _captureMovieFileOutput;
-}
 
-//获取输出视频帧
-- (AVCaptureVideoDataOutput *)captureVideoDataOutput{
-    if (!_captureVideoDataOutput) {
-        
-        _captureVideoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
-        
-        //输出的压缩设置。
-        _captureVideoDataOutput.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange] forKey:(NSString *)kCVPixelBufferPixelFormatTypeKey];
-        //指示如果视频帧延迟到达，是否将其删除。
-        [_captureVideoDataOutput setAlwaysDiscardsLateVideoFrames:YES];
-        
-        // 摄像头采集queue
-        dispatch_queue_t queue = dispatch_queue_create("VideoCaptureQueue", DISPATCH_QUEUE_SERIAL);
-        [_captureVideoDataOutput setSampleBufferDelegate:self queue:queue]; // 摄像头数据输出delegate
-    }
-    return _captureVideoDataOutput;
-}
-
-//创建视频预览层，用于实时展示摄像头状态
-- (AVCaptureVideoPreviewLayer *)captureVideoPreviewLayer{
-    if (!_captureVideoPreviewLayer) {
-        
-        _captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
-        //填充模式
-        _captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        //保证视频预览层的视频方向是正确的
-        _captureVideoPreviewLayer.connection.videoOrientation = [self getCaptureVideoOrientation];
-    }
-    return _captureVideoPreviewLayer;
-}
-
+#pragma mark -- public methods
 /**
  将设备捕捉到的画面呈现到某个view上
  
  @param view 显示具体捕捉画面的视图
  */
 - (void)showCaptureSessionOnView:(UIView *)view{
-    _cameraContainerView = view;
+    _containerView = view;
     
     CALayer *layer = view.layer;
     layer.masksToBounds = YES;
@@ -215,40 +145,27 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     [view.layer addSublayer:self.captureVideoPreviewLayer];
 }
 
-#pragma mark --Action
+
 /**
  告诉接收器开始运行。
  */
 - (void)startRunning{
     
-    if (_captureSession) {
-        
-        [self.captureSession startRunning];
-    }else{
-        //初始化
-        [self initAVCaptureSession];
-        [self.captureSession startRunning];
-    }
+    [self.captureSession startRunning];
+    
+    [self isAddPreviewLayer];
 }
+
 /**
  告诉接收器停止运行。
  */
 - (void)stopRunning{
     
     if(!_captureSession) return;
+
     [self.captureSession stopRunning];
-}
 
-
-/**
- 保存视频数据到添加的路径下
- */
-- (void)saveVideoToLocalPath{
-
-    if (_recordOutputType ==FSLAVVideoRecordMovieFileOutput) {
-        
-        [self.captureMovieFileOutput startRecordingToOutputFileURL:self.savePathURL recordingDelegate:self];
-    }
+    [self isRemovePreviewLayer];
 }
 
 //切换设备的摄像机位置
@@ -266,7 +183,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     if (currentPosition == AVCaptureDevicePositionUnspecified || currentPosition == AVCaptureDevicePositionFront) {
         toChangePosition = AVCaptureDevicePositionBack;
     }
-    toChangeDevice = [self getCameraDeviceWithPosition:toChangePosition];
+    toChangeDevice = [self deviceWithPosition:toChangePosition];
+    [self addNotificationToCaptureDevice:toChangeDevice];
     
     //获得要调整的设备输入对象
     AVCaptureDeviceInput *toChangeDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:toChangeDevice error:nil];
@@ -283,87 +201,74 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     [self.captureSession commitConfiguration];
 }
 
-#pragma mark - 私有方法
-//取得指定位置的摄像头
-- (AVCaptureDevice *)getCameraDeviceWithPosition:(AVCaptureDevicePosition)position
+
+/**
+ 保存视频数据到添加的路径下,录制视频
+ */
+- (void)startVideoRecording
 {
     
-    NSArray *devices = [self obtainAvailableDevices];
-    if(!devices) return nil;
-    for (AVCaptureDevice *device in devices) {
-        if ([device position] == position) {
-            return device;
-        }
-    }
-    return nil;
-}
-
-//拿到所有可用的摄像头(video)设备
-- (NSArray *)obtainAvailableDevices{
-    
-    if (@available(iOS 10.0, *)) {
+    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
-        AVCaptureDeviceDiscoverySession *deviceSession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
-        return deviceSession.devices;
-    } else {
-        // Fallback on earlier versions
-        return [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+        [self.captureMovieFileOutput startRecordingToOutputFileURL:_configuration.savePathURL recordingDelegate:self];
     }
+    
+    //添加定时器
+    [self removeRecordTimer];
+    [self addRecordTimer];
 }
 
-#pragma mark - 获取视频方向
-- (AVCaptureVideoOrientation)getCaptureVideoOrientation {
-    
-    AVCaptureVideoOrientation result;
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    switch (deviceOrientation) {
-        case UIDeviceOrientationPortrait:
-        case UIDeviceOrientationFaceUp:
-        case UIDeviceOrientationFaceDown:
-            result = AVCaptureVideoOrientationPortrait;
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            //如果这里设置成AVCaptureVideoOrientationPortraitUpsideDown，则视频方向和拍摄时的方向是相反的。
-            result = AVCaptureVideoOrientationPortrait;
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            result = AVCaptureVideoOrientationLandscapeRight;
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            result = AVCaptureVideoOrientationLandscapeLeft;
-            break;
-        default:
-            result = AVCaptureVideoOrientationPortrait;
-            break;
+//定时器事件
+//- (void)recordTimerAction{
+//    [super recordTimerAction];
+//    
+//    NSLog(@"----->>>%ld",(long)self.recordTime);
+//}
+
+//保存视频数据输，结束录制
+- (void)stopVideoRecoding
+{
+    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
+        
+        if ([self.captureMovieFileOutput isRecording]) [self.captureMovieFileOutput stopRecording];
     }
-    return result;
+    
+    //移除定时器
+    [self removeRecordTimer];
 }
 
 #pragma mark -- 代理
 #pragma mark -- AVCaptureFileOutputRecordingDelegate
 #pragma mark - 视频输出代理开始录制
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections{
-    //    SHOWMESSAGE(@"开始录制");
+    //SHOWMESSAGE(@"开始录制");
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedRecordState:FSLAVRecordStateReadyToRecord fromVideoRecorder:self outputFileAtURL:fileURL];
+    }
 }
 
 
 #pragma mark - 录制完成回调
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error{
-    //    上传视频转换视频名称代码，不要直接干了就是
-    //    SHOWMESSAGE(@"上传中");
-    //    NSString * uploadAddress = [outputFileURL absoluteString];;
-    //    uploadVideoObject * upload = [[uploadVideoObject alloc]init];
-    //    NSMutableString * mString = [NSMutableString stringWithString:uploadAddress];
-    //    NSString *strUrl = [mString stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    //    [upload uploadVideo:strUrl];
-    //    //视频录入完成之后在后台将视频存储到相
+    //上传视频转换视频名称代码，不要直接干了就是
+    //SHOWMESSAGE(@"上传中");
+    //NSString * uploadAddress = [outputFileURL absoluteString];;
+    //uploadVideoObject * upload = [[uploadVideoObject alloc]init];
+    //NSMutableString * mString = [NSMutableString stringWithString:uploadAddress];
+    //NSString *strUrl = [mString stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    //[upload uploadVideo:strUrl];
+    ////视频录入完成之后在后台将视频存储到相册
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedRecordState:FSLAVRecordStateFinish fromVideoRecorder:self outputFileAtURL:outputFileURL];
+    }
 }
 
-
 #pragma mark -- AVCaptureVideoDataOutputSampleBufferDelegate
-//
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didOutputSampleBuffer:fromVideoRecorder:)]) {
+        [self.delegate didOutputSampleBuffer:sampleBuffer fromVideoRecorder:self];
+    }
 }
 
 #pragma mark --通知
@@ -405,5 +310,26 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:captureDevice];
 }
+
+
+//设置聚焦点
+- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposureMode:(AVCaptureExposureMode)exposureMode atPoint:(CGPoint)point
+{
+    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) {
+        if ([captureDevice isFocusModeSupported:focusMode]) {
+            [captureDevice setFocusMode:AVCaptureFocusModeAutoFocus];
+        }
+        if ([captureDevice isFocusPointOfInterestSupported]) {
+            [captureDevice setFocusPointOfInterest:point];
+        }
+        if ([captureDevice isExposureModeSupported:exposureMode]) {
+            [captureDevice setExposureMode:AVCaptureExposureModeAutoExpose];
+        }
+        if ([captureDevice isExposurePointOfInterestSupported]) {
+            [captureDevice setExposurePointOfInterest:point];
+        }
+    }];
+}
+
 
 @end

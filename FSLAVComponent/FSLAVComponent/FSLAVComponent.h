@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "FSLAVFirstVideoRecorder.h"
+#import "FSLAVH264VideoEncoder.h"
+
 @interface FSLAVComponent : NSObject
 
 @end

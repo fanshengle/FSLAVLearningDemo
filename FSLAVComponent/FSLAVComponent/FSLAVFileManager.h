@@ -11,6 +11,27 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FSLAVFileManager : NSObject
+/**
+ *  返回Document目录的路径
+ *
+ *  @return Document目录的路径
+ */
++ (NSString *)DocumentsPath;
+
+/**
+ *  返回Library目录的路径
+ *
+ *  @return Library目录的路径
+ */
++ (NSString *)LibraryPath;
+
+
+/**
+ *  返回Cache目录的路径
+ *
+ *  @return Cache目录的路径
+ */
++ (NSString *)CachePath;
 
 /**
  生成指定文件后缀带有日期的字符串，避免了文件名重复
@@ -166,6 +187,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isArriveUpperLimitAtPaths:(NSArray *)paths WithUpperLimitByMByte:(unsigned long long)upperLimit;
 
 /**
+ 
+ 创建文件名文件路径
+ 
+ @param filePath 带文件名的路径，最后一级为文件名
+ @return 返回文件路径
+ */
++ (NSString *)createFilePath:(NSString *)filePath;
+
+/**
  *  在本地添加文件夹
  *
  *  @param path 路径
@@ -198,7 +228,15 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param paths 路径列表
  */
-+ (void)deletePaths:(NSArray *)paths;
++ (BOOL)deletePaths:(NSArray *)paths;
+
+/**
+ 清除该路径文件目录下的所有缓存数据
+ 
+ @param path 文件目录
+ @return 清除是否成功
+ */
++ (BOOL)deleteCacheOnFilePath:(NSString *)path;
 
 /**
  *  移动文件位置

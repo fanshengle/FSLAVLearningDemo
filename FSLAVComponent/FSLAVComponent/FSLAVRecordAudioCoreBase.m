@@ -9,14 +9,6 @@
 #import "FSLAVRecordAudioCoreBase.h"
 
 @implementation FSLAVRecordAudioCoreBase
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-        _outputFileName = @"audioFile";
-        _saveSuffixFormat = @"caf";
-    }
-    return self;
-}
+
+
 @end
