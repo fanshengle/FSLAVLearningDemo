@@ -10,8 +10,6 @@
 
 @implementation FSLAVRecordVideoCoreBase
 
-
-
 #pragma mark - 设备配置
 - (void)initAVCaptureSession{
     

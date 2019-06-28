@@ -46,7 +46,7 @@
     FSLAVVideoRecorderConfiguration *configuration = [FSLAVVideoRecorderConfiguration new];
     configuration.sessionPreset = sessionPreset;
     configuration.recordPosition = videoRecordPosition;
-    configuration.recordOutputType = FSLAVVideoRecordMovieFileOutput;
+    configuration.recordOutputType = FSLAVVideoRecordVideoDataOutput;
     configuration.isOutPreview = YES;
     configuration.outputFileName = @"VideoFile";
     configuration.saveSuffixFormat = @"mp4";

@@ -16,7 +16,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 @end
 
 @implementation FSLAVFirstVideoRecorder
-@dynamic delegate;
+
+@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
 - (instancetype)initWithVideoRecordConfiguration:(FSLAVVideoRecorderConfiguration *)configuration{
     if (self = [super init]) {
@@ -207,23 +208,16 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
  */
 - (void)startVideoRecording
 {
-    
+
     if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
         [self.captureMovieFileOutput startRecordingToOutputFileURL:_configuration.savePathURL recordingDelegate:self];
+        
+        //添加定时器
+        [self removeRecordTimer];
+        [self addRecordTimer];
     }
-    
-    //添加定时器
-    [self removeRecordTimer];
-    [self addRecordTimer];
 }
-
-//定时器事件
-//- (void)recordTimerAction{
-//    [super recordTimerAction];
-//    
-//    NSLog(@"----->>>%ld",(long)self.recordTime);
-//}
 
 //保存视频数据输，结束录制
 - (void)stopVideoRecoding
@@ -231,10 +225,10 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
         if ([self.captureMovieFileOutput isRecording]) [self.captureMovieFileOutput stopRecording];
+        
+        //移除定时器
+        [self removeRecordTimer];
     }
-    
-    //移除定时器
-    [self removeRecordTimer];
 }
 
 #pragma mark -- 代理

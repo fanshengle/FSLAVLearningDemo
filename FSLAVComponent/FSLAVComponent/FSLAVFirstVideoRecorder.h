@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  视频配置项
  */
 @property (nonatomic, strong , readonly) FSLAVVideoRecorderConfiguration *configuration;
+
 /**
  代理
  */

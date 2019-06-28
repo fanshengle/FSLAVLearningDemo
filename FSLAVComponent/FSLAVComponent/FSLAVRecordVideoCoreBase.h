@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIView *containerView;//预览图层的容器视图
 
 
-
-
 #pragma mark - 设备配置
 - (void)initAVCaptureSession;
 

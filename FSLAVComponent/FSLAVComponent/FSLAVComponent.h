@@ -10,6 +10,7 @@
 
 #import "FSLAVFirstVideoRecorder.h"
 #import "FSLAVH264VideoEncoder.h"
+#import "FSLAVPlayer.h"
 
 @interface FSLAVComponent : NSObject
 

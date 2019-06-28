@@ -23,15 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSTimeInterval _recordTime;//录制时长
 }
 
-@property (nonatomic, strong, readonly) NSTimer *recordTimer;//录制定时器
-
-@property (nonatomic, assign, readonly) NSTimeInterval recordTime;//录制时长
-
 /**
  代理
  */
 @property (nonatomic, weak) id<FSLAVRecordCoreBaseDelegate> delegate;
-
 
 @end
 

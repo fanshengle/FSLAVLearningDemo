@@ -62,12 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - ( instancetype)initWithVideoStreamConfiguration:(FSLAVH264VideoConfiguration *)configuration;
 
-/**
- 设置代理
- 
- @param delegate 代理
- */
-//- (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate;
 
 /**
  停止编码
