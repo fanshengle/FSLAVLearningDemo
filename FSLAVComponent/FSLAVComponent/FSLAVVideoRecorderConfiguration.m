@@ -18,7 +18,7 @@
  */
 + (instancetype)defaultConfiguration{
     
-    FSLAVVideoRecorderConfiguration *configuration = [FSLAVVideoRecorderConfiguration defaultConfigurationForSessionPreset: FSLAVCaptureSessionPresetDefault];
+    FSLAVVideoRecorderConfiguration *configuration = [FSLAVVideoRecorderConfiguration defaultConfigurationForSessionPreset: FSLAVCaptureSessionPreset_Default];
     return configuration;
 }
 
@@ -53,22 +53,24 @@
 
     switch (sessionPreset)
     {
-        case  FSLAVCaptureSessionPresetLow:
+        case  FSLAVCaptureSessionPreset_Low:
         {
             configuration.avSessionPreset = AVCaptureSessionPresetLow;
         }
             break;
-        case  FSLAVCaptureSessionPresetMedium:
+        case  FSLAVCaptureSessionPreset_Medium:
         {
             configuration.avSessionPreset = AVCaptureSessionPresetMedium;
         }
             break;
-        case  FSLAVCaptureSessionPresetHigh:
+        case  FSLAVCaptureSessionPreset_High:
         {
             configuration.avSessionPreset = AVCaptureSessionPresetHigh;
         }
             break;
         default:
+            
+            configuration.avSessionPreset = AVCaptureSessionPresetHigh;
             break;
     }
     switch (videoRecordPosition)

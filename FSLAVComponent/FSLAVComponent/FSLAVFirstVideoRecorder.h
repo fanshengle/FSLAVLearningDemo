@@ -7,7 +7,6 @@
 //
 
 #import "FSLAVRecordVideoCoreBase.h"
-#import "FSLAVVideoRecorderInterface.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

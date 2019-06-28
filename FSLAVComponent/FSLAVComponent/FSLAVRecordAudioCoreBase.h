@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FSLAVRecordAudioCoreBase : FSLAVRecordCoreBase
 
+@property (nonatomic, assign) AVAudioSessionCategory sessionCategory;
+
+
+#pragma mark -- 激活Session控制当前的使用场景
+- (void)setAudioSession;
+
 @end
 
 NS_ASSUME_NONNULL_END

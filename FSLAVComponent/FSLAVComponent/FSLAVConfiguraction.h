@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FSLAVFileManager.h"
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
+#import "FSLAVFileManager.h"
 NS_ASSUME_NONNULL_BEGIN
 
 //录制状态

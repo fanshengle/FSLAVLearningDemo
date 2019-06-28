@@ -72,6 +72,7 @@ typedef NS_ENUM(NSUInteger, FSLAVPlayerState) {
 @property (nonatomic, assign, readonly) NSTimeInterval timeInterval;
 
 
+@property (nonatomic, assign) AVAudioSessionCategory sessionCategory;
 
 #pragma mark -- 激活Session控制当前的使用场景
 - (void)setAudioSession;

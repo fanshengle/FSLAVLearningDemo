@@ -7,8 +7,6 @@
 //
 
 #import "FSLAVConfiguraction.h"
-#import <UIKit/UIKit.h>
-#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,15 +50,19 @@ typedef NS_ENUM(NSInteger,FSLAVVideoRecordOutputType) {
 typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 {
     
-    FSLAVCaptureSessionPresetLow = 0,
+    FSLAVCaptureSessionPreset_Low = 0,
     
-    FSLAVCaptureSessionPresetMedium = 1,
+    FSLAVCaptureSessionPreset_Medium = 1,
     
-    FSLAVCaptureSessionPresetHigh = 2,
+    FSLAVCaptureSessionPreset_High = 2,
     
-    FSLAVCaptureSessionPresetDefault =  FSLAVCaptureSessionPresetHigh
+    FSLAVCaptureSessionPreset_Default =  FSLAVCaptureSessionPreset_High
 };
 
+
+/**
+ 视频录制的参数配置项
+ */
 @interface FSLAVVideoRecorderConfiguration : FSLAVConfiguraction
 
 /**
@@ -117,7 +119,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 + (instancetype)defaultConfiguration;
 
 /**
- 视频配置(质量)
+ 视频配置(分辨率)
  
  @param sessionPreset 视频分辨率
  @return FSLAVVideoRecorderConfiguration
@@ -125,7 +127,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 + (instancetype)defaultConfigurationForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset;
 
 /**
- 视频配置(质量&是否是横屏)
+ 视频配置(分辨率&摄像机位置设置)
  
  @param sessionPreset 视频分辨率
  @param videoRecordPosition 摄像机位置
