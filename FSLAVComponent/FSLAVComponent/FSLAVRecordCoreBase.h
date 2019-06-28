@@ -21,12 +21,20 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSTimer *_recordTimer;//录制定时器
     NSTimeInterval _recordTime;//录制时长
+    BOOL _isRecording;// 是否正在录制中
 }
 
 /**
  代理
  */
 @property (nonatomic, weak) id<FSLAVRecordCoreBaseDelegate> delegate;
+
+
+/**
+ 是否正在录制中
+ */
+@property (readonly, getter=isRecording) BOOL isRecording;
+
 
 @end
 

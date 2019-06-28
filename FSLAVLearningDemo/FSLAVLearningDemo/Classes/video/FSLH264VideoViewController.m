@@ -44,7 +44,7 @@
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
 
-    [self.videoRecorder stopVideoRecoding];
+    [self.videoRecorder stopRecord];
 }
 
 
@@ -96,12 +96,12 @@
 
 - (void)startAction:(UIButton *)btn{
     
-    [self.videoRecorder startVideoRecording];
+    [self.videoRecorder startRecord];
 }
 
 - (void)endAction:(UIButton *)btn{
 
-    [self.videoRecorder stopVideoRecoding];
+    [self.videoRecorder stopRecord];
     [self.videoRecorder stopRunning];
 }
 

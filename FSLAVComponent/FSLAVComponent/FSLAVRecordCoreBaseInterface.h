@@ -31,11 +31,45 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-//添加定时器
+//添加录制定时器
 - (void)addRecordTimer;
+
+//录制定时事件
+- (void)recordTimerAction;
 
 //移除定时器
 - (void)removeRecordTimer;
+
+
+/**
+ 录制时间是否超过最大录制时间
+ */
+- (BOOL)isMoreRecordTime;
+
+/**
+ 录制时间是否小于最小录制时间
+ */
+- (BOOL)isLessRecordTime;
+
+/**
+ 开始录制
+ */
+- (void)startRecord;
+
+/**
+ 暂停录制
+ */
+- (void)pauaseRecord;
+
+/**
+ 结束录制
+ */
+- (void)stopRecord;
+
+/**
+ 重新录制
+ */
+- (void)reRecording;
 
 @end
 
@@ -75,13 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
 - ( instancetype)initWithVideoRecordConfiguration:(FSLAVVideoRecorderConfiguration *)configuration;
 
 /**
- 设置代理
- 
- @param delegate 代理
- */
-//- (void)setDelegate:(id<FSLAVVideoRecorderDelegate>)delegate;
-
-/**
  将设备捕捉到的画面呈现到某个view上
  
  @param view 显示具体捕捉画面的视图
@@ -98,18 +125,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopRunning;
 
-
 //切换设备的摄像机位置
 - (void)switchCameraDevicePosition;
-
-/**
- 保存视频数据到添加的路径下,录制视频
- */
-- (void)startVideoRecording;
-/**
- 保存视频数据输，结束录制
- */
-- (void)stopVideoRecoding;
 
 @end
 
@@ -120,11 +137,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 /**
- 播放器状态变化
+ 音频录制状态变化
  @param state 状态
- @param videoRecorder 录制器
+ @param audioRecorder 音频录制器
  */
 - (void)didChangedRecordState:(FSLAVRecordState)state fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder outputFileAtURL:(NSURL *)fileURL;
+
+
+/**
+ 音频的声波监控，录制时，声波波动值，可以根据该值进行声波UI刷新
+
+ @param progress 声波波动值
+ */
+- (void)didRecordingAudioPowerChangeProgress:(CGFloat)progress;
 
 @end
 

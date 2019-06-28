@@ -20,34 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong , readonly) FSLAVAudioRecorderConfiguration *configuration;
 
 
-@property (nonatomic, assign) BOOL isRecording; //正在录制中
-
 /**
- 是否开启音频声波定时器,默认开启
+ 代理
  */
-@property (nonatomic, assign) BOOL isAcousticTimer;
-
-/**
- 开始录制
- */
-- (void)startRecord;
+@property (nonatomic, weak) id<FSLAVAudioRecorderDelegate> delegate;
 
 
-/**
- 暂停录制
- */
-- (void)pauaseRecord;
-
-
-/**
- 结束录制
- */
-- (void)stopRecord;
-
-/**
- 重新录制
- */
-- (void)reRecording;
 
 @end
 

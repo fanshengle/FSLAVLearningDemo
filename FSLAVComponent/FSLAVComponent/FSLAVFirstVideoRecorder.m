@@ -128,6 +128,27 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     return isAdd;
 }
 
+/**
+ 录制时间是否超过最大录制时间
+ */
+- (BOOL)isMoreRecordTime{
+    
+    BOOL isMore = NO;
+    if (_recordTime >= _configuration.maxRecordDelay) {//当前录制的时间与最大录制时间进行比较
+        isMore = YES;
+    }
+    return YES;
+}
+/**
+ 录制时间是否小于最小录制时间
+ */
+- (BOOL)isLessRecordTime{
+    BOOL isLess = NO;
+    if (_recordTime <= _configuration.minRecordDelay) {//当前录制的时间与最小录制时间进行比较
+        isLess = YES;
+    }
+    return isLess;
+}
 
 #pragma mark -- public methods
 /**
@@ -204,31 +225,63 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 
 
 /**
- 保存视频数据到添加的路径下,录制视频
+ 录制定时事件
  */
-- (void)startVideoRecording
-{
-
-    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
-        
-        [self.captureMovieFileOutput startRecordingToOutputFileURL:_configuration.savePathURL recordingDelegate:self];
-        
-        //添加定时器
-        [self removeRecordTimer];
-        [self addRecordTimer];
+- (void)recordTimerAction{
+    
+    _configuration.recordTimeLength = _recordTime;
+    
+    if ([self isLessRecordTime]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+        }
+    }
+    
+    if ([self isMoreRecordTime]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+        }
     }
 }
 
-//保存视频数据输，结束录制
-- (void)stopVideoRecoding
+/**
+ 保存视频数据到添加的路径下,录制视频
+ */
+- (void)startRecord
 {
+    if(_isRecording) return;
+    _isRecording = YES;
+    
+    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
+        
+        [self.captureMovieFileOutput startRecordingToOutputFileURL:_configuration.savePathURL recordingDelegate:self];
+    }else{
+    }
+    
+    //添加定时器
+    [self removeRecordTimer];
+    [self addRecordTimer];
+}
+
+//保存视频数据输，结束录制
+- (void)stopRecord
+{
+    if(!_isRecording) return;
+    _isRecording = YES;
+    
     if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
         if ([self.captureMovieFileOutput isRecording]) [self.captureMovieFileOutput stopRecording];
-        
-        //移除定时器
-        [self removeRecordTimer];
     }
+    
+    //移除定时器
+    [self removeRecordTimer];
+}
+
+//重录视频
+- (void)reRecording{
+    
+    
 }
 
 #pragma mark -- 代理
@@ -251,7 +304,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     //NSMutableString * mString = [NSMutableString stringWithString:uploadAddress];
     //NSString *strUrl = [mString stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     //[upload uploadVideo:strUrl];
-    ////视频录入完成之后在后台将视频存储到相册
+    
+    //视频录入完成之后在后台将视频存储到相册
     if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
         [self.delegate didChangedRecordState:FSLAVRecordStateFinish fromVideoRecorder:self outputFileAtURL:outputFileURL];
     }

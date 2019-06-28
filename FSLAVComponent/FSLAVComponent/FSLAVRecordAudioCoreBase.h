@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark -- 激活Session控制当前的使用场景
+/**
+ *  初始化音频检查
+ */
 - (void)setAudioSession;
 
 @end

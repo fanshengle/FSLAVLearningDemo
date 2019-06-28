@@ -185,7 +185,7 @@
             
             // 开始播放
             _isPlaying = YES;
-            [_player play];
+            //[_player play];
             [self setTheProgressOfPlayTime];
             if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
                 [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateReadyToPlay player:self];

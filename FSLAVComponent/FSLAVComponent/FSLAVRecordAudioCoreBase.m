@@ -19,10 +19,16 @@
 }
 
 #pragma mark -- 激活Session控制当前的使用场景
+
+/**
+ *  初始化音频检查
+ */
 - (void)setAudioSession{
     
-    //[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    //设置播放和录音状态，以便可以在录制完之后播放录音
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [audioSession setActive:YES error:nil];
 }
+
 @end

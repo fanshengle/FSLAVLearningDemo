@@ -44,6 +44,10 @@
     FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration new];
     configuration.outputFileName = @"audioFile";
     configuration.saveSuffixFormat = @"caf";
+    configuration.minRecordDelay = 3.f;
+    configuration.maxRecordDelay = 0.f;
+    configuration.isAcousticTimer = YES;
+    configuration.isAutomaticStop = NO;
     switch (audioQuality)
     {
         case  FSLAVAudioRecordQuality_min:
