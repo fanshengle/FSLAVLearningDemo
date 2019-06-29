@@ -18,6 +18,8 @@
 
 @implementation FSLAVFirstAudioRecorder
 
+@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
+
 - (void)dealloc{
     
     if (self.isRecording) [self.recorder stop];
@@ -83,8 +85,8 @@
     [self.recorder updateMeters];//更新测量值
     float power = [self.recorder averagePowerForChannel:0];//取得第一个通道的音频，注意音频强度范围时-160到0
     CGFloat progress=(1.0/160.0)*(power+160.0);
-    if ([self.delegate respondsToSelector:@selector(didRecordingAudioPowerChangeProgress:)]) {
-        [self.delegate didRecordingAudioPowerChangeProgress:progress];
+    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordingPowerProgress:)]) {
+        [self.delegate didChangedAudioRecordingPowerProgress:progress];
     }
 }
 
@@ -117,8 +119,8 @@
     _configuration.recordTimeLength = _recordTime;
     
     if ([self isLessRecordTime]) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
         }
     }
     
@@ -126,8 +128,8 @@
         
         [self stopRecord];
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
         }
     }
 }
@@ -154,8 +156,8 @@
         self.soundWavesTimer.fireDate = [NSDate distantPast];
     }
 
-    if ([self.delegate respondsToSelector:@selector(didChangedRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
     }
 }
 
@@ -225,16 +227,17 @@
         _isRecording = NO;
     }
 
-    if ([self.delegate respondsToSelector:@selector(didChangedRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
     }
 }
 
 //录音失败
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError * __nullable)error{
     
-    if ([self.delegate respondsToSelector:@selector(didChangedRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+    if(!error) return;
+    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
     }
 }
 

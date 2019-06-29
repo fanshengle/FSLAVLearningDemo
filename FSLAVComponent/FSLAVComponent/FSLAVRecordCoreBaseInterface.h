@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param recordTimeLength 录制的时间
  */
-- (void)didChangeRecordTime:(NSTimeInterval)recordTimeLength;
+- (void)didChangedRecordCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength;
 
 @end
 
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param state 状态
  @param videoRecorder 录制器
  */
-- (void)didChangedRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL;
+- (void)didChangedVideoRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL;
 
 /**
  通知委托已写入新的视频帧。
@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param state 状态
  @param audioRecorder 音频录制器
  */
-- (void)didChangedRecordState:(FSLAVRecordState)state fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder outputFileAtURL:(NSURL *)fileURL;
+- (void)didChangedAudioRecordState:(FSLAVRecordState)state fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder outputFileAtURL:(NSURL *)fileURL;
 
 
 /**
@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param progress 声波波动值
  */
-- (void)didRecordingAudioPowerChangeProgress:(CGFloat)progress;
+- (void)didChangedAudioRecordingPowerProgress:(CGFloat)progress;
 
 @end
 

@@ -107,7 +107,7 @@
 
 
 #pragma mark -- FSLAVVideoRecorderDelegate
-- (void)didChangedRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL{
+- (void)didChangedVideoRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL{
     
 }
 
@@ -119,7 +119,7 @@
 }
 
 #pragma mark -- FSLAVRecordCoreBaseDelegate
-- (void)didChangeRecordTime:(NSTimeInterval)recordTimeLength{
+- (void)didChangedRecordCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength{
     
 }
 

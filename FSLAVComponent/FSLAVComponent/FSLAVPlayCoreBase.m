@@ -8,13 +8,31 @@
 
 #import "FSLAVPlayCoreBase.h"
 
+static FSLAVPlayCoreBase *player = nil;
+
 @implementation FSLAVPlayCoreBase
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         
         [self setAudioSession];
+    }
+    return self;
+}
+
+/**
+ 初始化播放源url的播放起
+ 
+ @param url 播放源
+ @return 播放器
+ */
+- (instancetype)initWithURL:(NSString *)url{
+    if (self = [self init]) {
+        
+        _currentURLStr = url;
+        _currentURL = [self retrieveURL:url];
     }
     return self;
 }
@@ -27,28 +45,20 @@
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
-#pragma mark -- 激活Session控制当前的使用场景
+- (void)setCurrentURLStr:(NSString *)currentURLStr{
+    _currentURLStr = currentURLStr;
+    //设置urlStr时将url也替换掉
+    _currentURL = [self retrieveURL:_currentURLStr];
+}
+
+/**
+ 激活Session控制当前的使用场景
+ */
 - (void)setAudioSession{
     
     //[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
-}
-
-/**
- 初始化播放源url的播放起
- 
- @param url 播放源
- @return 播放器
- */
-- (instancetype)initWithURL:(NSString *)url{
-    if (self = [super init]) {
-        
-        _currentURLStr = url;
-        _currentURL = [self retrieveURL:url];
-        [self setAudioSession];
-    }
-    return self;
 }
 
 /**
@@ -80,4 +90,75 @@
     return [NSURL URLWithString:encodedString];
 }
 
+/**
+ 播放
+ */
+- (void)play;
+{
+    
+}
+
+/**
+ 暂停
+ */
+- (void)pause;
+{
+    
+}
+
+/**
+ 停止
+ */
+- (void)stop;
+{
+    
+}
+
+/**
+ 创建播放定时器
+ */
+- (void)addPlayTimer;
+{
+    if (!_playTimer) {
+        /**三种g方式解决NSTimer的循环引用*/
+        //step1：
+        //FSLProxy *proxy = [FSLProxy proxyWithTarget:self];
+        //step2：
+        FSLForwordProxy *proxy = [FSLForwordProxy proxyWithTarget:self];
+        _playTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:proxy selector:@selector(playTimeAction) userInfo:nil repeats:YES];
+        
+        //step3:
+        //__weak typeof(self) weakself = self;
+        //_playTimer = [NSTimer block_TimerWithTimeInterval:1.0 block:^{
+        //    [weakself playTimeAction];
+        //} repeats:YES];
+    }
+}
+
+/**
+ 播放定时事件
+ */
+- (void)playTimeAction;
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayCurrentTimeLength:)]) {
+        [self.delegate didChangedPlayCurrentTimeLength:_currentTimeLength];
+    }
+}
+
+
+/**
+ 移除播放定时器
+ */
+- (void)removePlayTimer;
+{
+    
+    [_playTimer invalidate];
+    _playTimer = nil;
+}
+
+- (void)dealloc{
+    
+    NSLog(@"音频播放器被释放了");
+    [self removePlayTimer];
+}
 @end

@@ -17,7 +17,9 @@
 @property (nonatomic, weak) UITextField *endTxt;
 @property (nonatomic, assign) CGFloat musicDuration;
 
-//@property (nonatomic,strong) AudioVideoPlayer *videoPlayer;
+@property (nonatomic,strong) FSLAVPlayer *videoPlayer;
+@property (nonatomic,strong) FSLAVSingleAudioPlayer *audioPlayer;
+@property (nonatomic,strong) FSLAVAudioPlayer *audioPlayer1;
 
 
 @end
@@ -29,12 +31,6 @@
     // Do any additional setup after loading the view.
     
     self.navTitle = @"音频录制与播放";
-
-    _audioPath = [self filePathName:@"111.mp3"];
-    
-    AVAsset *asset = [AVAsset assetWithURL:self.audioPath];
-    CMTime duration = asset.duration;
-    _musicDuration = duration.value / duration.timescale;
     
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
     //视频
@@ -69,14 +65,31 @@
     [photoBtn addTarget:self action:@selector(cutMusicBtnOnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:photoBtn];
 }
-//
-//- (AudioVideoPlayer *)videoPlayer{
-//    if (!_videoPlayer) {
-//
-//        _videoPlayer = [[AudioVideoPlayer alloc] initWithUrl:[[NSBundle mainBundle] pathForResource:@"111.mp3" ofType:nil]];
-//    }
-//    return _videoPlayer;
-//}
+
+- (FSLAVPlayer *)videoPlayer{
+    if (!_videoPlayer) {
+        _videoPlayer = [[FSLAVPlayer alloc] initWithURL:[[NSBundle mainBundle] pathForResource:@"111.mp3" ofType:nil]];
+//        _videoPlayer = [[FSLAVPlayer alloc] init];
+//        _videoPlayer.currentURLStr = [self filePathName:@"111.mp3"];
+    }
+    return _videoPlayer;
+}
+
+- (FSLAVSingleAudioPlayer *)audioPlayer{
+    if (!_audioPlayer) {
+        _audioPlayer = [FSLAVSingleAudioPlayer player];
+        _audioPlayer.currentURLStr = [self filePathName:@"111.mp3"];
+    }
+    return _audioPlayer;
+}
+- (FSLAVAudioPlayer *)audioPlayer1{
+    if (!_audioPlayer1) {
+        _audioPlayer1 = [[FSLAVAudioPlayer alloc] init];
+        _audioPlayer1.currentURLStr = [self filePathName:@"111.mp3"];
+//        _audioPlayer1 = [[FSLAVAudioPlayer alloc] initWithURL:[self filePathName:@"111.mp3"]];
+    }
+    return _audioPlayer1;
+}
 
 //- (void)playBtnOnClick:(UIButton *)btn{
 //    btn.selected = !btn.selected;
@@ -92,6 +105,17 @@
 //    }
 //}
 
+- (void)playBtnOnClick:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        [self.audioPlayer1 play];
+
+    }else{
+        [self.audioPlayer1 pause];
+
+    }
+}
+
 - (CGFloat)musicDuration{
         
     AVAsset *asset = [AVAsset assetWithURL:self.audioPath];
@@ -102,9 +126,9 @@
 
 
 #pragma mark -- 获取本地资源
-- (NSURL *)filePathName:(NSString *)fileName{
+- (NSString *)filePathName:(NSString *)fileName{
     
-    return [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:nil]];
+    return [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
 }
 
 

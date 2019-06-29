@@ -141,9 +141,10 @@
                 
                 break;
             case 1:
-                
-                //            AudioRecordViewController *vc = [[AudioRecordViewController alloc] init];
-                //            [self.navigationController pushViewController:vc animated:YES];
+            {
+                HWCutMusicViewController *vc = [[HWCutMusicViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
                 break;
             case 2:
             {

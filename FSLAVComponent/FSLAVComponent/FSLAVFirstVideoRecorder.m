@@ -232,14 +232,14 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     _configuration.recordTimeLength = _recordTime;
     
     if ([self isLessRecordTime]) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
         }
     }
     
     if ([self isMoreRecordTime]) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
         }
     }
 }
@@ -289,8 +289,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 #pragma mark - 视频输出代理开始录制
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections{
     //SHOWMESSAGE(@"开始录制");
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedRecordState:FSLAVRecordStateReadyToRecord fromVideoRecorder:self outputFileAtURL:fileURL];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedVideoRecordState:FSLAVRecordStateReadyToRecord fromVideoRecorder:self outputFileAtURL:fileURL];
     }
 }
 
@@ -306,8 +306,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     //[upload uploadVideo:strUrl];
     
     //视频录入完成之后在后台将视频存储到相册
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedRecordState:FSLAVRecordStateFinish fromVideoRecorder:self outputFileAtURL:outputFileURL];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
+        [self.delegate didChangedVideoRecordState:FSLAVRecordStateFinish fromVideoRecorder:self outputFileAtURL:outputFileURL];
     }
 }
 

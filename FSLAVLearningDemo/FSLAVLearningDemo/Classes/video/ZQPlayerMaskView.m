@@ -269,7 +269,7 @@
 }
 // slider滑动中事件
 - (void)progressSliderValueChanged:(UISlider *)slider {
-    CGFloat current = _player.timeInterval*slider.value;
+    CGFloat current = _player.totalTimeLength*slider.value;
     //秒数
     NSInteger proSec = (NSInteger)current%60;
     //分钟
@@ -284,7 +284,7 @@
     }
     //转换成CMTime才能给player来控制播放进度
     __weak typeof(self) weakself = self;
-    CMTime dragedCMTime     = CMTimeMakeWithSeconds(_player.timeInterval * slider.value, 600);
+    CMTime dragedCMTime     = CMTimeMakeWithSeconds(_player.totalTimeLength * slider.value, 600);
     [_player.player seekToTime:dragedCMTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         __strong typeof(weakself) strongself = self;
         strongself->_isDragSlider = NO;
@@ -312,7 +312,7 @@
  @param player 播放器
  @param state 状态
  */
-- (void)FSLAVPlayerStateChange:(FSLAVPlayerState)state player:(id<FSLAVPlayerInterface>)player {
+- (void)didChangedPlayState:(FSLAVPlayerState)state player:(FSLAVPlayer *)player {
 
     if (state == FSLAVPlayerStatePlaying) {
         _playBtn.selected = YES;
@@ -329,13 +329,13 @@
         [self showPlayerSubview];
         [self stopLoading];
     }
-    else if (state == FSLAVPlayerStateBufferEmpty) {
+    else if (state == FSLAVPlayerStateBuffering) {
         [self startLoading];
     }
-    else if (state == FSLAVPlayerStateKeepUp) {
+    else if (state == FSLAVPlayerStateBufferFinish) {
         [self stopLoading];
     }
-    else if (state == FSLAVPlayerStateStop || state == FSLAVPlayerStateStop) {
+    else if (state == FSLAVPlayerStateFinish || state == FSLAVPlayerStateFinish) {
         [self stopLoading];
         _playBtn.selected = NO;
         _currentTimeLabel.text = @"00:00";
@@ -358,7 +358,7 @@
 /**
  视频源开始加载后调用 ，返回视频的长度
  */
-- (void)FSLAVPlayerTotalTime:(CGFloat)time player:(id<FSLAVPlayerInterface>)player {
+- (void)didChangedPlayTotalTime:(CGFloat)time player:(FSLAVPlayer *)player {
 
     //秒数
     NSInteger proSec = (NSInteger)time%60;
@@ -370,20 +370,20 @@
 /**
  视频源加载时调用 ，返回视频的缓冲长度
  */
-- (void)FSLAVPlayerLoadTime:(CGFloat)time player:(id <FSLAVPlayerInterface>)player {
+- (void)didChangedPlayLoadTime:(CGFloat)time player:(FSLAVPlayer *)player {
 
     // 判断视频长度
-    if (player.timeInterval > 0) {
-        [_progressView setProgress:time / player.timeInterval animated:YES];
+    if (player.totalTimeLength > 0) {
+        [_progressView setProgress:time / player.totalTimeLength animated:YES];
     }
 }
 
 /**
  播放时调用，返回当前时间
  */
-- (void)FSLAVPlayerCurrentTime:(CGFloat)time player:(id <FSLAVPlayerInterface>)player {
+- (void)didChangedPlayCurrentTime:(CGFloat)time player:(FSLAVPlayer *)player {
 
-    [self.videoSlider setValue:time/player.timeInterval animated:YES];
+    [self.videoSlider setValue:time/player.totalTimeLength animated:YES];
     //秒数
     NSInteger proSec = (NSInteger)time%60;
     //分钟

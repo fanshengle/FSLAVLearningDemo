@@ -10,29 +10,28 @@
 
 @interface FSLAVPlayer ()
 
-
 /** player 播放过程中的时间监听 */
 @property (nonatomic,strong) id playerTimeObserver;
 
 @end
 
 @implementation FSLAVPlayer
+@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        
-        [self initPlayer];
+
+        [self switchPlayURL:nil];
     }
     return self;
 }
 
 - (instancetype)initWithURL:(NSString *)url{
     self = [super initWithURL:url];
-
-    [self initPlayer];
-    [self addPlayerItemObserver];
+    
+    [self switchPlayURL:url];
     return self;
 }
 
@@ -41,34 +40,59 @@
  */
 - (void)switchPlayURL:(NSString *)url{
     
-    _currentURL = [self retrieveURL:url];
+    _isBuffering = YES;
+    _volume = 1.0;
+    _isAutomaticPlay = YES;
     
-    _playerItem = [AVPlayerItem playerItemWithURL:_currentURL];
-    if (@available(iOS 9.0, *)) {
-        _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = YES;
-    }
-    //更换播放的资源
-    [_player replaceCurrentItemWithPlayerItem:_playerItem];
-    
+    //创建播放器
+    [self setPlayer];
+    //创建视频播放预览层
+    [self setPlayerLayer];
+    //添加通知
+    [self addNotification];
     //添加观察者
     [self addPlayerItemObserver];
 }
 
-#pragma mark -- 初始化音视频播放器player
-- (void)initPlayer{
+#pragma mark -- private setting
+
+/**
+ 创建播放器
+ */
+- (void)setPlayer{
     
-    _isBuffering = YES;
-    _volume = 1.0;
-    _isAutomaticPlay = YES;
-    _playerItem = [AVPlayerItem playerItemWithURL:_currentURL];
-    _player = [AVPlayer playerWithPlayerItem:_playerItem];
-    _player.volume = _volume;
-    
+    if (!_player) {//播放器不存在
+        
+        _playerItem = [AVPlayerItem playerItemWithURL:_currentURL];
+        _player = [AVPlayer playerWithPlayerItem:_playerItem];
+        _player.volume = _volume;
+    }else{//播放器存在，替换播放url
+        
+        _playerItem = [AVPlayerItem playerItemWithURL:_currentURL];
+        if (@available(iOS 9.0, *)) {
+            _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = YES;
+        }
+        //更换播放的资源
+        [_player replaceCurrentItemWithPlayerItem:_playerItem];
+    }
+}
+
+/**
+ 创建视频播放预览层
+ */
+- (void)setPlayerLayer{
+    if (_playerType == FSLAVPlayerTypeAudio) return;
+    //视频播放才有视频预览层
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     //玩家应该保持视频的长宽比，并在层的边界内匹配视频。
     _playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-    
-    [self addNotification];
+}
+
+#pragma mark -- Public Set
+- (void)setPlayerLayerBackColor:(UIColor *)playerLayerBackColor{
+    if (_playerType == FSLAVPlayerTypeAudio) return;
+    _playerLayerBackColor = playerLayerBackColor;
+    self.playerLayer.backgroundColor = _playerLayerBackColor.CGColor;
 }
 
 #pragma mark -- 添加通知
@@ -140,23 +164,15 @@
     }
 }
 
-#pragma mark -- Public Set
-- (void)setPlayerLayerBackColor:(UIColor *)playerLayerBackColor{
-    
-    _playerLayerBackColor = playerLayerBackColor;
-    self.playerLayer.backgroundColor = _playerLayerBackColor.CGColor;
-}
-
 #pragma mark -- private methods
-
 //设置播放进度和时间
 -(void)setTheProgressOfPlayTime {
     
     //音视频的总时长
-    _timeInterval   = CMTimeGetSeconds(_playerItem.asset.duration);
+    _totalTimeLength   = CMTimeGetSeconds(_playerItem.asset.duration);
     NSLog(@"正在播放...，音视频总长度:%.2f", CMTimeGetSeconds(_playerItem.duration));
-    if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerTotalTime:player:)]) {
-        [self.delegate FSLAVPlayerTotalTime:self.timeInterval player:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayTotalTime:player:)]) {
+        [self.delegate didChangedPlayTotalTime:_totalTimeLength player:self];
     }
     
     //监听播放进度
@@ -165,8 +181,8 @@
         if (weakSelf.isPlaying) {
             CGFloat currentTime = CMTimeGetSeconds(time);
             NSLog(@"当前已经播放%.2fs.", currentTime);
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(FSLAVPlayerCurrentTime:player:)]) {
-                [weakSelf.delegate FSLAVPlayerCurrentTime:currentTime player:weakSelf];
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(didChangedPlayCurrentTime:player:)]) {
+                [weakSelf.delegate didChangedPlayCurrentTime:currentTime player:weakSelf];
             }
         }
     }];
@@ -187,8 +203,8 @@
             _isPlaying = YES;
             //[_player play];
             [self setTheProgressOfPlayTime];
-            if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-                [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateReadyToPlay player:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+                [self.delegate didChangedPlayState:FSLAVPlayerStateReadyToPlay player:self];
             }
             
         } break;
@@ -197,8 +213,8 @@
             NSLog(@"音频加载失败");
             
             _isPlaying = NO;
-            if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-                [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateFailed player:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+                [self.delegate didChangedPlayState:FSLAVPlayerStateFailed player:self];
             }
             [self stop];
         }
@@ -207,8 +223,8 @@
         case AVPlayerItemStatusUnknown: {
             NSLog(@"未知资源");
             _isPlaying = NO;
-            if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-                [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateUnKnow player:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+                [self.delegate didChangedPlayState:FSLAVPlayerStateUnKnow player:self];
             }
         }
             break;
@@ -228,14 +244,13 @@
     
     if (_isPlaying) return;
     if (!_playerItem) {
-        
         [self switchPlayURL:_currentURLStr];
     }
     
     _isPlaying = YES;
     [_player play];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-        [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStatePlaying player:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+        [self.delegate didChangedPlayState:FSLAVPlayerStatePlaying player:self];
     }
 }
 
@@ -247,8 +262,8 @@
     if (!_isPlaying) return;
     _isPlaying = NO;
     [_player pause];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-        [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStatePause player:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+        [self.delegate didChangedPlayState:FSLAVPlayerStatePause player:self];
     }
 }
 
@@ -268,8 +283,8 @@
     [self removePlayerItemObserver];
     
     [_player replaceCurrentItemWithPlayerItem:_playerItem];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-        [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateStop player:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+        [self.delegate didChangedPlayState:FSLAVPlayerStateFinish player:self];
     }
 }
 
@@ -296,7 +311,7 @@
 }
 // 应用进入前台
 - (void)appDidEnterPlayGround {
-    
+    [self play];
 }
 
 /**
@@ -308,25 +323,10 @@
     //将当前播放时间设置为指定的时间,恢复初始状态。
     [_player seekToTime:kCMTimeZero];
     _isPlaying = NO;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-        [self.delegate FSLAVPlayerStateChange:FSLAVPlayerStateStop player:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+        [self.delegate didChangedPlayState:FSLAVPlayerStateFinish player:self];
     }
 }
-
-
-#pragma mark -- delegate
-
-#pragma mark - 视频输出代理
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections
-{
-    NSLog(@"开始录制...");
-}
-
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
-{
-    NSLog(@"视频录制完成.");
-}
-
 
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -343,8 +343,8 @@
             CMTimeRange range = [_playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
             CGFloat loadSeconds = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
             NSLog(@"共缓冲：%.2f", loadSeconds);
-            if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerLoadTime:player:)]) {
-                [self.delegate FSLAVPlayerLoadTime:loadSeconds player:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayLoadTime:player:)]) {
+                [self.delegate didChangedPlayLoadTime:loadSeconds player:self];
             }
         }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             
@@ -358,8 +358,8 @@
             }else {
                 _isBuffering = NO;
             }
-            if (self.delegate && [self.delegate respondsToSelector:@selector(FSLAVPlayerStateChange:player:)]) {
-                [self.delegate FSLAVPlayerStateChange:_isBuffering?FSLAVPlayerStateBufferEmpty:FSLAVPlayerStateKeepUp player:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedPlayState:player:)]) {
+                [self.delegate didChangedPlayState:_isBuffering?FSLAVPlayerStateBuffering:FSLAVPlayerStateBufferFinish player:self];
             }
         }
     }
@@ -367,7 +367,6 @@
 
 
 #pragma mark - dealloc
-
 - (void)dealloc{
     
     [self removeNotification];
