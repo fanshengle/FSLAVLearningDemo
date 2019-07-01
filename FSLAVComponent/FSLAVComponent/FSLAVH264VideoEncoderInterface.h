@@ -18,12 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 /**
- 编码器编码后回调
+ 编码器编码过程中编码回调
  
+ @param frame 编码后的数据
  @param encoder 编码器
- @param frame 数据
  */
-- (void)videoEncoder:(id<FSLAVH264VideoEncoderInterface>)encoder videoFrame:(FSLAVVideoRTMPFrame *)frame;
+- (void)didEncordingStreamingBufferFrame:(FSLAVVideoRTMPFrame *)frame encoder:(id<FSLAVH264VideoEncoderInterface>)encoder;
 
 @end
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 /**
- 编码视频数据
+ 编码:给视频buffer数据进行编码
  
  @param pixelBuffer 视频数据
  @param timeStamp 时间戳

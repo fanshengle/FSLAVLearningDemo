@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVSingleAudioPlayer.m"
-            timestampString = "583510860.023737"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVH246VideoDecoder.m"
+            timestampString = "583604734.863259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVPlayCoreBase.m"
-            timestampString = "583510865.223266"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "-dealloc"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "-endReadStreamingData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -89,7 +89,7 @@
     if (!_h264VideoEncoder) {
         
         _h264VideoEncoder = [[FSLAVH264VideoEncoder alloc] initWithVideoStreamConfiguration:[FSLAVH264VideoConfiguration defaultConfiguration]];
-        _h264VideoEncoder.h264Delegate = self;
+        _h264VideoEncoder.encodeDelegate = self;
     }
     return _h264VideoEncoder;
 }

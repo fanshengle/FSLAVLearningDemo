@@ -80,7 +80,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
 + (instancetype)defaultConfigurationForQuality:(FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 
 /**
- 视频的分辨率，宽高务必设定为2的倍数，否则解码播放时可能出现绿边
+ 视频的宽高，宽高务必设定为2的倍数，否则解码播放时可能出现绿边
  */
 @property (nonatomic, assign) CGSize videoSize;
 

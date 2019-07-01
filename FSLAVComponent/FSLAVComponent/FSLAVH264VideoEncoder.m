@@ -16,12 +16,22 @@
     NSInteger frameCount;
     NSData *sps;
     NSData *pps;
+    
+    /**编码线程*/
+    dispatch_queue_t _encodeQueue;
 }
+
+/**文件写入对象*/
+@property (nonatomic,strong) NSFileHandle *fileHandle;
+
+/**文件写入对象*/
+@property (nonatomic) FILE *fileHandle2;
 
 /**
  进入后台
  */
 @property (nonatomic) BOOL isBackGround;
+
 @end
 
 @implementation FSLAVH264VideoEncoder
@@ -177,7 +187,7 @@
  */
 - (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate
 {
-    _h264Delegate = delegate;
+    _encodeDelegate = delegate;
 }
 
 #pragma mark -- publice methods
@@ -352,9 +362,9 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
         videoFrame.sps = videoEncoder->sps;
         videoFrame.pps = videoEncoder->pps;
         
-        if (videoEncoder.h264Delegate && [videoEncoder.h264Delegate respondsToSelector:@selector(videoEncoder:videoFrame:)])
+        if (videoEncoder.encodeDelegate && [videoEncoder.encodeDelegate respondsToSelector:@selector(didEncordingStreamingBufferFrame:encoder:)])
         {
-            [videoEncoder.h264Delegate videoEncoder:videoEncoder videoFrame:videoFrame];
+            [videoEncoder.encodeDelegate didEncordingStreamingBufferFrame:videoFrame encoder:videoEncoder];
         }
         
         // 3.6.写入文件

@@ -27,7 +27,6 @@
 		D743112D22BCBEC70055E0C2 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D743110F22BCBEC50055E0C2 /* MBProgressHUD.bundle */; };
 		D743112E22BCBEC70055E0C2 /* VideoRecorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111222BCBEC70055E0C2 /* VideoRecorViewController.m */; };
 		D743112F22BCBEC70055E0C2 /* HWCutMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */; };
-		D743113022BCBEC70055E0C2 /* AudioRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */; };
 		D743113122BCBEC70055E0C2 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111D22BCBEC70055E0C2 /* BaseViewController.m */; };
 		D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */; };
 		D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */; };
@@ -37,6 +36,8 @@
 		D7B9F93622C4B74D00EA3DC3 /* ZQPlayerImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7B9F93522C4B74D00EA3DC3 /* ZQPlayerImage.bundle */; };
 		D7DE246022C0A744001F7ACD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7DE245F22C0A744001F7ACD /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EB10D4F124697C592846E82F /* libPods-FSLAVLearningDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */; };
+		F83365C922C9050A00D70A1D /* 123.h264 in Resources */ = {isa = PBXBuildFile; fileRef = F83365C822C9050900D70A1D /* 123.h264 */; };
+		F83365D222C9131C00D70A1D /* AudioRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F83365D022C9131C00D70A1D /* AudioRecordViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,8 +101,6 @@
 		D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWCutMusicViewController.m; sourceTree = "<group>"; };
 		D743111422BCBEC70055E0C2 /* VideoRecorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRecorViewController.h; sourceTree = "<group>"; };
 		D743111522BCBEC70055E0C2 /* HWCutMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWCutMusicViewController.h; sourceTree = "<group>"; };
-		D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordViewController.m; sourceTree = "<group>"; };
-		D743111922BCBEC70055E0C2 /* AudioRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordViewController.h; sourceTree = "<group>"; };
 		D743111D22BCBEC70055E0C2 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopNavigationBar.m; sourceTree = "<group>"; };
 		D743111F22BCBEC70055E0C2 /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
@@ -117,6 +116,9 @@
 		D7DE245F22C0A744001F7ACD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSLAVLearningDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F442E5C6E5C499A3072BFA71 /* Pods-FSLAVLearningDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSLAVLearningDemo.debug.xcconfig"; path = "Target Support Files/Pods-FSLAVLearningDemo/Pods-FSLAVLearningDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		F83365C822C9050900D70A1D /* 123.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 123.h264; sourceTree = "<group>"; };
+		F83365D022C9131C00D70A1D /* AudioRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordViewController.m; sourceTree = "<group>"; };
+		F83365D122C9131C00D70A1D /* AudioRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 		D743110022BCBEC40055E0C2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F83365C822C9050900D70A1D /* 123.h264 */,
 				D743110122BCBEC40055E0C2 /* 123.mp3 */,
 				D743110222BCBEC40055E0C2 /* 111.mp3 */,
 				D743110322BCBEC40055E0C2 /* Model */,
@@ -333,8 +336,8 @@
 		D743111722BCBEC70055E0C2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				D743111822BCBEC70055E0C2 /* AudioRecordViewController.m */,
-				D743111922BCBEC70055E0C2 /* AudioRecordViewController.h */,
+				F83365D122C9131C00D70A1D /* AudioRecordViewController.h */,
+				F83365D022C9131C00D70A1D /* AudioRecordViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F83365C922C9050A00D70A1D /* 123.h264 in Resources */,
 				D743112722BCBEC70055E0C2 /* 111.mp3 in Resources */,
 				D743112B22BCBEC70055E0C2 /* FunctionList.json in Resources */,
 				D7B9F93622C4B74D00EA3DC3 /* ZQPlayerImage.bundle in Resources */,
@@ -558,10 +562,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D743113022BCBEC70055E0C2 /* AudioRecordViewController.m in Sources */,
 				D7B9F93122C4B35200EA3DC3 /* FSLAVPlayerViewController.m in Sources */,
 				D743112F22BCBEC70055E0C2 /* HWCutMusicViewController.m in Sources */,
 				D743113122BCBEC70055E0C2 /* BaseViewController.m in Sources */,
+				F83365D222C9131C00D70A1D /* AudioRecordViewController.m in Sources */,
 				D743112922BCBEC70055E0C2 /* GeneralParamModel.m in Sources */,
 				D743112522BCBEC70055E0C2 /* ViewController.m in Sources */,
 				D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */,

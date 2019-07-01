@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVEncoderCoreBase.h"
+#import <Foundation/Foundation.h>
 #import "FSLAVH264VideoEncoderInterface.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  硬编码：视频编码器
  */
-@interface FSLAVH264VideoEncoder : FSLAVEncoderCoreBase<FSLAVH264VideoEncoderInterface>
+@interface FSLAVH264VideoEncoder : NSObject<FSLAVH264VideoEncoderInterface>
 {
     FSLAVH264VideoConfiguration *_configuration;
 }
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  代理
  */
-@property (nonatomic, weak) id<FSLAVH264VideoEncoderDelegate> h264Delegate;
+@property (nonatomic, weak) id<FSLAVH264VideoEncoderDelegate> encodeDelegate;
 
 @end
 

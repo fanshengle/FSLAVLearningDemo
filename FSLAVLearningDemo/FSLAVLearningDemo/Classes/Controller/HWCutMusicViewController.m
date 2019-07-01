@@ -21,6 +21,8 @@
 @property (nonatomic,strong) FSLAVSingleAudioPlayer *audioPlayer;
 @property (nonatomic,strong) FSLAVAudioPlayer *audioPlayer1;
 
+@property (nonatomic,strong) FSLAVH246VideoDecoder *videoDecoder;
+
 
 @end
 
@@ -105,14 +107,32 @@
 //    }
 //}
 
+- (FSLAVH246VideoDecoder *)videoDecoder{
+    if (!_videoDecoder) {
+        _videoDecoder = [[FSLAVH246VideoDecoder alloc] init];
+        _videoDecoder.contiantView = self.view;
+//        [self.view.layer addSublayer:_videoDecoder.bufferDisplayLayer];
+    }
+    return _videoDecoder;
+}
+
 - (void)playBtnOnClick:(UIButton *)btn{
     btn.selected = !btn.selected;
+//    if (btn.selected) {
+//
+//        [self.audioPlayer1 play];
+//
+//    }else{
+//        [self.audioPlayer1 pause];
+//
+//    }
     if (btn.selected) {
-        [self.audioPlayer1 play];
-
+        
+        [self.videoDecoder startReadStreamingDataFromPath:[self filePathName:@"123.h264"]];
+        
     }else{
-        [self.audioPlayer1 pause];
-
+        
+        [self.videoDecoder endReadStreamingData];
     }
 }
 
