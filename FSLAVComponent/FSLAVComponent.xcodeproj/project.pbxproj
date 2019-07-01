@@ -25,7 +25,6 @@
 		D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */; };
 		D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */; };
 		F83365C722C87D5200D70A1D /* FSLAVH246VideoDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = F83365C622C87D5200D70A1D /* FSLAVH246VideoDecoder.m */; };
-		F83365D822C914C300D70A1D /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F83365D722C914C300D70A1D /* AAPLEAGLLayer.m */; };
 		F83639BF22C658A700B38E82 /* FSLAVDeviceSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F83639BA22C658A600B38E82 /* FSLAVDeviceSettings.m */; };
 		F83639C022C658A700B38E82 /* FSLAVDeviceAthorizationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F83639BB22C658A600B38E82 /* FSLAVDeviceAthorizationSettings.m */; };
 		F83639C122C658A700B38E82 /* FSLAVSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F83639BE22C658A700B38E82 /* FSLAVSettings.m */; };
@@ -85,8 +84,6 @@
 		D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVFirstVideoRecorder.h; sourceTree = "<group>"; };
 		F83365C522C87D5200D70A1D /* FSLAVH246VideoDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH246VideoDecoder.h; sourceTree = "<group>"; };
 		F83365C622C87D5200D70A1D /* FSLAVH246VideoDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH246VideoDecoder.m; sourceTree = "<group>"; };
-		F83365D622C914C300D70A1D /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLEAGLLayer.h; sourceTree = "<group>"; };
-		F83365D722C914C300D70A1D /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLEAGLLayer.m; sourceTree = "<group>"; };
 		F83639BA22C658A600B38E82 /* FSLAVDeviceSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVDeviceSettings.m; sourceTree = "<group>"; };
 		F83639BB22C658A600B38E82 /* FSLAVDeviceAthorizationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVDeviceAthorizationSettings.m; sourceTree = "<group>"; };
 		F83639BC22C658A600B38E82 /* FSLAVDeviceSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVDeviceSettings.h; sourceTree = "<group>"; };
@@ -263,8 +260,6 @@
 		F83365C422C8794400D70A1D /* Decoder */ = {
 			isa = PBXGroup;
 			children = (
-				F83365D622C914C300D70A1D /* AAPLEAGLLayer.h */,
-				F83365D722C914C300D70A1D /* AAPLEAGLLayer.m */,
 				F83365C522C87D5200D70A1D /* FSLAVH246VideoDecoder.h */,
 				F83365C622C87D5200D70A1D /* FSLAVH246VideoDecoder.m */,
 			);
@@ -351,7 +346,6 @@
 				F83639C122C658A700B38E82 /* FSLAVSettings.m in Sources */,
 				F83639D622C78CA300B38E82 /* FSLProxy.m in Sources */,
 				D73DAC9622C390AC00CDE079 /* FSLAVPlayer.m in Sources */,
-				F83365D822C914C300D70A1D /* AAPLEAGLLayer.m in Sources */,
 				D79047B322C608D5009F5407 /* FSLAVFirstAudioRecorder.m in Sources */,
 				D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */,
 				D743114522BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m in Sources */,

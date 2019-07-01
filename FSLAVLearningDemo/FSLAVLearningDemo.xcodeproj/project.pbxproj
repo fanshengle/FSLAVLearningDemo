@@ -31,6 +31,7 @@
 		D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */; };
 		D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */; };
 		D743115022BCD8130055E0C2 /* libFSLAVComponent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */; };
+		D7668EE722C9FB8E00775D14 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7668EE522C9FB8E00775D14 /* AAPLEAGLLayer.m */; };
 		D7B9F93122C4B35200EA3DC3 /* FSLAVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B9F93022C4B35200EA3DC3 /* FSLAVPlayerViewController.m */; };
 		D7B9F93422C4B48000EA3DC3 /* ZQPlayerMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B9F93222C4B48000EA3DC3 /* ZQPlayerMaskView.m */; };
 		D7B9F93622C4B74D00EA3DC3 /* ZQPlayerImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7B9F93522C4B74D00EA3DC3 /* ZQPlayerImage.bundle */; };
@@ -108,6 +109,8 @@
 		D743112122BCBEC70055E0C2 /* TopNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopNavigationBar.h; sourceTree = "<group>"; };
 		D743112222BCBEC70055E0C2 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFSLAVComponent.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7668EE522C9FB8E00775D14 /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLEAGLLayer.m; sourceTree = "<group>"; };
+		D7668EE622C9FB8E00775D14 /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLEAGLLayer.h; sourceTree = "<group>"; };
 		D7B9F92F22C4B35200EA3DC3 /* FSLAVPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVPlayerViewController.h; sourceTree = "<group>"; };
 		D7B9F93022C4B35200EA3DC3 /* FSLAVPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVPlayerViewController.m; sourceTree = "<group>"; };
 		D7B9F93222C4B48000EA3DC3 /* ZQPlayerMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZQPlayerMaskView.m; sourceTree = "<group>"; };
@@ -317,6 +320,8 @@
 		D743111122BCBEC70055E0C2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D7668EE622C9FB8E00775D14 /* AAPLEAGLLayer.h */,
+				D7668EE522C9FB8E00775D14 /* AAPLEAGLLayer.m */,
 				D743111522BCBEC70055E0C2 /* HWCutMusicViewController.h */,
 				D743111322BCBEC70055E0C2 /* HWCutMusicViewController.m */,
 				D743111422BCBEC70055E0C2 /* VideoRecorViewController.h */,
@@ -574,6 +579,7 @@
 				D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */,
 				D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */,
 				D71A68B022C1EBDD00FC4C4A /* FSLH264VideoViewController.m in Sources */,
+				D7668EE722C9FB8E00775D14 /* AAPLEAGLLayer.m in Sources */,
 				D7B9F93422C4B48000EA3DC3 /* ZQPlayerMaskView.m in Sources */,
 				D743113322BCBEC70055E0C2 /* BaseNavigationViewController.m in Sources */,
 				D743112E22BCBEC70055E0C2 /* VideoRecorViewController.m in Sources */,
@@ -733,7 +739,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9U2KRZU6GT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Users/tusdk/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -742,7 +748,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 					"\"$(SRCROOT)/../FSLAVComponent/FSLAVComponent\"",
 				);
-				INFOPLIST_FILE = "/Users/tusdk/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
+				INFOPLIST_FILE = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -763,7 +769,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9U2KRZU6GT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Users/tusdk/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -772,7 +778,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 					"\"$(SRCROOT)/../FSLAVComponent/FSLAVComponent\"",
 				);
-				INFOPLIST_FILE = "/Users/tusdk/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
+				INFOPLIST_FILE = "/Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Suportting Files/Info.plist";
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -8,8 +8,9 @@
 
 #import "HWCutMusicViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "AAPLEAGLLayer.h"
 
-@interface HWCutMusicViewController ()<AVAudioPlayerDelegate>
+@interface HWCutMusicViewController ()<AVAudioPlayerDelegate,FSLAVH246VideoDecoderDelegate>
 
 @property (nonatomic, strong) NSURL *audioPath;//音频播放器对象
 
@@ -22,7 +23,8 @@
 @property (nonatomic,strong) FSLAVAudioPlayer *audioPlayer1;
 
 @property (nonatomic,strong) FSLAVH246VideoDecoder *videoDecoder;
-
+@property (nonatomic,strong) UIImageView *imageView;
+@property (nonatomic,strong) AAPLEAGLLayer *playlayer;
 
 @end
 
@@ -33,6 +35,8 @@
     // Do any additional setup after loading the view.
     
     self.navTitle = @"音频录制与播放";
+    
+    [self imageView];
     
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
     //视频
@@ -66,6 +70,16 @@
     [photoBtn setTitle:@"裁剪音乐并播放" forState:UIControlStateNormal];
     [photoBtn addTarget:self action:@selector(cutMusicBtnOnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:photoBtn];
+}
+
+- (UIImageView *)imageView{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, NMScreenWidth, NMScreenHeight)];
+        _imageView.backgroundColor = [UIColor redColor];
+        _imageView.hidden = YES;
+        [self.view addSubview:_imageView];
+    }
+    return _imageView;
 }
 
 - (FSLAVPlayer *)videoPlayer{
@@ -110,22 +124,33 @@
 - (FSLAVH246VideoDecoder *)videoDecoder{
     if (!_videoDecoder) {
         _videoDecoder = [[FSLAVH246VideoDecoder alloc] init];
-        _videoDecoder.contiantView = self.view;
-//        [self.view.layer addSublayer:_videoDecoder.bufferDisplayLayer];
+        _videoDecoder.bufferShowType = FSLAVH246VideoDecoderBufferShowType_Pixel;
+        _videoDecoder.decodeDelegate = self;
     }
     return _videoDecoder;
+}
+//- (LYOpenGLView *)openGLView{
+//    if (!_openGLView) {
+//        _openGLView = (LYOpenGLView *)self.view;
+//        [_openGLView setupGL];
+//
+//    }
+//    return _openGLView;
+//}
+
+- (AAPLEAGLLayer *)playlayer{
+    if (!_playlayer) {
+        
+        // 1.获取mOpenGLView用于之后展示数据
+        _playlayer = [[AAPLEAGLLayer alloc] initWithFrame:self.view.bounds];
+        _playlayer.backgroundColor = [UIColor blackColor].CGColor;
+        [self.view.layer insertSublayer:_playlayer atIndex:0];
+    }
+    return _playlayer;
 }
 
 - (void)playBtnOnClick:(UIButton *)btn{
     btn.selected = !btn.selected;
-//    if (btn.selected) {
-//
-//        [self.audioPlayer1 play];
-//
-//    }else{
-//        [self.audioPlayer1 pause];
-//
-//    }
     if (btn.selected) {
         
         [self.videoDecoder startReadStreamingDataFromPath:[self filePathName:@"123.h264"]];
@@ -158,6 +183,28 @@
     [self setEditing:NO];
 }
 
+#pragma mark -- FSLAVH246VideoDecoderDelegate
+- (void)didChangedVideoDecodeState:(FSLAVH246VideoDecoderState)state videoDecoder:(FSLAVH246VideoDecoder *)decder{
+   
+    if (state == FSLAVH246VideoDecoderStateDecoding) {
+        
+        if (decder.bufferShowType == FSLAVH246VideoDecoderBufferShowType_Image) {
+            
+            UIImage *image = [decder pixelBufferToImage:decder.pixelBuffer];
+            NSLog(@"image---->%@",image);
+            self.imageView.image = image;
+            self.imageView.hidden = NO;
+        }else if (decder.bufferShowType == FSLAVH246VideoDecoderBufferShowType_Pixel){
+            self.playlayer.pixelBuffer = decder.pixelBuffer;
+        }else{
+            
+            if ([decder.bufferDisplayLayer isReadyForMoreMediaData]) {
+                [self.view.layer addSublayer:decder.bufferDisplayLayer];
+                [decder.bufferDisplayLayer enqueueSampleBuffer:decder.sampleBuffer];
+            }
+        }
+    }
+}
 
 /*
 #pragma mark - Navigation

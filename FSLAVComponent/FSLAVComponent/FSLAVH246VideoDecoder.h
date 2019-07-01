@@ -10,33 +10,48 @@
 #import <VideoToolbox/VideoToolbox.h>
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-
-#import "AAPLEAGLLayer.h"
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecodeBufferShowType) {
-    FSLAVH246VideoDecodeBufferShowType_Image = 0,
-    FSLAVH246VideoDecodeBufferShowType_Pixel = 0,
-    FSLAVH246VideoDecodeBufferShowType_Layer,
+typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecoderBufferShowType) {
+    FSLAVH246VideoDecoderBufferShowType_Image = 0,//用image来渲染pixelBuffer
+    FSLAVH246VideoDecoderBufferShowType_Pixel = 1,//直接导出pixelBuffer，由用户选择渲染方式
+    FSLAVH246VideoDecoderBufferShowType_Layer,//用AVSampleBufferDisplayLayer来渲染sampleBuffer
+};
+
+typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecoderState) {
+    FSLAVH246VideoDecoderStateStart = 0,//开始解码
+    FSLAVH246VideoDecoderStateDecoding = 1,//解码中
+    FSLAVH246VideoDecoderStateFinish,//完成解码
 };
 
 
+@class FSLAVH246VideoDecoder;
 @protocol FSLAVH246VideoDecoderDelegate <NSObject>
 
 /**
  解码器解码过程中解码回调
  
  @param pixelBuffer 解码后的CVPixelBufferRef
+ @param decder 解码器
  */
-- (void)didDecordingStreamingBuffer:(CVPixelBufferRef)pixelBuffer;
+- (void)didDecodingStreamingDataBuffer:(CVPixelBufferRef)pixelBuffer videoDecoder:(FSLAVH246VideoDecoder *)decder;
+
+
+/**
+ 解码器：解码过程中的状态记录
+
+ @param state 解码状态
+ @param decder 解码器
+ */
+- (void)didChangedVideoDecodeState:(FSLAVH246VideoDecoderState)state videoDecoder:(FSLAVH246VideoDecoder *)decder;
 
 @end
 
 @interface FSLAVH246VideoDecoder : NSObject
 
 /**
- 视频的宽高，宽高务必设定为2的倍数，否则解码播放时可能出现绿边
+ 视频输出的宽高，宽高务必设定为2的倍数，否则解码播放时可能出现绿边
  */
 @property (nonatomic, assign) CGSize videoSize;
 
@@ -48,8 +63,7 @@ typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecodeBufferShowType) {
 /**
  解码对应数据之后的显示类型
  */
-@property (nonatomic, assign) FSLAVH246VideoDecodeBufferShowType bufferShowType;
-
+@property (nonatomic, assign) FSLAVH246VideoDecoderBufferShowType bufferShowType;
 
 /**
  解码成YUV数据时的解码BUF
@@ -57,16 +71,20 @@ typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecodeBufferShowType) {
 @property (nonatomic, assign, readonly) CVPixelBufferRef pixelBuffer;
 
 /**
+ 解码时，将数据包装成sampleBuffer，用来在AVSampleBufferDisplayLayer层中直接显示
+ */
+@property (nonatomic, assign, readonly) CMSampleBufferRef sampleBuffer;
+
+/**
  解码成RGB数据时的IMG
  */
 @property (nonatomic, strong, readonly) UIImage *bufferImage;
 
-/**内置解码功能，将编码后的所有类型数据，包装成sampleBuffer，放到该预览层观看*/
+/**
+ 内置解码功能，将编码后的所有类型数据，包装成sampleBuffer，放到该预览层观看
+ */
 @property (nonatomic, strong, readonly) AVSampleBufferDisplayLayer *bufferDisplayLayer;
 
-//@property (nonatomic, strong) AAPLEAGLLayer *bufferDisplayLayer;
-
-@property (nonatomic, strong) UIView *contiantView;
 
 @property (nonatomic, weak) id<FSLAVH246VideoDecoderDelegate> decodeDelegate;
 

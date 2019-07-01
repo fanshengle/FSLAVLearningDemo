@@ -24,9 +24,6 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
     uint8_t *pPPS;//指向pps的指针地址
     NSInteger pPpsSize;//pps的数据大小
     
-    //uint8_t *pSei;
-    //NSInteger pSeiSize;
-    
     uint8_t *packetBuffer;//视频流数据的buffer指针地址
     long packetSize;//视频流数据的buffer的大小
     
@@ -40,7 +37,7 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
 //流数据读取定时器
 @property (nonatomic , strong) CADisplayLink *dispalyLink;
 
-//开辟线程来读取数据
+//在主线程中开辟新的队列来读取数据
 @property (nonatomic, strong) dispatch_queue_t decodeQueue;
 //@property (nonatomic, strong) AAPLEAGLLayer *playLayer;
 
@@ -49,6 +46,7 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
 
 @implementation FSLAVH246VideoDecoder
 
+@synthesize sampleBuffer = _sampleBuffer;
 @synthesize pixelBuffer = _pixelBuffer;
 @synthesize bufferImage = _bufferImage;
 @synthesize bufferDisplayLayer = _bufferDisplayLayer;
@@ -59,7 +57,7 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
     if (self) {
         
         _videoSize = CGSizeMake(1000, 720);
-        _bufferShowType = FSLAVH246VideoDecodeBufferShowType_Layer;
+        _bufferShowType = FSLAVH246VideoDecoderBufferShowType_Image;
         //创建了一个队列, 用于解码数据
         _decodeQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     }
@@ -67,18 +65,6 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
 }
 
 #pragma mark -- 懒加载
-//- (AVSampleBufferDisplayLayer *)bufferDisplayLayer{
-//    if (!_bufferDisplayLayer) {
-//
-//        CGSize size = [[UIScreen mainScreen] bounds].size;
-//        //用于之后展示视频每帧数据
-//        _bufferDisplayLayer = [[AVSampleBufferDisplayLayer alloc] init];
-//        _bufferDisplayLayer.frame = CGRectMake(0, 0, size.width, size.height);
-//        [self.contiantView.layer addSublayer:_bufferDisplayLayer];
-//    }
-//    return _bufferDisplayLayer;
-//}
-
 - (CADisplayLink *)dispalyLink{
     
     if (!_dispalyLink) {
@@ -92,7 +78,21 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
     return _dispalyLink;
 }
 
-#pragma mark - private methods
+#pragma mark -- private methods
+- (void)initBufferDisplayLayer{
+    
+    if(_bufferDisplayLayer) return;
+    
+    if (_bufferShowType == FSLAVH246VideoDecoderBufferShowType_Layer) {
+        
+        CGSize size = [[UIScreen mainScreen] bounds].size;
+        //用于之后展示视频每帧数据
+        _bufferDisplayLayer = [[AVSampleBufferDisplayLayer alloc] init];
+        _bufferDisplayLayer.frame = CGRectMake(0, 0, size.width, size.height);
+        _bufferDisplayLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    }
+}
+
 /**
  解码定时事件，用来读取流数据的每帧buffer
  */
@@ -104,6 +104,11 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
         
         // 2.如果取出数据为NULL/0, 那么表示数据已经读完, 则停止读取
         if (self->packetBuffer == NULL || self->packetSize == 0) {
+            
+            if (self.decodeDelegate && [self.decodeDelegate respondsToSelector:@selector(didChangedVideoDecodeState:videoDecoder:)]) {
+                [self.decodeDelegate didChangedVideoDecodeState:FSLAVH246VideoDecoderStateFinish videoDecoder:self];
+            }
+            
             //结束读出流数据
             [self endReadStreamingData];
             return;
@@ -122,7 +127,6 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
         // 0x27 0010 0111
         // 0x1F 0001 1111
         // 5.取出类型
-        
         int naluType = self->packetBuffer[4] & 0x1f;
         switch (naluType) {
             case 0x05:
@@ -151,16 +155,10 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
                 pixelBuffer = [self decodeStreamingDataBufferFrame:self->packetBuffer bufferFrameSize:self->packetSize];
                 break;
         }
-//        if(pixelBuffer) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self->_bufferDisplayLayer.pixelBuffer = pixelBuffer;
-//                CVPixelBufferRelease(pixelBuffer);
-//            });
-//        }
-        NSLog(@"Read Nalu size %ld", self->packetSize);
-
-    });
     
+        NSLog(@"++++++>>>> %@", pixelBuffer);
+        NSLog(@"Read Nalu size %ld", self->packetSize);
+    });
 }
 
 /**
@@ -217,12 +215,13 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
  */
 static void decompressionOutputCallback(void *decompressionOutputRefCon, void *sourceFrameRefCon, OSStatus status, VTDecodeInfoFlags infoFlags, CVImageBufferRef pixelBuffer, CMTime presentationTimeStamp, CMTime presentationDuration) {
     
+    //这俩行必须这样写，这必须这样实现，不然其他地方获取的pixelBuffer都是为空。
     CVPixelBufferRef *outputPixelBuffer = (CVPixelBufferRef *)sourceFrameRefCon;
     *outputPixelBuffer = CVPixelBufferRetain(pixelBuffer);
-    
+
     FSLAVH246VideoDecoder *decoder = (__bridge FSLAVH246VideoDecoder *)decompressionOutputRefCon;
-    if (decoder.decodeDelegate && [decoder.decodeDelegate respondsToSelector:@selector(didDecordingStreamingBuffer:)]) {
-        [decoder.decodeDelegate didDecordingStreamingBuffer:pixelBuffer];
+    if (decoder.decodeDelegate && [decoder.decodeDelegate respondsToSelector:@selector(didDecodingStreamingDataBuffer:videoDecoder:)]) {
+        [decoder.decodeDelegate didDecodingStreamingDataBuffer:pixelBuffer videoDecoder:decoder];
     }
 }
 
@@ -233,29 +232,23 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
  filePath .h264文件路径
  */
 - (void)startReadStreamingDataFromPath:(NSString *)filePath{
-    //用于之后展示视频每帧数据
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    _bufferDisplayLayer = [[AVSampleBufferDisplayLayer alloc] init];
-    _bufferDisplayLayer.frame = CGRectMake(0, 0, size.width, size.height);
-    [self.contiantView.layer addSublayer:_bufferDisplayLayer];
-//    _bufferDisplayLayer = [[AAPLEAGLLayer alloc] initWithFrame:self.contiantView.bounds];
-//    _bufferDisplayLayer.backgroundColor = [UIColor blackColor].CGColor;
-//    [self.contiantView.layer insertSublayer:_bufferDisplayLayer atIndex:0];
-    
     // 1.开始读取数据
     // 1.1.创建NSInputStream, 读取流
     //inputStream = [[NSInputStream alloc] initWithFileAtPath:[[NSBundle mainBundle] pathForResource:@"123" ofType:@"h264"]];
     inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
     
-    //打开流，开始读取
+    //2.打开流，开始读取
     [inputStream open];
     
     inputSize = 0;
-    inputMaxSize = 720 * 1000;
+    inputMaxSize = 720 * 1280;
     inputBuffer = malloc(inputMaxSize);
     
-    //开启定时器，开始读取流数据
+    //3.开启定时器，开始读取流数据
     [self.dispalyLink setPaused:NO];
+    
+    //4.创建渲染buffer的layer层
+    [self initBufferDisplayLayer];
 }
 
 /**
@@ -288,6 +281,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
     
     // 4.设置解码会话参数
     //CFDictionaryRef *destinationPixelBufferAttributes = CFDictionaryCreate(NULL, keys, values, 1, NULL, NULL);
+    //NSDictionary *destinationPixelBufferAttributes = @{(__bridge NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
     NSDictionary *destinationPixelBufferAttributes = @{
                                                        (id)kCVPixelBufferPixelFormatTypeKey:[NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange],
                                                        //硬解码必须是 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
@@ -298,7 +292,6 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
                                                        //这里宽高和编码反的
                                                        (id)kCVPixelBufferOpenGLCompatibilityKey:[NSNumber numberWithBool:YES]
                                                        };
-//    NSDictionary *destinationPixelBufferAttributes = @{(__bridge NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
 
     /**
      5.创建硬解码会话
@@ -311,7 +304,12 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
      */
     status = VTDecompressionSessionCreate(NULL, videoFormateDesc, NULL, (__bridge CFDictionaryRef)destinationPixelBufferAttributes, &callBackRecord, &decompressionSession);
     if (status != noErr) return;
+    
+    if (self.decodeDelegate && [self.decodeDelegate respondsToSelector:@selector(didChangedVideoDecodeState:videoDecoder:)]) {
+        [self.decodeDelegate didChangedVideoDecodeState:FSLAVH246VideoDecoderStateStart videoDecoder:self];
+    }
 }
+
 
 /**
  
@@ -374,15 +372,18 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
     */
     //status = CMSampleBufferCreateReady(NULL, blockBuffer, videoFormateDesc, 0, 0, NULL, 0, sampleSizeArray, &sampleBuffer);
     status = CMSampleBufferCreateReady(kCFAllocatorDefault, blockBuffer, videoFormateDesc, 1, 0, NULL, 1, sampleSizeArray, &sampleBuffer);
-    
+    if(status != noErr) return NULL;
+
     CVPixelBufferRef outputPixelBuffer = NULL;
-    if (_bufferShowType == FSLAVH246VideoDecodeBufferShowType_Layer) {//直接将sampleBuffer传给AVSampleBufferDisplayLayer来显示
-        
+    if (_bufferShowType == FSLAVH246VideoDecoderBufferShowType_Layer) {//直接将sampleBuffer传给AVSampleBufferDisplayLayer来显示
+        //记录sampleBuffer值
+        _sampleBuffer = sampleBuffer;
+
         CFArrayRef attachments = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, YES);
         CFMutableDictionaryRef dict = (CFMutableDictionaryRef)CFArrayGetValueAtIndex(attachments, 0);
         CFDictionarySetValue(dict, kCMSampleAttachmentKey_DisplayImmediately, kCFBooleanTrue);
         CFDictionarySetValue(dict, kCMSampleAttachmentKey_IsDependedOnByOthers, kCFBooleanTrue);
-        
+
         int nalu_type = (frame[4] & 0x1F);
         if (nalu_type == 1) {
             //P-frame
@@ -393,28 +394,27 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
             CFDictionarySetValue(dict, kCMSampleAttachmentKey_NotSync, kCFBooleanFalse);
             CFDictionarySetValue(dict, kCMSampleAttachmentKey_DependsOnOthers, kCFBooleanFalse);
         }
-        
-        if ([_bufferDisplayLayer isReadyForMoreMediaData]) {
-            dispatch_async(dispatch_get_main_queue(),^{
-                [self->_bufferDisplayLayer enqueueSampleBuffer:sampleBuffer];
-            });
-        }
     }else{//显示pixelBuffer
         
         // 3.开始解码
         status = VTDecompressionSessionDecodeFrame(decompressionSession, sampleBuffer, 0, &outputPixelBuffer, NULL);
+        //记录pixelBuffer值
         _pixelBuffer = CVPixelBufferRetain(outputPixelBuffer);
-        if (_bufferShowType == FSLAVH246VideoDecodeBufferShowType_Image) {//显示image
-            
-            _bufferImage = [self pixelBufferToImage:outputPixelBuffer];
-        }
         if(status != noErr) return NULL;
+        
+        if (_bufferShowType == FSLAVH246VideoDecoderBufferShowType_Image) {
+            
+            _bufferImage = [self pixelBufferToImage:_pixelBuffer];
+        }
+    }
+    
+    if (self.decodeDelegate && [self.decodeDelegate respondsToSelector:@selector(didChangedVideoDecodeState:videoDecoder:)]) {
+        [self.decodeDelegate didChangedVideoDecodeState:FSLAVH246VideoDecoderStateDecoding videoDecoder:self];
     }
     
     // 4.释放资源
     CFRelease(sampleBuffer);
     CFRelease(blockBuffer);
-    
     return outputPixelBuffer;
 }
 
@@ -458,7 +458,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
         img = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     } else {
-        if (_bufferShowType == FSLAVH246VideoDecodeBufferShowType_Pixel) {
+        if (_bufferShowType == FSLAVH246VideoDecoderBufferShowType_Pixel) {
             if (self.pixelBuffer) {
                 img = [self pixelBufferToImage:self.pixelBuffer];
             }
@@ -483,6 +483,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
  */
 - (void)endReadStreamingData{
     
+    if (!inputStream) return;
     [inputStream close];
     inputStream = nil;
     if (inputBuffer) {
@@ -503,6 +504,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
  */
 - (void)endDecodeStreamingData{
     
+    if (!decompressionSession) return;
     VTDecompressionSessionInvalidate(decompressionSession);
     CFRelease(decompressionSession);
     decompressionSession = NULL;
@@ -514,6 +516,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
     FreeCharP(pPPS);
     pSpsSize = pPpsSize = 0;
     
+    if(!_bufferDisplayLayer) return;
     [self.bufferDisplayLayer removeFromSuperlayer];
 }
 
