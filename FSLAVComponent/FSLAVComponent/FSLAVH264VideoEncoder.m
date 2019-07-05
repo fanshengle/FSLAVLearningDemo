@@ -39,6 +39,7 @@
 - (void)dealloc{
     
     [self destoryCompressionSession];
+    [_fileHandle closeFile];
 }
 
 - (instancetype)init
@@ -178,16 +179,6 @@
 {
     if (_isBackGround) return;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef)@(videoFrameRate));
-}
-
-/**
- 设置代理
- 
- @param delegate 代理
- */
-- (void)setDelegate:(id<FSLAVH264VideoEncoderDelegate>)delegate
-{
-    _encodeDelegate = delegate;
 }
 
 #pragma mark -- publice methods
@@ -415,5 +406,6 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
         [self.fileHandle  writeData:data];
     }
 }
+
 
 @end

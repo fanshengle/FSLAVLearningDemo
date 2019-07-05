@@ -27,7 +27,7 @@
  */
 + (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality;
 {
-    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default channels:@1];
+    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default channels:1];
     
     return configuration;
 }
@@ -39,7 +39,7 @@
  @param channels 声道数1、2
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSNumber *)channels;
++ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
 {
     FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration new];
     configuration.outputFileName = @"audioFile";
@@ -52,57 +52,57 @@
     {
         case  FSLAVAudioRecordQuality_min:
         {
-            configuration.audioFormat = @(kAudioFormatLinearPCM);
-            configuration.audioSampleRat = @24000;
+            configuration.audioFormat = kAudioFormatLinearPCM;
+            configuration.audioSampleRat = 8000;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = @8;
-            configuration.audioLinearPCMIsFloat = @(NO);
-            configuration.audioLinearPCMIsBigEndian = @(NO);
-            configuration.audioQuality = @(AVAudioQualityMin);
+            configuration.audioLinearPCMBit = 8;
+            configuration.audioLinearPCMIsFloat = NO;
+            configuration.audioLinearPCMIsBigEndian = NO;
+            configuration.audioQuality = AVAudioQualityMin;
         }
             break;
         case  FSLAVAudioRecordQuality_Low:
         {
-            configuration.audioFormat = @(kAudioFormatLinearPCM);
-            configuration.audioSampleRat = @44100;
+            configuration.audioFormat = kAudioFormatLinearPCM;
+            configuration.audioSampleRat = 16000;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = @16;
-            configuration.audioLinearPCMIsFloat = @(NO);
-            configuration.audioLinearPCMIsBigEndian = @(NO);
-            configuration.audioQuality = @(AVAudioQualityLow);
+            configuration.audioLinearPCMBit = 16;
+            configuration.audioLinearPCMIsFloat = NO;
+            configuration.audioLinearPCMIsBigEndian = NO;
+            configuration.audioQuality = AVAudioQualityLow;
         }
             break;
         case  FSLAVAudioRecordQuality_Medium:
         {
-            configuration.audioFormat = @(kAudioFormatLinearPCM);
-            configuration.audioSampleRat = @48000;
+            configuration.audioFormat = kAudioFormatLinearPCM;
+            configuration.audioSampleRat = 22050;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = @16;
-            configuration.audioLinearPCMIsFloat = @(NO);
-            configuration.audioLinearPCMIsBigEndian = @(NO);
-            configuration.audioQuality = @(AVAudioQualityMedium);
+            configuration.audioLinearPCMBit = 16;
+            configuration.audioLinearPCMIsFloat = NO;
+            configuration.audioLinearPCMIsBigEndian = NO;
+            configuration.audioQuality = AVAudioQualityMedium;
         }
             break;
         case  FSLAVAudioRecordQuality_High:
         {
-            configuration.audioFormat = @(kAudioFormatLinearPCM);
-            configuration.audioSampleRat = @96000;
+            configuration.audioFormat = kAudioFormatLinearPCM;
+            configuration.audioSampleRat = 44100;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = @24;
-            configuration.audioLinearPCMIsFloat = @(NO);
-            configuration.audioLinearPCMIsBigEndian = @(NO);
-            configuration.audioQuality = @(AVAudioQualityHigh);
+            configuration.audioLinearPCMBit = 24;
+            configuration.audioLinearPCMIsFloat = NO;
+            configuration.audioLinearPCMIsBigEndian = NO;
+            configuration.audioQuality = AVAudioQualityHigh;
         }
             break;
         case  FSLAVAudioRecordQuality_Max:
         {
-            configuration.audioFormat = @(kAudioFormatLinearPCM);
-            configuration.audioSampleRat = @192000;
+            configuration.audioFormat = kAudioFormatLinearPCM;
+            configuration.audioSampleRat = 48000;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = @32;
-            configuration.audioLinearPCMIsFloat = @(NO);
-            configuration.audioLinearPCMIsBigEndian = @(NO);
-            configuration.audioQuality = @(AVAudioQualityMax);
+            configuration.audioLinearPCMBit = 32;
+            configuration.audioLinearPCMIsFloat = NO;
+            configuration.audioLinearPCMIsBigEndian = NO;
+            configuration.audioQuality = AVAudioQualityMax;
         }
             break;
         default:
@@ -125,13 +125,13 @@
          7 音频编码质量
          */
         NSDictionary *configure = @{
-                                    AVFormatIDKey:_audioFormat,//音频格式
-                                    AVSampleRateKey:_audioSampleRat,//采样率
-                                    AVNumberOfChannelsKey:_audioChannels,//声道数
-                                    AVLinearPCMBitDepthKey:_audioLinearPCMBit,//采样位数
-                                    AVLinearPCMIsBigEndianKey:_audioLinearPCMIsBigEndian,
-                                    AVLinearPCMIsFloatKey:_audioLinearPCMIsFloat,
-                                    AVEncoderAudioQualityKey:_audioQuality,
+                                    AVFormatIDKey:@(_audioFormat),//音频格式
+                                    AVSampleRateKey:@(_audioSampleRat),//采样率
+                                    AVNumberOfChannelsKey:@(_audioChannels),//声道数
+                                    AVLinearPCMBitDepthKey:@(_audioLinearPCMBit),//采样位数
+                                    AVLinearPCMIsBigEndianKey:@(_audioLinearPCMIsBigEndian),
+                                    AVLinearPCMIsFloatKey:@(_audioLinearPCMIsFloat),
+                                    AVEncoderAudioQualityKey:@(_audioQuality),
                                     };
         _audioConfigure = configure;
     }

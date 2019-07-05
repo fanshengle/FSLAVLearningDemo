@@ -9,7 +9,9 @@
 #import "FSLAVRTMPFrame.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+/**
+ 视频数据
+ */
 @interface FSLAVVideoRTMPFrame : FSLAVRTMPFrame
 
 /**

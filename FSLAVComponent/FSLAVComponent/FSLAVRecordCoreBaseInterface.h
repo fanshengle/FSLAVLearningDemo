@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didChangedVideoRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL;
 
 /**
- 通知委托已写入新的视频帧。
+ 视频录制：通知委托已写入新的视频帧。
  
  @param sampleBuffer 视频帧
  @param videoRecorder 录制器
@@ -150,6 +150,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param progress 声波波动值
  */
 - (void)didChangedAudioRecordingPowerProgress:(CGFloat)progress;
+
+
+/**
+ 音频录制：通知委托已写入新的视频帧。
+ 
+ @param sampleBuffer 视频帧
+ @param audioRecorder 录制器
+ */
+- (void)didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder;
 
 @end
 
