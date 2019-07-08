@@ -11,10 +11,9 @@
 @interface FSLAVAACAudioEncoder ()
 {
     AudioConverterRef audioConverter;//音频编码转码器器
-    uint8_t *leftBuf;
-    uint8_t *aacBuf;
+    char *leftBuf;
+    char *aacBuffer;
     NSInteger leftLength;
-    FILE *fp;
     BOOL enabledWriteVideoFile;
     dispatch_queue_t _encoderQueue;
     dispatch_queue_t _callbackQueue;
@@ -32,7 +31,7 @@
  */
 - (void)dealloc
 {
-    if (aacBuf) free(aacBuf);
+    if (aacBuffer) free(aacBuffer);
     if (leftBuf) free(leftBuf);
 }
 
@@ -53,9 +52,9 @@
             leftBuf = malloc(_configuration.bufferLength);
         }
         
-        if (!aacBuf)
+        if (!aacBuffer)
         {
-            aacBuf = malloc(_configuration.bufferLength);
+            aacBuffer = malloc(_configuration.bufferLength);
         }
     }
     return self;
@@ -161,7 +160,8 @@
 }
 
 #pragma mark -- public methods
-#pragma mark --
+
+#pragma mark -- 音频编码方法一：通过获取到的原始音频数据data格式，进行编码
 /**
  音频编码
  
@@ -175,19 +175,31 @@
     if (leftLength + audioData.length >= _configuration.bufferLength) {
         //发送数据
         NSInteger totalSize = leftLength + audioData.length;
-        NSInteger encodeCount = totalSize/self.configuration.bufferLength;
+        NSInteger encodeCount = totalSize/_configuration.bufferLength;
         
         //指向音频数据缓冲区的指针。
         char *totalBuffer = malloc(totalSize);
         char *pTotalBuffer = totalBuffer;
         
-        memset(totalBuffer, (int)totalSize, 0);
-        memset(totalBuffer, leftBuf, leftLength);
+        //memset:作用是在一段内存块中填充某个给定的值，它对较大的结构体或数组进行清零操作的一种最快方法。
+        size_t t = 0;
+        memset(totalBuffer, (int)totalSize, t);
+        memcpy(totalBuffer, leftBuf, leftLength);
         memcpy(totalBuffer + leftLength, audioData.bytes, audioData.length);
         
         for (NSInteger index = 0; index < encodeCount; index++) {
             [self encodeAudioDataBuffer:pTotalBuffer timeStamp:timeStamp];
+            pTotalBuffer += _configuration.bufferLength;
         }
+        free(totalBuffer);
+        
+        leftLength = totalSize%self.configuration.bufferLength;
+        memset(leftBuf, 0, self.configuration.bufferLength);
+        memcpy(leftBuf, totalBuffer + (totalSize - leftLength), leftLength);
+    }else{
+        
+        memcpy(leftBuf + leftLength, audioData.bytes, audioData.length);
+        leftLength = leftLength + audioData.length;
     }
 }
 
@@ -224,7 +236,7 @@
     //设置缓冲区大小
     outBufferList.mBuffers[0].mDataByteSize = inputBuffer.mDataByteSize;
     //设置输出格式AAC的缓冲区指针
-    outBufferList.mBuffers[0].mData = aacBuf;
+    outBufferList.mBuffers[0].mData = aacBuffer;
     
     //4、设置outOutputData的容量
     UInt32 outputDataPacketSize = 1;
@@ -239,14 +251,14 @@
      outPacket <# 如果非空，并且转换器的输出使用包描述，则包描述被写入这个数组。
      它一定指向一个记忆能够保存*ioOutputDataPacketSize包描述的块。(参见AudioFormat.h了解确定是否为音频格式的方法
      使用包的描述)。
-     @return <#return value
      */
-    OSStatus status = AudioConverterFillComplexBuffer(audioConverter, inputDataProc, &inputBufferList, outputDataPacketSize, outputDataPacketSize, NULL));
+    
+    OSStatus status = AudioConverterFillComplexBuffer(audioConverter, inputDataProc, &inputBufferList, &outputDataPacketSize, &outBufferList, NULL);
     if(status != noErr) return;
     
     FSLAVAudioRTMPFrame *audioFrame = [[FSLAVAudioRTMPFrame alloc] init];
     audioFrame.timestamp = timeStamp;
-    audioFrame.data = [NSData dataWithBytes:aacBuf length:outBufferList.mBuffers[0].mDataByteSize];
+    audioFrame.data = [NSData dataWithBytes:aacBuffer length:outBufferList.mBuffers[0].mDataByteSize];
     
     //设置音频编码信息
     char exeData[2];
@@ -254,25 +266,111 @@
     exeData[1] = _configuration.asc[1];
     audioFrame.audioInfo = [NSData dataWithBytes:exeData length:2];
     if (self.encoderDelegate && [self.encoderDelegate respondsToSelector:@selector(didEncordingStreamingBufferFrame:encoder:)]) {
-        [self.encoderDelegate didEncordingStreamingBufferFrame:timeStamp encoder:self];
+        [self.encoderDelegate didEncordingStreamingBufferFrame:audioFrame encoder:self];
     }
     
+    //在每个音频包的开始添加ADTS头信息
+    NSData *adtsAudioData = [self addADTSHeaderToAudioPacketWithChannel:_configuration.numberOfChannels dataPacketLength:audioFrame.data.length];
+    [self.fileHandle writeData:adtsAudioData];
 }
 
--
+/**
+ *  在每个音频数据包的开始添加头
+ *  Add ADTS header at the beginning of each and every AAC packet.
+ *  This is needed as MediaCodec encoder generates a packet of raw
+ *  AAC data.
+ *
+ *  Note the packetLen must count in the ADTS header itself.
+ *  See: http://wiki.multimedia.cx/index.php?title=ADTS
+ *  Also: http://wiki.multimedia.cx/index.php?title=MPEG-4_Audio#Channel_Configurations
+ **/
+- (NSData *)addADTSHeaderToAudioPacketWithChannel:(NSInteger)channel dataPacketLength:(NSInteger)dataPacketLength
+{
+    int adtsLength = 7;
+    char *packet = malloc(sizeof(char) * adtsLength);
+    int profile = 2;
+    NSInteger freqIdx = [self sampleRateIndex:self.configuration.audioSampleRate];
+    int chanCfg = (int)channel;
+    NSUInteger fullLength = adtsLength + dataPacketLength;
+    packet[0] = (char)0xFF;
+    packet[1] = (char)0xF9;
+    packet[2] = (char)(((profile-1)<<6) + (freqIdx<<2) +(chanCfg>>2));
+    packet[3] = (char)(((chanCfg&3)<<6) + (fullLength>>11));
+    packet[4] = (char)((fullLength&0x7FF) >> 3);
+    packet[5] = (char)(((fullLength&7)<<5) + 0x1F);
+    packet[6] = (char)0xFC;
+    NSData *data = [NSData dataWithBytesNoCopy:packet length:adtsLength freeWhenDone:YES];
+    return data;
+}
+
+/**
+ 枚举
+ 
+ @param frequencyInHz 音频采样率
+ @return sampleRateIndex 不同采样率不同的index
+ */
+- (NSInteger)sampleRateIndex:(NSInteger)frequencyInHz
+{
+    NSInteger sampleRateIndex = 0;
+    switch (frequencyInHz)
+    {
+        case 96000:
+            sampleRateIndex = 0;
+            break;
+        case 88200:
+            sampleRateIndex = 1;
+            break;
+        case 64000:
+            sampleRateIndex = 2;
+            break;
+        case 48000:
+            sampleRateIndex = 3;
+            break;
+        case 44100:
+            sampleRateIndex = 4;
+            break;
+        case 32000:
+            sampleRateIndex = 5;
+            break;
+        case 24000:
+            sampleRateIndex = 6;
+            break;
+        case 22050:
+            sampleRateIndex = 7;
+            break;
+        case 16000:
+            sampleRateIndex = 8;
+            break;
+        case 12000:
+            sampleRateIndex = 9;
+            break;
+        case 11025:
+            sampleRateIndex = 10;
+            break;
+        case 8000:
+            sampleRateIndex = 11;
+            break;
+        case 7350:
+            sampleRateIndex = 12;
+            break;
+        default:
+            sampleRateIndex = 15;
+    }
+    return sampleRateIndex;
+}
 
 #pragma mark - AudioCallBack
 
 /**
- 编码过程中，会要求这个函数来填充输入数据，也就是原始PCM数据
- 
- inConverter 编码转换器
- ioNumberDataPackets 数据包
- ioData 输入缓冲列表
- outDataPacketDescription 缓冲列表个数
- inUserData 输出缓冲列表
- @return
- */
+编码过程中，会要求这个函数来填充输入数据，也就是原始PCM数据
+
+@param inConverter 编码转换器
+@param ioNumberDataPackets 数据包
+@param ioData 缓冲列表
+@param outDataPacketDescription 缓冲列表个数
+@param inUserData 输出缓冲列表
+@return OSStatus
+*/
 OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription * *outDataPacketDescription, void *inUserData)
 {
     

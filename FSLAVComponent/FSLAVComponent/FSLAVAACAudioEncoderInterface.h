@@ -11,6 +11,7 @@
 #import "FSLAVAudioRTMPFrame.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@protocol FSLAVAACAudioEncoderInterface;
 @protocol FSLAVAACAudioEncoderDelegate <NSObject>
 
 /**
@@ -30,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  初始化音频配置
  
  @param configuration 音频配置
- @return
+ @return FSLAVAACAudioEncoder
  */
 - (instancetype)initWithAudioStreamConfiguration:(FSLAVAACAudioConfiguration *)configuration;
 
