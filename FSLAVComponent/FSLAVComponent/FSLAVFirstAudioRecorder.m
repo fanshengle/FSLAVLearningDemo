@@ -27,7 +27,7 @@
 }
 
 - (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
-    if (self = [super init]) {
+    if (self = [self init]) {
         _configuration = configuration;
     }
     return self;

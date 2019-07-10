@@ -13,8 +13,6 @@
     dispatch_queue_t _audioCaptureQueue;//一个音频捕获队列
 }
 
-
-
 @property (nonatomic , strong) AVCaptureDevice           *audioDevice;//音频设备
 @property (nonatomic , strong) AVCaptureSession          *audioSession;//音频会话
 @property (nonatomic , strong) AVCaptureDeviceInput      *audioDeviceInput;//音频输入
@@ -25,13 +23,22 @@
 @end
 
 @implementation FSLAVSecondAudioRecorder
+@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
-    if (self = [super init]) {
-        _configuration = configuration;
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
         
         _audioCaptureQueue = dispatch_queue_create("Audio Capture Queue", DISPATCH_QUEUE_SERIAL);
         [self initAudioRecordSession];
+    }
+    return self;
+}
+
+- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
+    if (self = [self init]) {
+        _configuration = configuration;
     }
     return self;
 }

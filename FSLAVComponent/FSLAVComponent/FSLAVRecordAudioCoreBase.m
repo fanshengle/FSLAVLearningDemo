@@ -31,4 +31,24 @@
     [audioSession setActive:YES error:nil];
 }
 
+/**
+ 重置音频会话分类
+ */
+- (void)resetAudioSessionCategory;
+{
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    NSError *error = nil;
+    AVAudioSessionCategoryOptions audioSessionCategoryOptions = AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionDuckOthers;
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:audioSessionCategoryOptions error:&error];
+    if (error) {
+        NSLog(@"AVAudioSession set category error: %@", error);
+        error = nil;
+    }
+    [audioSession setActive:YES error:&error];
+    if (error) {
+        NSLog(@"AVAudioSession active error: %@", error);
+        error = nil;
+    }
+}
+
 @end

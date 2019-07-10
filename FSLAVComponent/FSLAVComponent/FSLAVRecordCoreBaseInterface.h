@@ -136,6 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FSLAVAudioRecorderDelegate <NSObject,FSLAVRecordCoreBaseDelegate>
 
 @optional
+
 /**
  音频录制状态变化
  @param state 状态
@@ -145,20 +146,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ 
+ FSLAVFirstAudioRecorder的委托
  音频的声波监控，录制时，声波波动值，可以根据该值进行声波UI刷新
 
  @param progress 声波波动值
  */
 - (void)didChangedAudioRecordingPowerProgress:(CGFloat)progress;
 
-
 /**
+ FSLAVSecondAudioRecorder的委托
  音频录制：通知委托已写入新的视频帧。
  
  @param sampleBuffer 视频帧
  @param audioRecorder 录制器
  */
 - (void)didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder;
+
+/**
+ FSLAVThreeAudioRecorder的委托
+ 编码器编码过程回调
+ 
+ @param data 录制的音频数据
+ @param recorder FSLAVThreeAudioRecorder
+ */
+- (void)didRecordingAudioData:(NSData *)data recorder:(id<FSLAVAudioRecorderInterface>)recorder;
 
 @end
 

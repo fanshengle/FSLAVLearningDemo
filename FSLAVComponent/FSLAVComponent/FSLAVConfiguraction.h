@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     NSString *_outputFileName;
     NSString *_saveSuffixFormat;
     NSURL *_savePathURL;
+    NSString *_savePathURLStr;
     BOOL _isAutomaticStop;
     NSUInteger _maxRecordDelay;
     NSTimeInterval _recordTimeLength;
@@ -55,6 +56,11 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
  保存到本地document下的音视频文件URL路径
  */
 @property (nonatomic,strong,readonly) NSURL *savePathURL;
+
+/**
+ 保存到本地document下的音视频文件Str路径
+ */
+@property (nonatomic,strong,readonly) NSString *savePathURLStr;
 
 /**
  是否开启自动停止录制,默认是no

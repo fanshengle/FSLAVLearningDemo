@@ -14,6 +14,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ 时间戳
+ */
+#define FSL_NOW (CACurrentMediaTime()*1000)
+
+/**
  音视频录制的基础类
  */
 @interface FSLAVRecordCoreBase : NSObject<FSLAVRecordCoreBaseInterface>

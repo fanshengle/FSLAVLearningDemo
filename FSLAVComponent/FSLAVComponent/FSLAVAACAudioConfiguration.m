@@ -42,37 +42,45 @@
 + (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality channels:(NSInteger)channels;
 {
     FSLAVAACAudioConfiguration *audioConfig = [FSLAVAACAudioConfiguration new];
+    audioConfig.outputFileName = @"AACFile";
+    audioConfig.saveSuffixFormat = @"aac";
     audioConfig.numberOfChannels = channels;
     audioConfig.bitsPerChannel = 16;
     switch (audioQuality)
     {
         case FSLAVAACAudioQuality_min:
         {
-            audioConfig.audioBitrate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACaudioBitRate_32Kbps : FSLAVAACaudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_16000Hz;
         }
             break;
         case FSLAVAACAudioQuality_Low:
         {
-            audioConfig.audioBitrate = FSLAVAACAudioBitRate_64Kbps;
-            audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_32000Hz;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACaudioBitRate_32Kbps : FSLAVAACaudioBitRate_64Kbps;
+            audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_22050Hz;
         }
             break;
         case FSLAVAACAudioQuality_Medium:
         {
-            audioConfig.audioBitrate = FSLAVAACAudioBitRate_96Kbps;
-            audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
+            audioConfig.audioBitRate = FSLAVAACaudioBitRate_64Kbps;
+            audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_32000Hz;
         }
             break;
         case FSLAVAACAudioQuality_High:
         {
-            audioConfig.audioBitrate = FSLAVAACAudioBitRate_128Kbps;
+            audioConfig.audioBitRate = FSLAVAACaudioBitRate_96Kbps;
+            audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
+        }
+            break;
+        case FSLAVAACAudioQuality_Max:
+        {
+            audioConfig.audioBitRate = FSLAVAACaudioBitRate_128Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_48000Hz;
         }
             break;
         default:
         {
-            audioConfig.audioBitrate = FSLAVAACAudioBitRate_96Kbps;
+            audioConfig.audioBitRate = FSLAVAACaudioBitRate_96Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
         }
             break;
@@ -195,8 +203,9 @@
  */
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:@(self.numberOfChannels) forKey:@"numberOfChannels"];
+    [aCoder encodeObject:@(self.bitsPerChannel) forKey:@"bitsPerChannel"];
     [aCoder encodeObject:@(self.audioSampleRate) forKey:@"audioSampleRate"];
-    [aCoder encodeObject:@(self.audioBitrate) forKey:@"audioBitrate"];
+    [aCoder encodeObject:@(self.audioBitRate) forKey:@"audioBitRate"];
     [aCoder encodeObject:[NSString stringWithUTF8String:self.asc] forKey:@"asc"];
 }
 
@@ -207,8 +216,9 @@
 {
     self = [super init];
     _numberOfChannels = [[aDecoder decodeObjectForKey:@"numberOfChannels"] unsignedIntegerValue];
+    _bitsPerChannel = [[aDecoder decodeObjectForKey:@"bitsPerChannel"] unsignedIntegerValue];
     _audioSampleRate = [[aDecoder decodeObjectForKey:@"audioSampleRate"] unsignedIntegerValue];
-    _audioBitrate = [[aDecoder decodeObjectForKey:@"audioBitrate"] unsignedIntegerValue];
+    _audioBitRate = [[aDecoder decodeObjectForKey:@"audioBitRate"] unsignedIntegerValue];
     _asc = strdup([[aDecoder decodeObjectForKey:@"asc"] cStringUsingEncoding:NSUTF8StringEncoding]);
     return self;
 }
@@ -228,7 +238,7 @@
     {
         FSLAVAACAudioConfiguration *object = other;
         return object.numberOfChannels == self.numberOfChannels &&
-        object.audioBitrate == self.audioBitrate &&
+        object.audioBitRate == self.audioBitRate &&
         strcmp(object.asc, self.asc) == 0 &&
         object.audioSampleRate == self.audioSampleRate;
     }
@@ -241,9 +251,11 @@
 {
     NSUInteger hash = 0;
     NSArray *values = @[@(_numberOfChannels),
+                        @(_bitsPerChannel),
                         @(_audioSampleRate),
                         [NSString stringWithUTF8String:self.asc],
-                        @(_audioBitrate)];
+                        @(_audioBitRate)];
+    
     
     for (NSObject *value in values)
     {
@@ -269,8 +281,9 @@
     NSMutableString *desc = @"".mutableCopy;
     [desc appendFormat:@"<FSLAVAACAudioConfiguration: %p>", self];
     [desc appendFormat:@" numberOfChannels:%zi", self.numberOfChannels];
+    [desc appendFormat:@" bitsPerChannel:%zi", self.bitsPerChannel];
     [desc appendFormat:@" audioSampleRate:%zi", self.audioSampleRate];
-    [desc appendFormat:@" audioBitrate:%zi", self.audioBitrate];
+    [desc appendFormat:@" audioBitRate:%zi", self.audioBitRate];
     [desc appendFormat:@" audioHeader:%@", [NSString stringWithUTF8String:self.asc]];
     return desc;
 }

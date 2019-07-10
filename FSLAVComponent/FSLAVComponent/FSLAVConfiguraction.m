@@ -26,11 +26,17 @@
 - (NSURL *)savePathURL{
     if (!_savePathURL) {
         
-        _savePathURL = [NSURL fileURLWithPath:[self getSaveDatePath]];
+        _savePathURL = [NSURL fileURLWithPath:self.savePathURLStr];
     }
     return _savePathURL;
 }
 
+- (NSString *)savePathURLStr{
+    if (!_savePathURLStr) {
+        _savePathURLStr = [self getSaveDatePath];
+    }
+    return _savePathURLStr;
+}
 
 
 /**

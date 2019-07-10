@@ -10,15 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 /**
- 音频第一选择录制器
+ 音频录制器：通过本地录制AVAudioRecorder形式录制
  */
 @interface FSLAVFirstAudioRecorder : FSLAVRecordAudioCoreBase<FSLAVAudioRecorderInterface>
 
 /**
  音频配置项
  */
-@property (nonatomic, strong , readonly) FSLAVAudioRecorderConfiguration *configuration;
-
+@property (nonatomic, strong) FSLAVAudioRecorderConfiguration *configuration;
 
 /**
  代理

@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "GeneralGetDataManager.h"
 #import "AudioRecordViewController.h"
+#import "FSLAudioEncoderViewController.h"
 #import "VideoRecorViewController.h"
 #import "HWCutMusicViewController.h"
 #import "FSLH264VideoViewController.h"
@@ -151,7 +152,11 @@
                 AudioRecordViewController *vc = [[AudioRecordViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             }
-                
+            case 3:
+            {
+                FSLAudioEncoderViewController *vc = [[FSLAudioEncoderViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
                 break;
             default:
                 break;

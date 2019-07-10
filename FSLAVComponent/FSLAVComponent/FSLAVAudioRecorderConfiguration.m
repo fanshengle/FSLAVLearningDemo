@@ -106,6 +106,7 @@
         }
             break;
         default:
+            
             break;
     }
     return configuration;

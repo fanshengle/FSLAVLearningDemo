@@ -115,7 +115,7 @@
     
     // 1.将CMSampleBufferRef转成CVImageBufferRef
     CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    [self.h264VideoEncoder encodeVideoData:imageBuffer timeStamp:(CACurrentMediaTime()*1000)];
+    [self.h264VideoEncoder encodeVideoData:imageBuffer timeStamp:FSL_NOW];
 }
 
 #pragma mark -- FSLAVRecordCoreBaseDelegate

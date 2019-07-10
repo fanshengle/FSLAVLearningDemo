@@ -23,6 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setAudioSession;
 
+/**
+ 重置音频会话分类
+ */
+- (void)resetAudioSessionCategory;
+
 @end
 
 NS_ASSUME_NONNULL_END

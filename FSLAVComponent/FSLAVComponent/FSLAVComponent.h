@@ -17,21 +17,26 @@
 
 /**音频录制器*/
 #import "FSLAVFirstAudioRecorder.h"
+/**音频录制器*/
+#import "FSLAVSecondAudioRecorder.h"
+/**音频录制器*/
+#import "FSLAVThreeAudioRecorder.h"
 /**音频播放器，alloc初始化的形式*/
 #import "FSLAVAudioPlayer.h"
 /**音频播放器，单例类的形式*/
 #import "FSLAVSingleAudioPlayer.h"
+/**音频编码器*/
+#import "FSLAVAACAudioEncoder.h"
+
 
 /**视频录制器*/
 #import "FSLAVFirstVideoRecorder.h"
-/**音视频播放器，本地、网络播放*/
-#import "FSLAVPlayer.h"
-
 /**视频编码器*/
 #import "FSLAVH264VideoEncoder.h"
 /**视频解码器*/
 #import "FSLAVH246VideoDecoder.h"
-
+/**音视频播放器，本地、网络播放*/
+#import "FSLAVPlayer.h"
 
 
 
