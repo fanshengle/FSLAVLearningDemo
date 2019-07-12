@@ -480,6 +480,33 @@
 }
 
 /**
+ 获取文件夹路径目录下一个随机的文件URLStr
+ 
+ @param path 文件夹路径目录
+ @return 文件filePath
+ */
++ (NSString *)getRandomFilePathOnDirPath:(NSString *)path;
+{
+    
+    NSString *fullPath = @"";
+    if ([self isExistDirAtPath:path]) {//是否存在该路径
+        
+        NSError *error;
+        //获取到该路径文件夹目录下的所有文件
+        NSArray *filePathArr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+        
+        if (filePathArr.count > 0) {
+            //获取随机整数
+            int x = arc4random() % filePathArr.count;
+            NSString *filePath = filePathArr[x];
+            //拼接成完整路径
+            fullPath = [self filePathAtBasicPath:path WithFileName:filePath];
+        }
+    }
+    return fullPath;
+}
+
+/**
  *  在本地删除路径
  *
  *  @param path 路径

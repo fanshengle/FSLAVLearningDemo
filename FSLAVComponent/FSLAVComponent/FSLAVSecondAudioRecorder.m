@@ -25,20 +25,14 @@
 @implementation FSLAVSecondAudioRecorder
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
+
+
+- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
+    if (self = [super init]) {
+        _configuration = configuration;
         
         _audioCaptureQueue = dispatch_queue_create("Audio Capture Queue", DISPATCH_QUEUE_SERIAL);
         [self initAudioRecordSession];
-    }
-    return self;
-}
-
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
-    if (self = [self init]) {
-        _configuration = configuration;
     }
     return self;
 }

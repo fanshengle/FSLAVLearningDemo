@@ -35,17 +35,17 @@ typedef NS_ENUM (NSUInteger,  FSLAVAudioRecordQuality)
 typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
 {
     
-    FSLAVAudioRecordSampleRate_8000Hz = 8000,
-    
     FSLAVAudioRecordSampleRate_16000Hz = 16000,
     
     FSLAVAudioRecordSampleRate_22050Hz = 22050,
+    
+    FSLAVAudioRecordSampleRate_32000Hz = 32000,
     //32000
     FSLAVAudioRecordSampleRate_44100Hz = 44100,
     
     FSLAVAudioRecordSampleRate_48000Hz = 48000,
     //96000
-    FSLAVAudioRecordSampleRate_Default = FSLAVAudioRecordSampleRate_22050Hz
+    FSLAVAudioRecordSampleRate_Default = FSLAVAudioRecordSampleRate_32000Hz
 };
 
 
@@ -62,7 +62,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
 @property (nonatomic,assign) NSUInteger audioSampleRat;
 /**音频的通道 声道数 1、2*/
 @property (nonatomic,assign) NSUInteger audioChannels;
-/**音频采样点位数 比特率  8 16 32*/
+/**音频采样点位数 比特率  8 16（16位基本可以满足所有的情况了）24 32*/
 @property (nonatomic,assign) NSUInteger audioLinearPCMBit;
 /**音频的编码比特率 BPS传输速率 一般为128000bps*/
 @property (nonatomic,assign) NSUInteger encoderBitRate;

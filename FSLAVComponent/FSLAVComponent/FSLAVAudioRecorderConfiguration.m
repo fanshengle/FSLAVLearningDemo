@@ -27,7 +27,7 @@
  */
 + (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality;
 {
-    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default channels:1];
+    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default channels:2];
     
     return configuration;
 }
@@ -53,7 +53,7 @@
         case  FSLAVAudioRecordQuality_min:
         {
             configuration.audioFormat = kAudioFormatLinearPCM;
-            configuration.audioSampleRat = 8000;
+            configuration.audioSampleRat = 16000;
             configuration.audioChannels = channels;
             configuration.audioLinearPCMBit = 8;
             configuration.audioLinearPCMIsFloat = NO;
@@ -64,7 +64,7 @@
         case  FSLAVAudioRecordQuality_Low:
         {
             configuration.audioFormat = kAudioFormatLinearPCM;
-            configuration.audioSampleRat = 16000;
+            configuration.audioSampleRat = 22050;
             configuration.audioChannels = channels;
             configuration.audioLinearPCMBit = 16;
             configuration.audioLinearPCMIsFloat = NO;
@@ -75,7 +75,7 @@
         case  FSLAVAudioRecordQuality_Medium:
         {
             configuration.audioFormat = kAudioFormatLinearPCM;
-            configuration.audioSampleRat = 22050;
+            configuration.audioSampleRat = 32000;
             configuration.audioChannels = channels;
             configuration.audioLinearPCMBit = 16;
             configuration.audioLinearPCMIsFloat = NO;
@@ -88,7 +88,7 @@
             configuration.audioFormat = kAudioFormatLinearPCM;
             configuration.audioSampleRat = 44100;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = 24;
+            configuration.audioLinearPCMBit = 16;
             configuration.audioLinearPCMIsFloat = NO;
             configuration.audioLinearPCMIsBigEndian = NO;
             configuration.audioQuality = AVAudioQualityHigh;
@@ -99,7 +99,7 @@
             configuration.audioFormat = kAudioFormatLinearPCM;
             configuration.audioSampleRat = 48000;
             configuration.audioChannels = channels;
-            configuration.audioLinearPCMBit = 32;
+            configuration.audioLinearPCMBit = 24;
             configuration.audioLinearPCMIsFloat = NO;
             configuration.audioLinearPCMIsBigEndian = NO;
             configuration.audioQuality = AVAudioQualityMax;

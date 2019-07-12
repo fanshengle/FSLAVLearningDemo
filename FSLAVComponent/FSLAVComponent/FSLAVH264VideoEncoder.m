@@ -42,21 +42,12 @@
     [_fileHandle closeFile];
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-        [self addNotifaction];
-    }
-    return self;
-}
-
 - (instancetype)initWithVideoStreamConfiguration:(FSLAVH264VideoConfiguration *)configuration{
     
-    if (self = [self init]) {
-       
+    if (self = [super init]) {
+
         _configuration = configuration;
+        [self addNotifaction];
         [self initCompressionSession];
     }
     return self;
@@ -142,7 +133,7 @@
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration getSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
     }
     return _fileHandle;
 }
@@ -152,7 +143,7 @@
     
     if (!_fileHandle2) {
         
-        _fileHandle2 = fopen([[_configuration getSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
+        _fileHandle2 = fopen([[_configuration createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
     }
     return _fileHandle2;
 }

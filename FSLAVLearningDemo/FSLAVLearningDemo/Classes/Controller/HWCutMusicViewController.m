@@ -153,11 +153,11 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         
-        [self.videoDecoder startReadStreamingDataFromPath:[self filePathName:@"123.h264"]];
+        [self.videoDecoder startReadVideoStreamingDataFromPath:[self filePathName:@"123.h264"]];
         
     }else{
         
-        [self.videoDecoder endReadStreamingData];
+        [self.videoDecoder endReadVideoStreamingData];
     }
 }
 

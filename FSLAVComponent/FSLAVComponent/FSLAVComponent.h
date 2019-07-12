@@ -27,7 +27,8 @@
 #import "FSLAVSingleAudioPlayer.h"
 /**音频编码器*/
 #import "FSLAVAACAudioEncoder.h"
-
+/**音频解码器*/
+#import "FSLAVAACAudioDecoder.h"
 
 /**视频录制器*/
 #import "FSLAVFirstVideoRecorder.h"

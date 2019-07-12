@@ -15,7 +15,8 @@
     char *aacBuffer;
     char *pcmBuffer;
     NSInteger pcmBufferLength;
-    size_t pcmBufferSize;
+    size_t pcmBufferSize;//用于方法二
+    NSInteger tagPerFormatChannels;//标记声道数，用于方法二
     BOOL enabledWriteVideoFile;
     
     dispatch_queue_t _encoderQueue;
@@ -72,7 +73,7 @@
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration getSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
     }
     return _fileHandle;
 }
@@ -80,7 +81,7 @@
 - (FILE *)fileHandle2{
     if (!_fileHandle2) {
         
-        _fileHandle2 = fopen([[_configuration getSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
+        _fileHandle2 = fopen([[_configuration createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
     }
     return _fileHandle2;
 }
@@ -481,7 +482,7 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     }
     
     //5、在每个音频包的开始添加ADTS头信息
-    NSData *adtsAudioData = [self addADTSHeaderToAudioPacketWithChannel:_configuration.numberOfChannels dataPacketLength:audioFrame.data.length];
+    NSData *adtsAudioData = [self addADTSHeaderToAudioPacketWithChannel:tagPerFormatChannels dataPacketLength:audioFrame.data.length];
     NSMutableData *fullData = [NSMutableData dataWithData:adtsAudioData];
     //拼接ADTS头数据到AACData
     [fullData appendData:audioFrame.data];
@@ -517,6 +518,8 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     
     //1.通过sampleBuffer获取音频的输入描述信息
     AudioStreamBasicDescription inputFormat = *CMAudioFormatDescriptionGetStreamBasicDescription((CMAudioFormatDescriptionRef)CMSampleBufferGetFormatDescription(sampleBuffer));
+    //标记获取的声道数
+    tagPerFormatChannels = inputFormat.mChannelsPerFrame;
     
     /**
      2.输出流设置
@@ -532,7 +535,8 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     //每一个packet的音频数据大小。如果的动态大小设置为0。动态大小的格式需要用AudioStreamPacketDescription来确定每个packet的大小。
     outputFormat.mBytesPerPacket   = 0;
     //每帧的声道数
-    outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
+    //outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
+    outputFormat.mChannelsPerFrame = inputFormat.mChannelsPerFrame;
     //AAC一帧是1024个字节
     outputFormat.mFramesPerPacket = 1024;
     // 压缩格式设置为0

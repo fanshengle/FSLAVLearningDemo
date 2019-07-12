@@ -39,20 +39,11 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
+- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
+    if (self = [super init]) {
+        _configuration = configuration;
         _audioCaptureTaskQueue = dispatch_queue_create("com.FSLAVComponent.audioCapture.Queue", NULL);
         [self initAudioCaptureSession];
-    }
-    return self;
-}
-
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
-    if (self = [self init]) {
-        _configuration = configuration;
     }
     return self;
 }
@@ -65,7 +56,7 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration getSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
     }
     return _fileHandle;
 }

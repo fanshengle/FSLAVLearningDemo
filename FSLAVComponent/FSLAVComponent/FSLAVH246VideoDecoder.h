@@ -93,22 +93,22 @@ typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecoderState) {
  
  filePath .h264文件路径
  */
-- (void)startReadStreamingDataFromPath:(NSString *)filePath;
+- (void)startReadVideoStreamingDataFromPath:(NSString *)filePath;
 
 /**
  解码中，停止读取流数据，销毁解码会话，释放解码对象
  */
-- (void)endReadStreamingData;
+- (void)endReadVideoStreamingData;
 
 /**
  初始化解码会话
  */
-- (void)initDecopressionSession;
+- (void)initVideoDecopressionSession;
 
 /**
  解码中，停止对流数据的解码操作，并释放对象
  */
-- (void)endDecodeStreamingData;
+- (void)endDecodeVideoStreamingData;
 
 /**
  
@@ -117,7 +117,7 @@ typedef NS_ENUM(NSUInteger, FSLAVH246VideoDecoderState) {
  frame 提取到的视频流图像数据buffer，
  frameSize 对应buffer的大小
  */
-- (CVPixelBufferRef)decodeStreamingDataBufferFrame:(uint8_t *)frame bufferFrameSize:(long)frameSize;
+- (CVPixelBufferRef)decodeVideoStreamingDataBufferFrame:(uint8_t *)frame bufferFrameSize:(long)frameSize;
 
 /**
  将pixelBuffer转成image，解码pixelBuffer的RGB数据时的img

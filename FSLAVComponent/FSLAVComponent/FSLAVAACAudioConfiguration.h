@@ -63,6 +63,10 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
     FSLAVAACAudioQuality_Default =  FSLAVAACAudioQuality_Medium
 };
 
+
+/**
+ 音频编码器的配置类
+ */
 @interface FSLAVAACAudioConfiguration : FSLAVConfiguraction<NSCoding, NSCopying>
 
 /**

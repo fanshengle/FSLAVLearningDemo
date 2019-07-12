@@ -30,7 +30,7 @@
  */
 + (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality
 {
-    return [FSLAVAACAudioConfiguration defaultConfigurationForQuality:FSLAVAACAudioQuality_Default channels:1];
+    return [FSLAVAACAudioConfiguration defaultConfigurationForQuality:FSLAVAACAudioQuality_Default channels:2];
 }
 
 /**

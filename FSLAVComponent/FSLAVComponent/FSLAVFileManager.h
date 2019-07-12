@@ -215,6 +215,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)createDir:(NSString *)dirName AtPath:(NSString *)path;
 
 /**
+ 获取文件夹路径目录下一个随机的文件URLStr
+ 
+ @param path 文件夹路径目录
+ @return 文件filePath
+ */
++ (NSString *)getRandomFilePathOnDirPath:(NSString *)path;
+
+/**
  *  在本地删除路径
  *
  *  @param path 路径

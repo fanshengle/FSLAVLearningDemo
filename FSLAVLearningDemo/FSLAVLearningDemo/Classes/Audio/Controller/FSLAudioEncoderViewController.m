@@ -17,7 +17,7 @@
 @property (nonatomic , strong) FSLAVThreeAudioRecorder *audioRecorder;
 @property (nonatomic , strong) FSLAVAACAudioEncoder *audioEncoder;
 @property (nonatomic , strong) FSLAVAudioPlayer *audioPlayer;
-
+@property (nonatomic , strong) FSLAVAACAudioDecoder *audioDecoder;
 @end
 
 @implementation FSLAudioEncoderViewController
@@ -76,10 +76,21 @@
     return _audioEncoder;
 }
 
+- (FSLAVAACAudioDecoder *)audioDecoder{
+    
+    FSLAVAACAudioConfiguration *configuration = [FSLAVAACAudioConfiguration defaultConfiguration];
+    _audioDecoder = [[FSLAVAACAudioDecoder alloc] init];
+    [_audioDecoder startReadAudioStreamingDataFromPath:configuration.exportRandomURLStr];
+    //[_audioDecoder startReadAudioStreamingDataFromPath:[[NSBundle mainBundle] pathForResource:@"abc.aac" ofType:nil]];
+
+    return _audioDecoder;
+}
+
 - (FSLAVSecondAudioRecorder *)audioRecorder0{
     if (!_audioRecorder0) {
         
-        _audioRecorder0 = [[FSLAVSecondAudioRecorder alloc] init];
+        FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfiguration];
+        _audioRecorder0 = [[FSLAVSecondAudioRecorder alloc] initWithAudioRecordConfiguration:configuration];
         _audioRecorder0.delegate = self;
     }
     return _audioRecorder0;
@@ -99,22 +110,9 @@
 - (void)playBtnClicked:(UIButton *)btn
 {
     
-    btn.selected = !btn.selected;
-    
-    if (btn.selected)
-    {
-        [self.audioPlayer play];
-        [_startBtn setTitle:@"Stop" forState:UIControlStateNormal];
-    }else{
-        
-        [self.audioPlayer stop];
-        [_startBtn setTitle:@"Play" forState:UIControlStateNormal];
-    }
+    [self.audioDecoder playDecodeAudioPCMData];
 }
-//- (void)decoderPlay{
-//    self.player = [[AACDecoder alloc] init];
-//    [self.player play];
-//}
+
 
 #pragma mark - 录制
 - (void)startBtnClicked:(UIButton *)btn

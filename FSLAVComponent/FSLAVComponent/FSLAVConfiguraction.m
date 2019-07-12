@@ -19,6 +19,7 @@
         
         _isAutomaticStop = NO;
         _maxRecordDelay = 0;
+        _sandboxDirType = FSLAVSandboxDirCache;
     }
     return self;
 }
@@ -33,37 +34,83 @@
 
 - (NSString *)savePathURLStr{
     if (!_savePathURLStr) {
-        _savePathURLStr = [self getSaveDatePath];
+        _savePathURLStr = [self createSaveDatePath];
     }
     return _savePathURLStr;
 }
 
+- (NSURL *)exportRandomURL{
+    if (!_exportRandomURL) {
+        
+        _exportRandomURL = [NSURL fileURLWithPath:self.exportRandomURLStr];
+    }
+    return _exportRandomURL;
+}
+
+- (NSString *)exportRandomURLStr{
+    if (!_exportRandomURLStr) {
+        _exportRandomURLStr = [self exportSaveDatePath];
+    }
+    return _exportRandomURLStr;
+}
 
 /**
- 获取数据操作的本地路径
+ 创建数据操作的本地文件路径
  
  @return 文件保存的本地目录
  */
-- (NSString *)getSaveDatePath;
+- (NSString *)createSaveDatePath;
 {
+    [self clearCacheData];
+    
     NSString *filePath = [FSLAVFileManager pathAppendDefaultDatePath:self.saveSuffixFormat];
-    NSString *datePath = [FSLAVFileManager pathInCacheWithDirPath:self.outputFileName filePath:filePath];
+    NSString *datePath = @"";
+    
+    switch (_sandboxDirType) {
+            
+        case FSLAVSandboxDirDocuments:
+            datePath = [FSLAVFileManager pathInDocumentsWithDirPath:self.outputFileName filePath:filePath];
+            break;
+        case FSLAVSandboxDirLibrary:
+            datePath = [FSLAVFileManager pathInLibraryWithDirPath:self.outputFileName filePath:filePath];
+            break;
+        case FSLAVSandboxDirCache:
+            datePath = [FSLAVFileManager pathInCacheWithDirPath:self.outputFileName filePath:filePath];
+            break;
+        default:
+            break;
+    }
     [FSLAVFileManager createFilePath:datePath];
 
     return datePath;
 }
 
-//视频路径
-- (NSString *)getPath
+/**
+ 导出创建的本地文件路径中的随机文件URLStr
+
+ @return 文件URLStr
+ */
+- (NSString *)exportSaveDatePath;
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYYMMdd"];
-    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+    NSString *filePath = @"";
     
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4", dateStr]];
-    
-    return path;
+    switch (_sandboxDirType) {
+            
+        case FSLAVSandboxDirDocuments:
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:self.outputFileName];
+            break;
+        case FSLAVSandboxDirLibrary:
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:self.outputFileName];
+            break;
+        case FSLAVSandboxDirCache:
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:self.outputFileName];
+            break;
+        default:
+            break;
+    }
+    return [FSLAVFileManager getRandomFilePathOnDirPath:filePath];;
 }
+
 /**
  清除缓存
  
@@ -71,8 +118,24 @@
  */
 - (BOOL)clearCacheData;
 {
+    BOOL isClear = NO;
     
-    return [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:self.outputFileName]];
+    switch (_sandboxDirType) {
+            
+        case FSLAVSandboxDirDocuments:
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:self.outputFileName]];
+            break;
+        case FSLAVSandboxDirLibrary:
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:self.outputFileName]];
+            break;
+        case FSLAVSandboxDirCache:
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:self.outputFileName]];
+            break;
+        default:
+            break;
+    }
+
+    return isClear;
 }
 
 @end

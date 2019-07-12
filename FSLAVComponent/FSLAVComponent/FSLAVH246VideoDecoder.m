@@ -110,7 +110,7 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
             }
             
             //结束读出流数据
-            [self endReadStreamingData];
+            [self endReadVideoStreamingData];
             return;
         }
         
@@ -133,10 +133,10 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
                 // 5.1初始化硬解码，并开始解码，并返回解码buffer对象
                 //NSLog(@"i frame");
                 //
-                [self initDecopressionSession];
+                [self initVideoDecopressionSession];
                 
                 // 5.2.编码I帧数据
-                pixelBuffer = [self decodeStreamingDataBufferFrame:self->packetBuffer bufferFrameSize:self->packetSize];
+                pixelBuffer = [self decodeVideoStreamingDataBufferFrame:self->packetBuffer bufferFrameSize:self->packetSize];
                 break;
             case 0x07:
                 // 5.3获取SPS信息，并保存
@@ -152,7 +152,7 @@ const uint8_t inputStartCode[4] = {0,0,0,1};
                 break;
             default:
                 // 5.5.解码B/P帧数据
-                pixelBuffer = [self decodeStreamingDataBufferFrame:self->packetBuffer bufferFrameSize:self->packetSize];
+                pixelBuffer = [self decodeVideoStreamingDataBufferFrame:self->packetBuffer bufferFrameSize:self->packetSize];
                 break;
         }
     
@@ -231,7 +231,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
  
  filePath .h264文件路径
  */
-- (void)startReadStreamingDataFromPath:(NSString *)filePath{
+- (void)startReadVideoStreamingDataFromPath:(NSString *)filePath{
     // 1.开始读取数据
     // 1.1.创建NSInputStream, 读取流
     //inputStream = [[NSInputStream alloc] initWithFileAtPath:[[NSBundle mainBundle] pathForResource:@"123" ofType:@"h264"]];
@@ -254,7 +254,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
 /**
  初始化解码会话
  */
-- (void)initDecopressionSession{
+- (void)initVideoDecopressionSession{
     
     if (decompressionSession) return;
     // 1、定义SPS、PPS数据的数组
@@ -318,7 +318,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
  frame 提取到的视频流图像数据buffer，
  frameSize 对应buffer的大小
  */
-- (CVPixelBufferRef)decodeStreamingDataBufferFrame:(uint8_t *)frame bufferFrameSize:(long)frameSize{
+- (CVPixelBufferRef)decodeVideoStreamingDataBufferFrame:(uint8_t *)frame bufferFrameSize:(long)frameSize{
     // 1.开始码定位到的NALU，通过之前的frame给blockBuffer赋值
     CMBlockBufferRef blockBuffer = NULL;
     
@@ -481,7 +481,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
 /**
  解码中，停止读取流数据，销毁解码会话，释放解码对象
  */
-- (void)endReadStreamingData{
+- (void)endReadVideoStreamingData{
     
     if (!inputStream) return;
     [inputStream close];
@@ -495,14 +495,14 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
     self.dispalyLink = nil;
     
     //销毁解码会话等对象
-    [self endDecodeStreamingData];
+    [self endDecodeVideoStreamingData];
 }
 
 
 /**
  解码中，停止对流数据的解码操作，并释放对象
  */
-- (void)endDecodeStreamingData{
+- (void)endDecodeVideoStreamingData{
     
     if (!decompressionSession) return;
     VTDecompressionSessionInvalidate(decompressionSession);
@@ -524,7 +524,7 @@ static void decompressionOutputCallback(void *decompressionOutputRefCon, void *s
     
     NSLog(@"视频解码器被释放了");
     if (_dispalyLink) {
-        [self endReadStreamingData];
+        [self endReadVideoStreamingData];
     }
 }
 

@@ -24,8 +24,17 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     FSLAVRecordStateFailed,            //录制失败
     FSLAVRecordStateUnKnow             //录制时，发生未知原因
 };
+
+//文件在沙盒中的位置类型
+typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
+    
+    FSLAVSandboxDirDocuments,
+    FSLAVSandboxDirLibrary,
+    FSLAVSandboxDirCache
+};
+
 /**
- 音视频录制的基础类
+ 音视频录制的基础配置类
  */
 @interface FSLAVConfiguraction : NSObject
 /**定义实例变量*/
@@ -35,6 +44,8 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     NSString *_saveSuffixFormat;
     NSURL *_savePathURL;
     NSString *_savePathURLStr;
+    NSURL *_exportRandomURL;
+    NSString *_exportRandomURLStr;
     BOOL _isAutomaticStop;
     NSUInteger _maxRecordDelay;
     NSTimeInterval _recordTimeLength;
@@ -43,24 +54,39 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
 /**定义属性变量*/
 
 /**
- 保存到本地document下的文件路径名称
+ 文件保存在沙盒哪个路径下
+ */
+@property (nonatomic, assign) FSLAVSandboxDirType sandboxDirType;
+
+/**
+ 保存到本地FSLAVSandboxDirType下的文件路径名称
  */
 @property (nonatomic,strong) NSString *outputFileName;
 
 /**
- 保存到本地document下的音视频文件格式：如：mp4、mov、aac、caf
+ 保存到本地FSLAVSandboxDirType下的音视频文件格式：如：mp4、mov、aac、caf
  */
 @property (nonatomic,strong) NSString *saveSuffixFormat;
 
 /**
- 保存到本地document下的音视频文件URL路径
+ 保存到本地FSLAVSandboxDirType下的音视频文件URL路径
  */
 @property (nonatomic,strong,readonly) NSURL *savePathURL;
 
 /**
- 保存到本地document下的音视频文件Str路径
+ 保存到本地FSLAVSandboxDirType下的音视频文件Str路径
  */
 @property (nonatomic,strong,readonly) NSString *savePathURLStr;
+
+/**
+ 导出保存文件对应文件夹路径下的文件随机URL
+ */
+@property (nonatomic,strong,readonly) NSURL *exportRandomURL;
+
+/**
+ 导出保存文件对应文件夹路径下的文件随机URLStr
+ */
+@property (nonatomic,strong,readonly) NSString *exportRandomURLStr;
 
 /**
  是否开启自动停止录制,默认是no
@@ -90,12 +116,21 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
 @property (nonatomic, assign) BOOL isAcousticTimer;
 
 
+
 /**
  获取数据操作的本地路径
  
  @return 文件保存的本地目录
  */
-- (NSString *)getSaveDatePath;
+- (NSString *)createSaveDatePath;
+
+/**
+ 导出创建的本地文件路径中的随机文件URLStr
+ 
+ @return 文件URLStr
+ */
+- (NSString *)exportSaveDatePath;
+
 /**
  清除缓存
  
