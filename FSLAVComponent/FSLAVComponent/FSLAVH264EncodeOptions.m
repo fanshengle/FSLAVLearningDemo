@@ -1,14 +1,14 @@
 //
-//  FSLAVH264VideoConfiguration.m
+//  FSLAVH264Videooptions.m
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/24.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVH264VideoConfiguration.h"
+#import "FSLAVH264EncodeOptions.h"
 
-@implementation FSLAVH264VideoConfiguration
+@implementation FSLAVH264EncodeOptions
 
 #pragma mark -- public methods
 /**
@@ -16,10 +16,10 @@
  
  @return VideoH264Configuration
  */
-+ (instancetype)defaultConfiguration{
++ (instancetype)defaultOptions{
     
-    FSLAVH264VideoConfiguration *configuration = [FSLAVH264VideoConfiguration defaultConfigurationForQuality: FSLAVH264VideoQuality_Default];
-    return configuration;
+    FSLAVH264EncodeOptions *options = [FSLAVH264EncodeOptions defaultOptionsForQuality: FSLAVH264VideoQuality_Default];
+    return options;
 }
 
 /**
@@ -28,10 +28,10 @@
  @param videoQuality 视频质量
  @return VideoH264Configuration
  */
-+ (instancetype)defaultConfigurationForQuality:( FSLAVH264VideoQuality)videoQuality{
++ (instancetype)defaultOptionsForQuality:( FSLAVH264VideoQuality)videoQuality{
     
-    FSLAVH264VideoConfiguration *configuration = [FSLAVH264VideoConfiguration defaultConfigurationForQuality:videoQuality outputImageOrientation:UIInterfaceOrientationPortrait];
-    return configuration;
+    FSLAVH264EncodeOptions *options = [FSLAVH264EncodeOptions defaultOptionsForQuality:videoQuality outputImageOrientation:UIInterfaceOrientationPortrait];
+    return options;
 }
 /**
  视频配置(质量&是否是横屏)
@@ -40,112 +40,112 @@
  @param outputImageOrientation 屏幕方向
  @return VideoH264Configuration
  */
-+ (instancetype)defaultConfigurationForQuality:( FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation{
++ (instancetype)defaultOptionsForQuality:( FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation{
     
-    FSLAVH264VideoConfiguration *configuration = [FSLAVH264VideoConfiguration new];
+    FSLAVH264EncodeOptions *options = [FSLAVH264EncodeOptions new];
     switch (videoQuality)
     {
         case  FSLAVH264VideoQuality_Low1:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
-            configuration.videoFrameRate = 15;
-            configuration.videoBitRate = 500 * 1000;
-            configuration.videoMaxBitRate = 600 * 1000;
-            configuration.videoMinBitRate = 400 * 1000;
-            configuration.videoSize = CGSizeMake(360, 640);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
+            options.videoFrameRate = 15;
+            options.videoBitRate = 500 * 1000;
+            options.videoMaxBitRate = 600 * 1000;
+            options.videoMinBitRate = 400 * 1000;
+            options.videoSize = CGSizeMake(360, 640);
         }
             break;
         case  FSLAVH264VideoQuality_Low2:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
-            configuration.videoFrameRate = 20;
-            configuration.videoBitRate = 600 * 1000;
-            configuration.videoMaxBitRate = 720 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(360, 640);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
+            options.videoFrameRate = 20;
+            options.videoBitRate = 600 * 1000;
+            options.videoMaxBitRate = 720 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(360, 640);
         }
             break;
         case  FSLAVH264VideoQuality_Low3:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
-            configuration.videoFrameRate = 30;
-            configuration.videoBitRate = 800 * 1000;
-            configuration.videoMaxBitRate = 960 * 1000;
-            configuration.videoMinBitRate = 600 * 1000;
-            configuration.videoSize = CGSizeMake(360, 640);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset360x640;
+            options.videoFrameRate = 30;
+            options.videoBitRate = 800 * 1000;
+            options.videoMaxBitRate = 960 * 1000;
+            options.videoMinBitRate = 600 * 1000;
+            options.videoSize = CGSizeMake(360, 640);
         }
             break;
         case  FSLAVH264VideoQuality_Medium1:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
-            configuration.videoFrameRate = 15;
-            configuration.videoBitRate = 800 * 1000;
-            configuration.videoMaxBitRate = 960 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(540, 960);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
+            options.videoFrameRate = 15;
+            options.videoBitRate = 800 * 1000;
+            options.videoMaxBitRate = 960 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(540, 960);
         }
             break;
         case  FSLAVH264VideoQuality_Medium2:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
-            configuration.videoFrameRate = 20;
-            configuration.videoBitRate = 800 * 1000;
-            configuration.videoMaxBitRate = 960 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(540, 960);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
+            options.videoFrameRate = 20;
+            options.videoBitRate = 800 * 1000;
+            options.videoMaxBitRate = 960 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(540, 960);
         }
             break;
         case  FSLAVH264VideoQuality_Medium3:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
-            configuration.videoFrameRate = 30;
-            configuration.videoBitRate = 1000 * 1000;
-            configuration.videoMaxBitRate = 1200 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(540, 960);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset540x960;
+            options.videoFrameRate = 30;
+            options.videoBitRate = 1000 * 1000;
+            options.videoMaxBitRate = 1200 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(540, 960);
         }
             break;
         case  FSLAVH264VideoQuality_High1:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
-            configuration.videoFrameRate = 15;
-            configuration.videoBitRate = 1000 * 1000;
-            configuration.videoMaxBitRate = 1200 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(720, 1280);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
+            options.videoFrameRate = 15;
+            options.videoBitRate = 1000 * 1000;
+            options.videoMaxBitRate = 1200 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(720, 1280);
         }
             break;
         case  FSLAVH264VideoQuality_High2:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
-            configuration.videoFrameRate = 20;
-            configuration.videoBitRate = 1200 * 1000;
-            configuration.videoMaxBitRate = 1440 * 1000;
-            configuration.videoMinBitRate = 800 * 1000;
-            configuration.videoSize = CGSizeMake(720, 1280);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
+            options.videoFrameRate = 20;
+            options.videoBitRate = 1200 * 1000;
+            options.videoMaxBitRate = 1440 * 1000;
+            options.videoMinBitRate = 800 * 1000;
+            options.videoSize = CGSizeMake(720, 1280);
         }
             break;
         case  FSLAVH264VideoQuality_High3:
         {
-            configuration.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
-            configuration.videoFrameRate = 30;
-            configuration.videoBitRate = 1200 * 1000;
-            configuration.videoMaxBitRate = 1440 * 1000;
-            configuration.videoMinBitRate = 500 * 1000;
-            configuration.videoSize = CGSizeMake(720, 1280);
+            options.sessionPreset = FSLAVH264CaptureSessionPreset720x1280;
+            options.videoFrameRate = 30;
+            options.videoBitRate = 1200 * 1000;
+            options.videoMaxBitRate = 1440 * 1000;
+            options.videoMinBitRate = 500 * 1000;
+            options.videoSize = CGSizeMake(720, 1280);
         }
             break;
         default:
             break;
     }
-    configuration.videoProfileLevel =  (__bridge NSString *)(kVTProfileLevel_H264_Baseline_4_0);
-    configuration.sessionPreset = [configuration supportSessionPreset:configuration.sessionPreset];
-    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate*3;
+    options.videoProfileLevel =  (__bridge NSString *)(kVTProfileLevel_H264_Baseline_4_0);
+    options.sessionPreset = [options supportSessionPreset:options.sessionPreset];
+    options.videoMaxKeyframeInterval = options.videoFrameRate*3;
 
-    configuration.outputFileName = @"h264File";
-    configuration.saveSuffixFormat =  @"h264";
+    options.outputFileName = @"h264File";
+    options.saveSuffixFormat =  @"h264";
     
-    return configuration;
+    return options;
 }
 
 
@@ -352,7 +352,7 @@
         return NO;
     } else
     {
-        FSLAVH264VideoConfiguration *object = other;
+        FSLAVH264EncodeOptions *object = other;
         return CGSizeEqualToSize(object.videoSize, self.videoSize) &&
         object.videoFrameRate == self.videoFrameRate &&
         object.videoMaxKeyframeInterval == self.videoMaxKeyframeInterval &&
@@ -368,11 +368,11 @@
  拷贝
  
  @param zone 视频配置
- @return defaultConfiguration
+ @return defaultOptions
  */
 - (id)copyWithZone:(NSZone *)zone
 {
-    FSLAVH264VideoConfiguration *other = [self.class defaultConfiguration];
+    FSLAVH264EncodeOptions *other = [self.class defaultOptions];
     return other;
 }
 
@@ -382,7 +382,7 @@
 - (NSString *)description
 {
     NSMutableString *desc = @"".mutableCopy;
-    [desc appendFormat:@"<TuSDKLiveVideoConfiguration: %p>", self];
+    [desc appendFormat:@"<TuSDKLiveVideooptions: %p>", self];
     [desc appendFormat:@" videoSize:%@", NSStringFromCGSize(self.videoSize)];
     [desc appendFormat:@" videoFrameRate:%zi", self.videoFrameRate];
     [desc appendFormat:@" videoMaxKeyframeInterval:%zi", self.videoMaxKeyframeInterval];

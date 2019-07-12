@@ -15,11 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FSLAVSecondAudioRecorder : FSLAVRecordAudioCoreBase<FSLAVAudioRecorderInterface>
 
-
 /**
  音频配置项
  */
-@property (nonatomic, strong) FSLAVAudioRecorderConfiguration *configuration;
+@property (nonatomic, strong) FSLAVAudioRecoderOptions *options;
 
 @property (nonatomic, weak) id<FSLAVAudioRecorderDelegate> delegate;
 

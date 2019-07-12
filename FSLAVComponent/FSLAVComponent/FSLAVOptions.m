@@ -6,9 +6,9 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVConfiguraction.h"
+#import "FSLAVOptions.h"
 
-@implementation FSLAVConfiguraction
+@implementation FSLAVOptions
 
 @synthesize savePathURL = _savePathURL;
 
@@ -17,8 +17,6 @@
     self = [super init];
     if (self) {
         
-        _isAutomaticStop = NO;
-        _maxRecordDelay = 0;
         _sandboxDirType = FSLAVSandboxDirCache;
     }
     return self;

@@ -1,12 +1,12 @@
 //
-//  FSLAVAudioEncoderConfiguration.h
+//  FSLAVAudioEncoderoptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/7/2.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVConfiguraction.h"
+#import "FSLAVRecoderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,19 +67,19 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
 /**
  音频编码器的配置类
  */
-@interface FSLAVAACAudioConfiguration : FSLAVConfiguraction<NSCoding, NSCopying>
+@interface FSLAVAACEncodeOptions : FSLAVRecoderOptions<NSCoding, NSCopying>
 
 /**
  默认音频配置
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)defaultOptions;
 
 /**
  音频配置
  
  @param audioQuality 音频质量
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality;
++ (instancetype)defaultOptionsForQuality:(FSLAVAACAudioQuality)audioQuality;
 
 /**
  音频配置
@@ -87,7 +87,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
  @param audioQuality 音频质量
  @param channels 声道数
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality channels:(NSInteger)channels;
++ (instancetype)defaultOptionsForQuality:(FSLAVAACAudioQuality)audioQuality channels:(NSInteger)channels;
 
 #pragma mark - Attribute
 

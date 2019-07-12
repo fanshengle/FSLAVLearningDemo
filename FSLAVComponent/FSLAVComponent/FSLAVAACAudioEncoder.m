@@ -43,9 +43,9 @@
  初始化音频配置
  
  configuration 音频配置
- @return configuration
+ @return options
  */
-- (instancetype)initWithAudioStreamConfiguration:(FSLAVAACAudioConfiguration *)configuration
+- (instancetype)initWithAudioStreamOptions:(FSLAVAACEncodeOptions *)configuration
 {
     if (self = [super init])
     {
@@ -272,7 +272,7 @@
     int adtsLength = 7;
     char *packet = malloc(sizeof(char) * adtsLength);
     int profile = 2;
-    NSInteger freqIdx = [self sampleRateIndex:self.configuration.audioSampleRate];
+    NSInteger freqIdx = [self sampleRateIndex:self.options.audioSampleRate];
     int chanCfg = (int)channel;
     NSUInteger fullLength = adtsLength + dataPacketLength;
     packet[0] = (char)0xFF;
@@ -399,8 +399,8 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
         }
         free(totalBuffer);
         
-        pcmBufferLength = totalSize%self.configuration.bufferLength;
-        memset(pcmBuffer, 0, self.configuration.bufferLength);
+        pcmBufferLength = totalSize%self.options.bufferLength;
+        memset(pcmBuffer, 0, self.options.bufferLength);
         memcpy(pcmBuffer, totalBuffer + (totalSize - pcmBufferLength), pcmBufferLength);
     }else{
         

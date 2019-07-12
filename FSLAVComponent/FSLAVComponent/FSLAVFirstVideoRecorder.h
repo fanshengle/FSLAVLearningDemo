@@ -16,13 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FSLAVFirstVideoRecorder : FSLAVRecordVideoCoreBase<FSLAVVideoRecorderInterface>
 {
-    FSLAVVideoRecorderConfiguration *_configuration;
+    FSLAVVideoRecorderOptions *_configuration;
 }
 
 /**
  视频配置项
  */
-@property (nonatomic, strong , readonly) FSLAVVideoRecorderConfiguration *configuration;
+@property (nonatomic, strong , readonly) FSLAVVideoRecorderOptions *options;
 
 /**
  代理

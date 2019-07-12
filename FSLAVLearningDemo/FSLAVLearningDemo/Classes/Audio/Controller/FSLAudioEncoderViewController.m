@@ -61,7 +61,7 @@
 
 - (FSLAVAudioPlayer *)audioPlayer{
     if (!_audioPlayer) {
-        _audioPlayer = [[FSLAVAudioPlayer alloc] initWithURL:self.audioRecorder.configuration.savePathURLStr];
+        _audioPlayer = [[FSLAVAudioPlayer alloc] initWithURL:self.audioRecorder.options.savePathURLStr];
     }
     return _audioPlayer;
 }
@@ -69,8 +69,8 @@
 - (FSLAVAACAudioEncoder *)audioEncoder{
     if (!_audioEncoder) {
         
-        FSLAVAACAudioConfiguration *configuration = [FSLAVAACAudioConfiguration defaultConfiguration];
-        _audioEncoder = [[FSLAVAACAudioEncoder alloc] initWithAudioStreamConfiguration:configuration];
+        FSLAVAACEncodeOptions *options = [FSLAVAACEncodeOptions defaultOptions];
+        _audioEncoder = [[FSLAVAACAudioEncoder alloc] initWithAudioStreamOptions:options];
         _audioEncoder.encoderDelegate = self;
     }
     return _audioEncoder;
@@ -78,7 +78,7 @@
 
 - (FSLAVAACAudioDecoder *)audioDecoder{
     
-    FSLAVAACAudioConfiguration *configuration = [FSLAVAACAudioConfiguration defaultConfiguration];
+    FSLAVAACEncodeOptions *configuration = [FSLAVAACEncodeOptions defaultOptions];
     _audioDecoder = [[FSLAVAACAudioDecoder alloc] init];
     [_audioDecoder startReadAudioStreamingDataFromPath:configuration.exportRandomURLStr];
     //[_audioDecoder startReadAudioStreamingDataFromPath:[[NSBundle mainBundle] pathForResource:@"abc.aac" ofType:nil]];
@@ -89,8 +89,8 @@
 - (FSLAVSecondAudioRecorder *)audioRecorder0{
     if (!_audioRecorder0) {
         
-        FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfiguration];
-        _audioRecorder0 = [[FSLAVSecondAudioRecorder alloc] initWithAudioRecordConfiguration:configuration];
+        FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions defaultOptions];
+        _audioRecorder0 = [[FSLAVSecondAudioRecorder alloc] initWithAudioRecordOptions:options];
         _audioRecorder0.delegate = self;
     }
     return _audioRecorder0;
@@ -99,8 +99,8 @@
 - (FSLAVThreeAudioRecorder *)audioRecorder{
     if (!_audioRecorder) {
        
-        FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfiguration];
-        _audioRecorder = [[FSLAVThreeAudioRecorder alloc] initWithAudioRecordConfiguration:configuration];
+        FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions defaultOptions];
+        _audioRecorder = [[FSLAVThreeAudioRecorder alloc] initWithAudioRecordOptions:options];
         _audioRecorder.delegate = self;
     }
     return _audioRecorder;

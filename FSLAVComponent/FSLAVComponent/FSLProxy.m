@@ -18,7 +18,7 @@
 
 
 
-+(instancetype)proxyWithTarget:(id)target
++ (instancetype)proxyWithTarget:(id)target
 {
     FSLProxy *proxy = [[FSLProxy alloc] init];
     proxy.target = target;
@@ -31,7 +31,7 @@
  @param aSelector 弱引用之后的循环对象
  @return 未识别的消息定向到的对象。
  */
--(id)forwardingTargetForSelector:(SEL)aSelector
+- (id)forwardingTargetForSelector:(SEL)aSelector
 {
     return self.target;
 }

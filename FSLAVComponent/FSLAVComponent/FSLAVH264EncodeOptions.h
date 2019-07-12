@@ -1,5 +1,5 @@
 //
-//  FSLAVH264VideoConfiguration.h
+//  FSLAVH264Videooptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/24.
@@ -61,7 +61,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  
  @return FSLAVH264VideoConfiguration
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)defaultOptions;
 
 /**
  视频配置(质量)
@@ -69,7 +69,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  @param videoQuality 视频质量
  @return FSLAVH264VideoConfiguration
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVH264VideoQuality)videoQuality;
++ (instancetype)defaultOptionsForQuality:(FSLAVH264VideoQuality)videoQuality;
 /**
  视频配置(质量&是否是横屏)
  
@@ -77,7 +77,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  @param outputImageOrientation 屏幕方向
  @return FSLAVH264VideoConfiguration
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
++ (instancetype)defaultOptionsForQuality:(FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 
 /**
  视频的宽高，宽高务必设定为2的倍数，否则解码播放时可能出现绿边

@@ -19,10 +19,10 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
-- (instancetype)initWithVideoRecordConfiguration:(FSLAVVideoRecorderConfiguration *)configuration{
+- (instancetype)initWithVideoRecordOptions:(FSLAVVideoRecorderOptions *)options{
     if (self = [super init]) {
         
-        _configuration = configuration;
+        _options = options;
         
         [self initAVCaptureSession];
     }
@@ -33,7 +33,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 - (void)initAVCaptureSession{
 
     //摄像头为前置
-    self.videoCaptureDevice = [self deviceWithPosition:_configuration.devicePosition];
+    self.videoCaptureDevice = [self deviceWithPosition:_options.devicePosition];
     
     if (![self.captureSession canAddInput:self.captureDeviceInput]) return;
     if (![self.captureSession canAddOutput:self.captureOutput]) return;
@@ -47,8 +47,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     //设置一系列的参数
     //设置分辨率
-    if ([self.captureSession canSetSessionPreset:_configuration.avSessionPreset]) {
-        self.captureSession.sessionPreset = _configuration.avSessionPreset;
+    if ([self.captureSession canSetSessionPreset:_options.avSessionPreset]) {
+        self.captureSession.sessionPreset = _options.avSessionPreset;
     }
     
     //设置输出对象的一些属性
@@ -81,7 +81,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     if (!_captureOutput) {
         
-        if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
+        if (_options.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
             
             _captureOutput = self.captureMovieFileOutput;
         }else{
@@ -104,13 +104,13 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     if (_captureVideoPreviewLayer) {
         
-        if (_configuration.isOutPreview) {
+        if (_options.isOutPreview) {
             
             [_captureVideoPreviewLayer removeFromSuperlayer];
         }
     }
     
-    return _configuration.isOutPreview;
+    return _options.isOutPreview;
 }
 
 /**
@@ -134,7 +134,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
 - (BOOL)isMoreRecordTime{
     
     BOOL isMore = NO;
-    if (_recordTime >= _configuration.maxRecordDelay) {//当前录制的时间与最大录制时间进行比较
+    if (_recordTime >= _options.maxRecordDelay) {//当前录制的时间与最大录制时间进行比较
         isMore = YES;
     }
     return YES;
@@ -144,7 +144,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
  */
 - (BOOL)isLessRecordTime{
     BOOL isLess = NO;
-    if (_recordTime <= _configuration.minRecordDelay) {//当前录制的时间与最小录制时间进行比较
+    if (_recordTime <= _options.minRecordDelay) {//当前录制的时间与最小录制时间进行比较
         isLess = YES;
     }
     return isLess;
@@ -229,17 +229,17 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
  */
 - (void)recordTimerAction{
     
-    _configuration.recordTimeLength = _recordTime;
+    _options.recordTimeLength = _recordTime;
     
     if ([self isLessRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedVideoRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_options.savePathURL];
         }
     }
     
     if ([self isMoreRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedVideoRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_configuration.savePathURL];
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_options.savePathURL];
         }
     }
 }
@@ -252,9 +252,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     if(_isRecording) return;
     _isRecording = YES;
     
-    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
+    if (_options.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
-        [self.captureMovieFileOutput startRecordingToOutputFileURL:_configuration.savePathURL recordingDelegate:self];
+        [self.captureMovieFileOutput startRecordingToOutputFileURL:_options.savePathURL recordingDelegate:self];
     }else{
     }
     
@@ -269,7 +269,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     if(!_isRecording) return;
     _isRecording = YES;
     
-    if (_configuration.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
+    if (_options.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
         if ([self.captureMovieFileOutput isRecording]) [self.captureMovieFileOutput stopRecording];
     }

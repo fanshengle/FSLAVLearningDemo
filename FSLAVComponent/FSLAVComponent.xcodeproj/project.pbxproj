@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		D708999222D581D90020A931 /* FSLAVAACAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D708999122D581D90020A931 /* FSLAVAACAudioDecoder.m */; };
-		D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */; };
-		D7370EF822CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D7370EF722CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.m */; };
+		D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.m */; };
+		D7370EF822CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7370EF722CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.m */; };
 		D7370EFB22CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D7370EFA22CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.m */; };
-		D73DAC8F22C3431600CDE079 /* FSLAVConfiguraction.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */; };
+		D73DAC8F22C3431600CDE079 /* FSLAVOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DAC8E22C3431600CDE079 /* FSLAVOptions.m */; };
 		D73DAC9622C390AC00CDE079 /* FSLAVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DAC9222C390AB00CDE079 /* FSLAVPlayer.m */; };
 		D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */; };
 		D74310EF22BCBD4B0055E0C2 /* FSLAVComponent.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */; };
@@ -23,13 +23,18 @@
 		D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */; };
 		D75DD50822D340B00014704C /* FSLAVThreeAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D75DD50722D340B00014704C /* FSLAVThreeAudioRecorder.m */; };
 		D79047B322C608D5009F5407 /* FSLAVFirstAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D79047B122C608D4009F5407 /* FSLAVFirstAudioRecorder.m */; };
-		D79047B622C60987009F5407 /* FSLAVAudioRecorderConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D79047B522C60987009F5407 /* FSLAVAudioRecorderConfiguration.m */; };
+		D79047B622C60987009F5407 /* FSLAVAudioRecoderOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D79047B522C60987009F5407 /* FSLAVAudioRecoderOptions.m */; };
 		D7A4781A22CDAB7600C13D4B /* FSLAVAudioRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A4781922CDAB7600C13D4B /* FSLAVAudioRTMPFrame.m */; };
-		D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */; };
+		D7DE245D22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE245C22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.m */; };
 		D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */; };
 		D7DE246722C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246622C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.m */; };
 		D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */; };
 		D7E466C822CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E466C722CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.m */; };
+		D7E5BE3C22D8543500C17999 /* FSLAVRecoderOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E5BE3B22D8543500C17999 /* FSLAVRecoderOptions.m */; };
+		D7E5BE3F22D85A3200C17999 /* FSLAVAudioMixer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E5BE3E22D85A3200C17999 /* FSLAVAudioMixer.m */; };
+		D7E5BE4222D85AA900C17999 /* FSLAVMixerOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E5BE4122D85AA900C17999 /* FSLAVMixerOptions.m */; };
+		D7E5BE4522D85F2C00C17999 /* FSLAVAudioInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E5BE4422D85F2C00C17999 /* FSLAVAudioInfo.m */; };
+		D7E5BE4822D8602300C17999 /* FSLAVTimeRange.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E5BE4722D8602300C17999 /* FSLAVTimeRange.m */; };
 		F83365C722C87D5200D70A1D /* FSLAVH246VideoDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = F83365C622C87D5200D70A1D /* FSLAVH246VideoDecoder.m */; };
 		F83639BF22C658A700B38E82 /* FSLAVDeviceSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F83639BA22C658A600B38E82 /* FSLAVDeviceSettings.m */; };
 		F83639C022C658A700B38E82 /* FSLAVDeviceAthorizationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F83639BB22C658A600B38E82 /* FSLAVDeviceAthorizationSettings.m */; };
@@ -55,15 +60,15 @@
 /* Begin PBXFileReference section */
 		D708999022D581D90020A931 /* FSLAVAACAudioDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAACAudioDecoder.h; sourceTree = "<group>"; };
 		D708999122D581D90020A931 /* FSLAVAACAudioDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAACAudioDecoder.m; sourceTree = "<group>"; };
-		D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRecorderConfiguration.h; sourceTree = "<group>"; };
-		D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVVideoRecorderConfiguration.m; sourceTree = "<group>"; };
-		D7370EF622CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAACAudioConfiguration.h; sourceTree = "<group>"; };
-		D7370EF722CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAACAudioConfiguration.m; sourceTree = "<group>"; };
+		D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVVideoRecorderOptions.h; sourceTree = "<group>"; };
+		D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVVideoRecorderOptions.m; sourceTree = "<group>"; };
+		D7370EF622CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAACEncodeOptions.h; sourceTree = "<group>"; };
+		D7370EF722CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAACEncodeOptions.m; sourceTree = "<group>"; };
 		D7370EF922CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAACAudioEncoder.h; sourceTree = "<group>"; };
 		D7370EFA22CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAACAudioEncoder.m; sourceTree = "<group>"; };
 		D7370EFC22CB2EEA00D6D4A9 /* FSLAVAACAudioEncoderInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAACAudioEncoderInterface.h; sourceTree = "<group>"; };
-		D73DAC8D22C3431600CDE079 /* FSLAVConfiguraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVConfiguraction.h; sourceTree = "<group>"; };
-		D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVConfiguraction.m; sourceTree = "<group>"; };
+		D73DAC8D22C3431600CDE079 /* FSLAVOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVOptions.h; sourceTree = "<group>"; };
+		D73DAC8E22C3431600CDE079 /* FSLAVOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVOptions.m; sourceTree = "<group>"; };
 		D73DAC9022C3786500CDE079 /* FSLAVRecordCoreBaseInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecordCoreBaseInterface.h; sourceTree = "<group>"; };
 		D73DAC9222C390AB00CDE079 /* FSLAVPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVPlayer.m; sourceTree = "<group>"; };
 		D73DAC9422C390AC00CDE079 /* FSLAVPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVPlayer.h; sourceTree = "<group>"; };
@@ -86,12 +91,12 @@
 		D75DD50722D340B00014704C /* FSLAVThreeAudioRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVThreeAudioRecorder.m; sourceTree = "<group>"; };
 		D79047B122C608D4009F5407 /* FSLAVFirstAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVFirstAudioRecorder.m; sourceTree = "<group>"; };
 		D79047B222C608D5009F5407 /* FSLAVFirstAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVFirstAudioRecorder.h; sourceTree = "<group>"; };
-		D79047B422C60987009F5407 /* FSLAVAudioRecorderConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioRecorderConfiguration.h; sourceTree = "<group>"; };
-		D79047B522C60987009F5407 /* FSLAVAudioRecorderConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioRecorderConfiguration.m; sourceTree = "<group>"; };
+		D79047B422C60987009F5407 /* FSLAVAudioRecoderOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioRecoderOptions.h; sourceTree = "<group>"; };
+		D79047B522C60987009F5407 /* FSLAVAudioRecoderOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioRecoderOptions.m; sourceTree = "<group>"; };
 		D7A4781822CDAB7600C13D4B /* FSLAVAudioRTMPFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioRTMPFrame.h; sourceTree = "<group>"; };
 		D7A4781922CDAB7600C13D4B /* FSLAVAudioRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioRTMPFrame.m; sourceTree = "<group>"; };
-		D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264VideoConfiguration.h; sourceTree = "<group>"; };
-		D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH264VideoConfiguration.m; sourceTree = "<group>"; };
+		D7DE245B22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264EncodeOptions.h; sourceTree = "<group>"; };
+		D7DE245C22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH264EncodeOptions.m; sourceTree = "<group>"; };
 		D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH264VideoEncoderInterface.h; sourceTree = "<group>"; };
 		D7DE246222C0C97B001F7ACD /* FSLAVRTMPFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRTMPFrame.h; sourceTree = "<group>"; };
 		D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRTMPFrame.m; sourceTree = "<group>"; };
@@ -101,6 +106,16 @@
 		D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVFirstVideoRecorder.h; sourceTree = "<group>"; };
 		D7E466C622CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVSecondAudioRecorder.h; sourceTree = "<group>"; };
 		D7E466C722CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVSecondAudioRecorder.m; sourceTree = "<group>"; };
+		D7E5BE3A22D8543500C17999 /* FSLAVRecoderOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVRecoderOptions.h; sourceTree = "<group>"; };
+		D7E5BE3B22D8543500C17999 /* FSLAVRecoderOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVRecoderOptions.m; sourceTree = "<group>"; };
+		D7E5BE3D22D85A3200C17999 /* FSLAVAudioMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioMixer.h; sourceTree = "<group>"; };
+		D7E5BE3E22D85A3200C17999 /* FSLAVAudioMixer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioMixer.m; sourceTree = "<group>"; };
+		D7E5BE4022D85AA900C17999 /* FSLAVMixerOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVMixerOptions.h; sourceTree = "<group>"; };
+		D7E5BE4122D85AA900C17999 /* FSLAVMixerOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVMixerOptions.m; sourceTree = "<group>"; };
+		D7E5BE4322D85F2C00C17999 /* FSLAVAudioInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioInfo.h; sourceTree = "<group>"; };
+		D7E5BE4422D85F2C00C17999 /* FSLAVAudioInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioInfo.m; sourceTree = "<group>"; };
+		D7E5BE4622D8602300C17999 /* FSLAVTimeRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVTimeRange.h; sourceTree = "<group>"; };
+		D7E5BE4722D8602300C17999 /* FSLAVTimeRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVTimeRange.m; sourceTree = "<group>"; };
 		F83365C522C87D5200D70A1D /* FSLAVH246VideoDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLAVH246VideoDecoder.h; sourceTree = "<group>"; };
 		F83365C622C87D5200D70A1D /* FSLAVH246VideoDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLAVH246VideoDecoder.m; sourceTree = "<group>"; };
 		F83639BA22C658A600B38E82 /* FSLAVDeviceSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVDeviceSettings.m; sourceTree = "<group>"; };
@@ -165,8 +180,8 @@
 		D74310EB22BCBD4B0055E0C2 /* FSLAVComponent */ = {
 			isa = PBXGroup;
 			children = (
-				D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */,
 				D74310EC22BCBD4B0055E0C2 /* FSLAVComponent.h */,
+				D74310ED22BCBD4B0055E0C2 /* FSLAVComponent.m */,
 				D743113422BCC0250055E0C2 /* Components */,
 			);
 			path = FSLAVComponent;
@@ -180,6 +195,7 @@
 				D743113622BCC6810055E0C2 /* Core */,
 				D743113822BCC68F0055E0C2 /* Audio */,
 				D743113722BCC6870055E0C2 /* Video */,
+				D7E5BE3822D82FFD00C17999 /* Splice */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -196,8 +212,12 @@
 				D743114422BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m */,
 				D743114622BCD6060055E0C2 /* FSLAVPlayCoreBase.h */,
 				D743114722BCD6060055E0C2 /* FSLAVPlayCoreBase.m */,
-				D73DAC8D22C3431600CDE079 /* FSLAVConfiguraction.h */,
-				D73DAC8E22C3431600CDE079 /* FSLAVConfiguraction.m */,
+				D73DAC8D22C3431600CDE079 /* FSLAVOptions.h */,
+				D73DAC8E22C3431600CDE079 /* FSLAVOptions.m */,
+				D7E5BE3A22D8543500C17999 /* FSLAVRecoderOptions.h */,
+				D7E5BE3B22D8543500C17999 /* FSLAVRecoderOptions.m */,
+				D7E5BE4022D85AA900C17999 /* FSLAVMixerOptions.h */,
+				D7E5BE4122D85AA900C17999 /* FSLAVMixerOptions.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -220,6 +240,8 @@
 				F83639C322C7042E00B38E82 /* Encoder */,
 				D708998F22D5819E0020A931 /* Decoder */,
 				D79047B022C608C2009F5407 /* Recorder */,
+				D7E5BE3722D82FED00C17999 /* Mix */,
+				D7E5BE3922D8300700C17999 /* Clip */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -250,8 +272,8 @@
 				D7E466C722CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.m */,
 				D75DD50622D340B00014704C /* FSLAVThreeAudioRecorder.h */,
 				D75DD50722D340B00014704C /* FSLAVThreeAudioRecorder.m */,
-				D79047B422C60987009F5407 /* FSLAVAudioRecorderConfiguration.h */,
-				D79047B522C60987009F5407 /* FSLAVAudioRecorderConfiguration.m */,
+				D79047B422C60987009F5407 /* FSLAVAudioRecoderOptions.h */,
+				D79047B522C60987009F5407 /* FSLAVAudioRecoderOptions.m */,
 			);
 			name = Recorder;
 			sourceTree = "<group>";
@@ -259,6 +281,10 @@
 		D7DE246122C0C919001F7ACD /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				D7E5BE4322D85F2C00C17999 /* FSLAVAudioInfo.h */,
+				D7E5BE4422D85F2C00C17999 /* FSLAVAudioInfo.m */,
+				D7E5BE4622D8602300C17999 /* FSLAVTimeRange.h */,
+				D7E5BE4722D8602300C17999 /* FSLAVTimeRange.m */,
 				D7DE246222C0C97B001F7ACD /* FSLAVRTMPFrame.h */,
 				D7DE246322C0C97B001F7ACD /* FSLAVRTMPFrame.m */,
 				D7DE246522C0C9D5001F7ACD /* FSLAVVideoRTMPFrame.h */,
@@ -275,8 +301,8 @@
 				D7DE245E22C0A5FA001F7ACD /* FSLAVH264VideoEncoderInterface.h */,
 				D743115B22BCF7940055E0C2 /* FSLAVH264VideoEncoder.h */,
 				D743115C22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m */,
-				D7DE245B22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.h */,
-				D7DE245C22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m */,
+				D7DE245B22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.h */,
+				D7DE245C22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.m */,
 			);
 			name = Encoder;
 			sourceTree = "<group>";
@@ -286,10 +312,33 @@
 			children = (
 				D7DE246E22C0E429001F7ACD /* FSLAVFirstVideoRecorder.h */,
 				D7DE246D22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m */,
-				D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.h */,
-				D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m */,
+				D71A68A922C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.h */,
+				D71A68AA22C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.m */,
 			);
 			name = Recorder;
+			sourceTree = "<group>";
+		};
+		D7E5BE3722D82FED00C17999 /* Mix */ = {
+			isa = PBXGroup;
+			children = (
+				D7E5BE3D22D85A3200C17999 /* FSLAVAudioMixer.h */,
+				D7E5BE3E22D85A3200C17999 /* FSLAVAudioMixer.m */,
+			);
+			name = Mix;
+			sourceTree = "<group>";
+		};
+		D7E5BE3822D82FFD00C17999 /* Splice */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Splice;
+			sourceTree = "<group>";
+		};
+		D7E5BE3922D8300700C17999 /* Clip */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Clip;
 			sourceTree = "<group>";
 		};
 		F83365C422C8794400D70A1D /* Decoder */ = {
@@ -307,8 +356,8 @@
 				D7370EFC22CB2EEA00D6D4A9 /* FSLAVAACAudioEncoderInterface.h */,
 				D7370EF922CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.h */,
 				D7370EFA22CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.m */,
-				D7370EF622CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.h */,
-				D7370EF722CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.m */,
+				D7370EF622CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.h */,
+				D7370EF722CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.m */,
 			);
 			name = Encoder;
 			sourceTree = "<group>";
@@ -382,6 +431,7 @@
 			files = (
 				F83639D922C7A41D00B38E82 /* FSLAVSingleAudioPlayer.m in Sources */,
 				D743114822BCD6060055E0C2 /* FSLAVPlayCoreBase.m in Sources */,
+				D7E5BE4522D85F2C00C17999 /* FSLAVAudioInfo.m in Sources */,
 				F83639CF22C7150E00B38E82 /* FSLAVAudioPlayer.m in Sources */,
 				F83639C122C658A700B38E82 /* FSLAVSettings.m in Sources */,
 				F83639D622C78CA300B38E82 /* FSLProxy.m in Sources */,
@@ -391,22 +441,26 @@
 				D743114522BCD5D30055E0C2 /* FSLAVRecordAudioCoreBase.m in Sources */,
 				F83639BF22C658A700B38E82 /* FSLAVDeviceSettings.m in Sources */,
 				D708999222D581D90020A931 /* FSLAVAACAudioDecoder.m in Sources */,
+				D7E5BE3F22D85A3200C17999 /* FSLAVAudioMixer.m in Sources */,
 				F83365C722C87D5200D70A1D /* FSLAVH246VideoDecoder.m in Sources */,
 				D743113F22BCD5740055E0C2 /* FSLAVRecordCoreBase.m in Sources */,
 				D75DD50822D340B00014704C /* FSLAVThreeAudioRecorder.m in Sources */,
-				D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderConfiguration.m in Sources */,
-				D7DE245D22C0A5C4001F7ACD /* FSLAVH264VideoConfiguration.m in Sources */,
+				D71A68AB22C1CA5E00FC4C4A /* FSLAVVideoRecorderOptions.m in Sources */,
+				D7DE245D22C0A5C4001F7ACD /* FSLAVH264EncodeOptions.m in Sources */,
 				D743113B22BCCC7E0055E0C2 /* FSLAVFileManager.m in Sources */,
 				D7DE246F22C0E429001F7ACD /* FSLAVFirstVideoRecorder.m in Sources */,
 				F83639C022C658A700B38E82 /* FSLAVDeviceAthorizationSettings.m in Sources */,
 				D7E466C822CCBA9B001A1C57 /* FSLAVSecondAudioRecorder.m in Sources */,
 				D74310EE22BCBD4B0055E0C2 /* FSLAVComponent.m in Sources */,
 				D7A4781A22CDAB7600C13D4B /* FSLAVAudioRTMPFrame.m in Sources */,
-				D7370EF822CAF4C000D6D4A9 /* FSLAVAACAudioConfiguration.m in Sources */,
-				D73DAC8F22C3431600CDE079 /* FSLAVConfiguraction.m in Sources */,
+				D7370EF822CAF4C000D6D4A9 /* FSLAVAACEncodeOptions.m in Sources */,
+				D73DAC8F22C3431600CDE079 /* FSLAVOptions.m in Sources */,
 				D743115D22BCF7940055E0C2 /* FSLAVH264VideoEncoder.m in Sources */,
+				D7E5BE4822D8602300C17999 /* FSLAVTimeRange.m in Sources */,
 				D743114222BCD5980055E0C2 /* FSLAVRecordVideoCoreBase.m in Sources */,
-				D79047B622C60987009F5407 /* FSLAVAudioRecorderConfiguration.m in Sources */,
+				D7E5BE4222D85AA900C17999 /* FSLAVMixerOptions.m in Sources */,
+				D79047B622C60987009F5407 /* FSLAVAudioRecoderOptions.m in Sources */,
+				D7E5BE3C22D8543500C17999 /* FSLAVRecoderOptions.m in Sources */,
 				D7370EFB22CAF5A600D6D4A9 /* FSLAVAACAudioEncoder.m in Sources */,
 				D7DE246422C0C97B001F7ACD /* FSLAVRTMPFrame.m in Sources */,
 			);

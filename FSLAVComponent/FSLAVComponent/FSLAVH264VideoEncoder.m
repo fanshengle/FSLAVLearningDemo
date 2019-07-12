@@ -42,11 +42,11 @@
     [_fileHandle closeFile];
 }
 
-- (instancetype)initWithVideoStreamConfiguration:(FSLAVH264VideoConfiguration *)configuration{
+- (instancetype)initWithVideoStreamOptions:(FSLAVH264EncodeOptions *)options{
     
     if (self = [super init]) {
 
-        _configuration = configuration;
+        _options = options;
         [self addNotifaction];
         [self initCompressionSession];
     }
@@ -97,7 +97,7 @@
     // 5> 参数五/六/七 : NULL
     // 6> 参数八: 编码成功后的回调函数
     // 7> 参数九: 可以传递到回调函数中参数, self : 将当前对象传入
-    OSStatus status = VTCompressionSessionCreate(NULL, _configuration.videoSize.width, _configuration.videoSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, VideoCompressonOutputCallback, (__bridge void *)self, &compressionSession);
+    OSStatus status = VTCompressionSessionCreate(NULL, _options.videoSize.width, _options.videoSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, VideoCompressonOutputCallback, (__bridge void *)self, &compressionSession);
     
     //编码会话创建错误，自动跳出
     if (status != noErr)  return;
@@ -106,18 +106,18 @@
     // 2.1.设置实时输出
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
     // 2.2.设置帧率
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef _Nonnull)@(_configuration.videoFrameRate));
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ExpectedFrameRate, (__bridge CFTypeRef _Nonnull)@(_options.videoFrameRate));
     // 2.3.设置比特率(码率) 1500000/s
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef _Nonnull)@(_configuration.videoBitRate)); // bit
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef _Nonnull)@(_options.videoBitRate)); // bit
     // 2.4. 0、1或2个数据速率的硬限制。
-    NSArray *limit = @[@(_configuration.videoBitRate * 1.2), @(1)];
+    NSArray *limit = @[@(_options.videoBitRate * 1.2), @(1)];
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFTypeRef _Nonnull)limit); // byte
     // 2.5.设置GOP的大小,关键帧之间的最大间隔，也称为关键帧速率。
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, (__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, (__bridge CFTypeRef)@(_options.videoMaxKeyframeInterval));
     // 2.6.从一个关键帧到下一个关键帧的最大持续时间(以秒为单位)。
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, (__bridge CFTypeRef)@(_configuration.videoMaxKeyframeInterval));
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, (__bridge CFTypeRef)@(_options.videoMaxKeyframeInterval));
     // 2.7. 已编码位流的概要文件和级别。
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ProfileLevel, (__bridge CFTypeRef)(_configuration.videoProfileLevel));
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ProfileLevel, (__bridge CFTypeRef)(_options.videoProfileLevel));
     // 2.8. 一个布尔值，指示是否启用帧重排序。
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AllowFrameReordering, kCFBooleanTrue);
     // 2.9. H.264压缩的熵编码模式。
@@ -192,14 +192,14 @@
     if (_isBackGround) return;
     frameCount ++;
     //定义一个表示rational时间值int64/int32的结构。
-    CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
+    CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_options.videoFrameRate);
     
     VTEncodeInfoFlags flags;
     //may be kCMTimeInvalid
-    CMTime duration = CMTimeMake(1, (int32_t)_configuration.videoFrameRate);
+    CMTime duration = CMTimeMake(1, (int32_t)_options.videoFrameRate);
     
     NSDictionary *properties = nil;
-    if (frameCount % (int32_t)_configuration.videoMaxKeyframeInterval) {
+    if (frameCount % (int32_t)_options.videoMaxKeyframeInterval) {
         //布尔值，指示当前帧是否强制为关键帧。
         properties = @{(__bridge NSString *)kVTEncodeFrameOptionKey_ForceKeyFrame: @YES};
     }

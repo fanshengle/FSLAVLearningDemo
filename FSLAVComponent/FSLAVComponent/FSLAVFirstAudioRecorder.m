@@ -26,8 +26,8 @@
     [self removeSoundWavesTimer];
 }
 
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
-    _configuration = configuration;
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
+    _options = options;
   
     return [self init];
 }
@@ -44,7 +44,7 @@
          error:错误
          */
         NSError *error;
-        _recorder = [[AVAudioRecorder alloc] initWithURL:_configuration.savePathURL settings:_configuration.audioConfigure error:&error];
+        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.savePathURL settings:_options.audioConfigure error:&error];
         _recorder.delegate = self;
         //如果要监控声波则必须设置为YES
         _recorder.meteringEnabled = YES;
@@ -95,7 +95,7 @@
 - (BOOL)isMoreRecordTime{
     
     BOOL isMore = NO;
-    if (_recordTime >= _configuration.maxRecordDelay) {//当前录制的时间与最大录制时间进行比较
+    if (_recordTime >= _options.maxRecordDelay) {//当前录制的时间与最大录制时间进行比较
         isMore = YES;
     }
     return YES;
@@ -105,7 +105,7 @@
  */
 - (BOOL)isLessRecordTime{
     BOOL isLess = NO;
-    if (_recordTime <= _configuration.minRecordDelay) {//当前录制的时间与最小录制时间进行比较
+    if (_recordTime <= _options.minRecordDelay) {//当前录制的时间与最小录制时间进行比较
         isLess = YES;
     }
     return isLess;
@@ -115,11 +115,11 @@
 #pragma mark -- 录制定时事件
 - (void)recordTimerAction{
     
-    _configuration.recordTimeLength = _recordTime;
+    _options.recordTimeLength = _recordTime;
     
     if ([self isLessRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
         }
     }
     
@@ -128,7 +128,7 @@
         [self stopRecord];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
         }
     }
 }
@@ -146,17 +146,17 @@
             //开始录制声音，并且通过performSelector方法设置在录制声音maxRecordDelay以后执行stopRecordingOnAudioRecorder方法，用于停止录音
             [self performSelector:@selector(stopRecord)
                        withObject:nil
-                       afterDelay:_configuration.maxRecordDelay];
+                       afterDelay:_options.maxRecordDelay];
         }
     }
 
-    if (_configuration.isAcousticTimer) {//是否开启音频定时器
+    if (_options.isAcousticTimer) {//是否开启音频定时器
 
         self.soundWavesTimer.fireDate = [NSDate distantPast];
     }
 
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
     }
 }
 
@@ -167,7 +167,7 @@
     _isRecording = NO;
     [self.recorder pause];
 
-    if (_configuration.isAcousticTimer) {//是否开启音频定时器
+    if (_options.isAcousticTimer) {//是否开启音频定时器
         //定时器触发的时机。暂停
         self.soundWavesTimer.fireDate = [NSDate distantFuture];
     }
@@ -184,7 +184,7 @@
     _recordTime = self.recorder.currentTime;
     _isRecording = NO;
 
-    if (_configuration.isAcousticTimer) {//是否开启音频定时器
+    if (_options.isAcousticTimer) {//是否开启音频定时器
 
         //定时器触发的时机。暂停
         self.soundWavesTimer.fireDate = [NSDate distantFuture];
@@ -211,7 +211,7 @@
     
     _recordTime = 0;
     //清空缓存
-    [_configuration clearCacheData];
+    [_options clearCacheData];
 }
 
 #pragma mark -  AVAudioRecorder  Delegate
@@ -222,12 +222,12 @@
     if (flag) {
         //暂存录音文件路径
 
-        _configuration.recordTimeLength = _recordTime;
+        _options.recordTimeLength = _recordTime;
         _isRecording = NO;
     }
 
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
     }
 }
 
@@ -236,7 +236,7 @@
     
     if(!error) return;
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_configuration.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
     }
 }
 

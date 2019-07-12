@@ -26,10 +26,18 @@
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
 
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
     if (self = [super init]) {
-        _configuration = configuration;
+        _options = options;
         
         _audioCaptureQueue = dispatch_queue_create("Audio Capture Queue", DISPATCH_QUEUE_SERIAL);
         [self initAudioRecordSession];

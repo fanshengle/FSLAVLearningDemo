@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FSLAVH264VideoConfiguration.h"
+#import "FSLAVH264EncodeOptions.h"
 #import "FSLAVVideoRTMPFrame.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
  初始化配置
  
  @param configuration 配置
- @return configuration
+ @return options
  */
-- ( instancetype)initWithVideoStreamConfiguration:(FSLAVH264VideoConfiguration *)configuration;
+- ( instancetype)initWithVideoStreamOptions:(FSLAVH264EncodeOptions *)options;
 
 
 /**

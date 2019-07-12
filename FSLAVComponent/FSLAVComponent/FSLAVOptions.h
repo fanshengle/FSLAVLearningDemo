@@ -13,18 +13,6 @@
 #import "FSLAVFileManager.h"
 NS_ASSUME_NONNULL_BEGIN
 
-//录制状态
-typedef NS_ENUM(NSInteger, FSLAVRecordState) {
-    FSLAVRecordStateReadyToRecord = 0, //开始录制
-    FSLAVRecordStateRecording,         //正在录制
-    FSLAVRecordStateLessMinRecordTime, //小于最小录制时间
-    FSLAVRecordStateMoreMaxRecorTime,  //大于等于最大录制时间
-    FSLAVRecordStatePause,             //暂停录制
-    FSLAVRecordStateFinish,            //结束录制
-    FSLAVRecordStateFailed,            //录制失败
-    FSLAVRecordStateUnKnow             //录制时，发生未知原因
-};
-
 //文件在沙盒中的位置类型
 typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
     
@@ -34,9 +22,9 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 };
 
 /**
- 音视频录制的基础配置类
+ 音视频的基础配置类
  */
-@interface FSLAVConfiguraction : NSObject
+@interface FSLAVOptions : NSObject
 /**定义实例变量*/
 {
     
@@ -46,9 +34,7 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
     NSString *_savePathURLStr;
     NSURL *_exportRandomURL;
     NSString *_exportRandomURLStr;
-    BOOL _isAutomaticStop;
-    NSUInteger _maxRecordDelay;
-    NSTimeInterval _recordTimeLength;
+   
 }
 
 /**定义属性变量*/
@@ -59,12 +45,12 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 @property (nonatomic, assign) FSLAVSandboxDirType sandboxDirType;
 
 /**
- 保存到本地FSLAVSandboxDirType下的文件路径名称
+ 保存到本地FSLAVSandboxDirType下的路径文件夹名称
  */
 @property (nonatomic,strong) NSString *outputFileName;
 
 /**
- 保存到本地FSLAVSandboxDirType下的音视频文件格式：如：mp4、mov、aac、caf
+ 保存到本地FSLAVSandboxDirType下的音视频文件或数据格式：如：mp4、mov、aac、caf
  */
 @property (nonatomic,strong) NSString *saveSuffixFormat;
 
@@ -88,32 +74,6 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  */
 @property (nonatomic,strong,readonly) NSString *exportRandomURLStr;
 
-/**
- 是否开启自动停止录制,默认是no
- */
-@property (nonatomic, assign) BOOL isAutomaticStop;
-
-
-/**
- 自动停止录制的最小录制时间，默认3s,
- */
-@property (nonatomic, assign) NSUInteger minRecordDelay;
-
-/**
- 自动停止录制的最大录制时间，默认0s,可以一直录制
- */
-@property (nonatomic, assign) NSUInteger maxRecordDelay;
-
-/**
- 当前的录制音视频的总时长
- */
-@property (nonatomic, assign) NSTimeInterval recordTimeLength;
-
-
-/**
- 是否开启音频声波定时器,默认开启
- */
-@property (nonatomic, assign) BOOL isAcousticTimer;
 
 
 

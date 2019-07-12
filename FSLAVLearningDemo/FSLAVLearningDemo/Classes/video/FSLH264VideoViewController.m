@@ -14,12 +14,12 @@
 /**
  视频录制配置
  */
-@property (nonatomic, strong) FSLAVVideoRecorderConfiguration *recorderConfiguration;
+@property (nonatomic, strong) FSLAVVideoRecorderOptions *recorderConfiguration;
 
 /**
  视频编码配置
  */
-@property (nonatomic, strong) FSLAVH264VideoConfiguration *encoderConfiguration;
+@property (nonatomic, strong) FSLAVH264EncodeOptions *encoderConfiguration;
 
 /**
  视频录制器
@@ -75,7 +75,7 @@
 
     if (!_videoRecorder) {
         
-        _videoRecorder = [[FSLAVFirstVideoRecorder alloc] initWithVideoRecordConfiguration:[FSLAVVideoRecorderConfiguration defaultConfiguration]];
+        _videoRecorder = [[FSLAVFirstVideoRecorder alloc] initWithVideoRecordOptions:[FSLAVVideoRecorderOptions defaultOptions]];
         [_videoRecorder showCaptureSessionOnView:self.contantView];
 //        _videoRecorder.delegate = self;
         [_videoRecorder setDelegate:self];
@@ -88,7 +88,7 @@
     
     if (!_h264VideoEncoder) {
         
-        _h264VideoEncoder = [[FSLAVH264VideoEncoder alloc] initWithVideoStreamConfiguration:[FSLAVH264VideoConfiguration defaultConfiguration]];
+        _h264VideoEncoder = [[FSLAVH264VideoEncoder alloc] initWithVideoStreamOptions:[FSLAVH264EncodeOptions defaultOptions]];
         _h264VideoEncoder.encodeDelegate = self;
     }
     return _h264VideoEncoder;

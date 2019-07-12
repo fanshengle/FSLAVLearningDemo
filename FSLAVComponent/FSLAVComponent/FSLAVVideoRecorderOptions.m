@@ -1,5 +1,5 @@
 //
-//  FSLAVVideoRecorderConfiguration.m
+//  FSLAVVideoRecorderoptions.m
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/25.
@@ -16,9 +16,9 @@
  
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfiguration{
++ (instancetype)defaultOptions{
     
-    FSLAVVideoRecorderOptions *configuration = [FSLAVVideoRecorderOptions defaultConfigurationForSessionPreset: FSLAVCaptureSessionPreset_Default];
+    FSLAVVideoRecorderOptions *configuration = [FSLAVVideoRecorderOptions defaultOptionsForSessionPreset: FSLAVCaptureSessionPreset_Default];
     return configuration;
 }
 
@@ -28,9 +28,9 @@
  @param sessionPreset 视频分辨率
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfigurationForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset{
++ (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset{
     
-    FSLAVVideoRecorderOptions *configuration = [FSLAVVideoRecorderOptions defaultConfigurationForSessionPreset:sessionPreset videoRecordPosition:FSLAVVideoRecordPositionFront];
+    FSLAVVideoRecorderOptions *configuration = [FSLAVVideoRecorderOptions defaultOptionsForSessionPreset:sessionPreset videoRecordPosition:FSLAVVideoRecordPositionFront];
     return configuration;
 }
 
@@ -41,7 +41,7 @@
  @param videoRecordPosition 摄像机位置
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfigurationForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset videoRecordPosition:(FSLAVVideoRecordPosition)videoRecordPosition{
++ (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset videoRecordPosition:(FSLAVVideoRecordPosition)videoRecordPosition{
     
     FSLAVVideoRecorderOptions *configuration = [FSLAVVideoRecorderOptions new];
     configuration.sessionPreset = sessionPreset;

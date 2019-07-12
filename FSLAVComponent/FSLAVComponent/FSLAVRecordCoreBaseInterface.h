@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FSLAVVideoRecorderConfiguration.h"
-#import "FSLAVAudioRecorderConfiguration.h"
+#import "FSLAVVideoRecorderOptions.h"
+#import "FSLAVAudioRecoderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -104,9 +104,9 @@ NS_ASSUME_NONNULL_BEGIN
  初始化配置
  
  @param configuration 配置
- @return configuration
+ @return options
  */
-- ( instancetype)initWithVideoRecordConfiguration:(FSLAVVideoRecorderConfiguration *)configuration;
+- ( instancetype)initWithVideoRecordOptions:(FSLAVVideoRecorderOptions *)options;
 
 /**
  将设备捕捉到的画面呈现到某个view上
@@ -182,9 +182,9 @@ NS_ASSUME_NONNULL_BEGIN
  初始化配置
  
  @param configuration 配置
- @return configuration
+ @return options
  */
-- ( instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration;
+- ( instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options;
 
 
 @end

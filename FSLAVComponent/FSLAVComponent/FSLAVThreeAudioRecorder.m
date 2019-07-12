@@ -39,9 +39,9 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
-- (instancetype)initWithAudioRecordConfiguration:(FSLAVAudioRecorderConfiguration *)configuration{
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
     if (self = [super init]) {
-        _configuration = configuration;
+        _options = options;
         _audioCaptureTaskQueue = dispatch_queue_create("com.FSLAVComponent.audioCapture.Queue", NULL);
         [self initAudioCaptureSession];
     }
@@ -56,7 +56,7 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_options createSaveDatePath]];
     }
     return _fileHandle;
 }
@@ -167,17 +167,17 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
     //5.设置音频流的音频数据格式规范。
     AudioStreamBasicDescription desc = {0};
     //采样率：当流以正常速度播放时，流中每秒数据帧数。对于压缩格式，此字段表示每秒等效解压缩数据的帧数。
-    desc.mSampleRate = _configuration.audioSampleRat;
+    desc.mSampleRate = _options.audioSampleRat;
     //音频格式:指定流中一般音频数据格式的标识符。参见音频数据格式标识符。这个值必须是非零的。
-    desc.mFormatID = (UInt32)_configuration.audioFormat;
+    desc.mFormatID = (UInt32)_options.audioFormat;
     //指定格式细节的特定于格式的标志。设置为0表示没有格式标志。有关适用于每种格式的标志，请参阅音频数据格式标识符。
     desc.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
     //声道数目(默认 2)
-    desc.mChannelsPerFrame = (UInt32)_configuration.audioChannels;
+    desc.mChannelsPerFrame = (UInt32)_options.audioChannels;
     //音频数据包中的帧数。对于未压缩的音频，值为1。
     //对于可变比特率格式，该值是一个较大的固定数字，比如AAC的1024。对于每个数据包帧数可变的格式，如Ogg Vorbis，将此字段设置为0。
     desc.mFramesPerPacket = 1;
-    desc.mBitsPerChannel = (UInt32)_configuration.audioLinearPCMBit;
+    desc.mBitsPerChannel = (UInt32)_options.audioLinearPCMBit;
     //音频缓冲区中从一帧开始到下一帧开始的字节数。为压缩格式将此字段设置为0。每帧多少字节 bytes -> bit / 8
     desc.mBytesPerFrame = desc.mBitsPerChannel / 8 * desc.mChannelsPerFrame;
     //音频数据包中的字节数。若要指示可变包大小，请将此字段设置为0。
@@ -208,7 +208,7 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
     }
     
     //8、设置输入和输出的首选采样率。
-    [session setPreferredSampleRate:_configuration.audioSampleRat error:nil];
+    [session setPreferredSampleRate:_options.audioSampleRat error:nil];
     
     //9、重置音频会话分类
     [self resetAudioSessionCategory];

@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVOptions.h"
+#import "FSLAVRecoderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,7 +52,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
 /**
  音频录制的参数配置项
  */
-@interface FSLAVAudioRecoderOptions : FSLAVOptions
+@interface FSLAVAudioRecoderOptions : FSLAVRecoderOptions
 
 
 /**音频格式*/
@@ -96,7 +96,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
  
  @return FSLAVAudioRecorderConfiguration
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)defaultOptions;
 
 /**
  视频配置(质量)
@@ -104,7 +104,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
  @param audioQuality 视频质量
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality;
++ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality;
 
 
 /**
@@ -114,7 +114,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
  @param channels 声道数1、2
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
++ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
 
 
 @end

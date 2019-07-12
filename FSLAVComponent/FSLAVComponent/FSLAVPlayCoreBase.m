@@ -8,8 +8,6 @@
 
 #import "FSLAVPlayCoreBase.h"
 
-static FSLAVPlayCoreBase *player = nil;
-
 @implementation FSLAVPlayCoreBase
 
 - (instancetype)init

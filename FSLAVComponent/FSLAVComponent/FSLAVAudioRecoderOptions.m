@@ -6,18 +6,18 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVAudioRecorderConfiguration.h"
+#import "FSLAVAudioRecoderOptions.h"
 
-@implementation FSLAVAudioRecorderConfiguration
+@implementation FSLAVAudioRecoderOptions
 
 /**
  默认视频配置
  
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)defaultOptions;
 {
-    return [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default];
+    return [FSLAVAudioRecoderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default];
 }
 /**
  视频配置(质量)
@@ -25,9 +25,9 @@
  @param audioQuality 视频质量
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality;
++ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality;
 {
-    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration defaultConfigurationForQuality:FSLAVAudioRecordQuality_Default channels:2];
+    FSLAVAudioRecoderOptions *configuration = [FSLAVAudioRecoderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default channels:2];
     
     return configuration;
 }
@@ -39,9 +39,9 @@
  @param channels 声道数1、2
  @return FSLAVAudioRecorderConfiguraction
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
++ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
 {
-    FSLAVAudioRecorderConfiguration *configuration = [FSLAVAudioRecorderConfiguration new];
+    FSLAVAudioRecoderOptions *configuration = [FSLAVAudioRecoderOptions new];
     configuration.outputFileName = @"audioFile";
     configuration.saveSuffixFormat = @"caf";
     configuration.minRecordDelay = 3.f;

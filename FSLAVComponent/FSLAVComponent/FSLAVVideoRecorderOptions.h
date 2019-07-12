@@ -1,12 +1,12 @@
 //
-//  FSLAVVideoRecorderConfiguration.h
+//  FSLAVVideoRecorderoptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/25.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVConfiguraction.h"
+#import "FSLAVRecoderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,7 +63,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 /**
  视频录制的参数配置项
  */
-@interface FSLAVVideoRecorderConfiguration : FSLAVConfiguraction
+@interface FSLAVVideoRecorderOptions : FSLAVRecoderOptions
 
 /**
  视频录制的画面比例
@@ -116,7 +116,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)defaultOptions;
 
 /**
  视频配置(分辨率)
@@ -124,7 +124,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  @param sessionPreset 视频分辨率
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfigurationForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset;
++ (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset;
 
 /**
  视频配置(分辨率&摄像机位置设置)
@@ -133,7 +133,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  @param videoRecordPosition 摄像机位置
  @return FSLAVVideoRecorderConfiguration
  */
-+ (instancetype)defaultConfigurationForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset videoRecordPosition:(FSLAVVideoRecordPosition)videoRecordPosition;
++ (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset videoRecordPosition:(FSLAVVideoRecordPosition)videoRecordPosition;
 
 @end
 

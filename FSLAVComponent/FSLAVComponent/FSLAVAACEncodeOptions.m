@@ -1,26 +1,26 @@
 //
-//  FSLAVAudioEncoderConfiguration.m
+//  FSLAVAudioEncoderoptions.m
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/7/2.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVAACAudioConfiguration.h"
-@interface FSLAVAACAudioConfiguration ()
+#import "FSLAVAACEncodeOptions.h"
+@interface FSLAVAACEncodeOptions ()
 
 
 @end
 
 
-@implementation FSLAVAACAudioConfiguration
+@implementation FSLAVAACEncodeOptions
 
 /**
  音频默认配置
  */
-+ (instancetype)defaultConfiguration
++ (instancetype)defaultOptions
 {
-    return [FSLAVAACAudioConfiguration defaultConfigurationForQuality:FSLAVAACAudioQuality_Default];
+    return [FSLAVAACEncodeOptions defaultOptionsForQuality:FSLAVAACAudioQuality_Default];
 }
 
 /**
@@ -28,9 +28,9 @@
  
  @param audioQuality 音频质量
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality
++ (instancetype)defaultOptionsForQuality:(FSLAVAACAudioQuality)audioQuality
 {
-    return [FSLAVAACAudioConfiguration defaultConfigurationForQuality:FSLAVAACAudioQuality_Default channels:2];
+    return [FSLAVAACEncodeOptions defaultOptionsForQuality:FSLAVAACAudioQuality_Default channels:2];
 }
 
 /**
@@ -39,9 +39,9 @@
  @param audioQuality 音频质量
  @param channels 声道数
  */
-+ (instancetype)defaultConfigurationForQuality:(FSLAVAACAudioQuality)audioQuality channels:(NSInteger)channels;
++ (instancetype)defaultOptionsForQuality:(FSLAVAACAudioQuality)audioQuality channels:(NSInteger)channels;
 {
-    FSLAVAACAudioConfiguration *audioConfig = [FSLAVAACAudioConfiguration new];
+    FSLAVAACEncodeOptions *audioConfig = [FSLAVAACEncodeOptions new];
     audioConfig.outputFileName = @"AACFile";
     audioConfig.saveSuffixFormat = @"aac";
     audioConfig.numberOfChannels = channels;
@@ -236,7 +236,7 @@
         return NO;
     } else
     {
-        FSLAVAACAudioConfiguration *object = other;
+        FSLAVAACEncodeOptions *object = other;
         return object.numberOfChannels == self.numberOfChannels &&
         object.audioBitRate == self.audioBitRate &&
         strcmp(object.asc, self.asc) == 0 &&
@@ -269,7 +269,7 @@
  */
 - (id)copyWithZone:(NSZone *)zone
 {
-    FSLAVAACAudioConfiguration *other = [self.class defaultConfiguration];
+    FSLAVAACEncodeOptions *other = [self.class defaultOptions];
     return other;
 }
 
@@ -279,7 +279,7 @@
 - (NSString *)description
 {
     NSMutableString *desc = @"".mutableCopy;
-    [desc appendFormat:@"<FSLAVAACAudioConfiguration: %p>", self];
+    [desc appendFormat:@"<FSLAVAACAudioOptions: %p>", self];
     [desc appendFormat:@" numberOfChannels:%zi", self.numberOfChannels];
     [desc appendFormat:@" bitsPerChannel:%zi", self.bitsPerChannel];
     [desc appendFormat:@" audioSampleRate:%zi", self.audioSampleRate];

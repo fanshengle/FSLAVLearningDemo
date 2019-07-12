@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FSLAVAACAudioConfiguration.h"
+#import "FSLAVAACEncodeOptions.h"
 #import "FSLAVAudioRTMPFrame.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration 音频配置
  @return FSLAVAACAudioEncoder
  */
-- (instancetype)initWithAudioStreamConfiguration:(FSLAVAACAudioConfiguration *)configuration;
+- (instancetype)initWithAudioStreamOptions:(FSLAVAACEncodeOptions *)options;
 
 
 @end
