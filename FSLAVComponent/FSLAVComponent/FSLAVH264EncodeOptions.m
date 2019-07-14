@@ -382,7 +382,6 @@
 - (NSString *)description
 {
     NSMutableString *desc = @"".mutableCopy;
-    [desc appendFormat:@"<TuSDKLiveVideooptions: %p>", self];
     [desc appendFormat:@" videoSize:%@", NSStringFromCGSize(self.videoSize)];
     [desc appendFormat:@" videoFrameRate:%zi", self.videoFrameRate];
     [desc appendFormat:@" videoMaxKeyframeInterval:%zi", self.videoMaxKeyframeInterval];

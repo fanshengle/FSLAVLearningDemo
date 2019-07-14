@@ -1,6 +1,6 @@
 //
 //  GeneralPramaModel.m
-//  TuTuSDKTestDemo
+//  FSLAVLearningDemo
 //
 //  Created by tutu on 2019/4/30.
 //  Copyright © 2019 tutu. All rights reserved.

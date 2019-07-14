@@ -14,6 +14,8 @@
 #import "FSLAVDeviceAthorizationSettings.h"
 /**消息转发简单处理，解决循环引用，如：NSTimer*/
 #import "FSLProxy.h"
+/**日志处理类*/
+#import "FSLAVLog.h"
 
 /**音频录制器*/
 #import "FSLAVFirstAudioRecorder.h"
@@ -29,6 +31,9 @@
 #import "FSLAVAACAudioEncoder.h"
 /**音频解码器*/
 #import "FSLAVAACAudioDecoder.h"
+/**音频混合器*/
+#import "FSLAVAudioMixer.h"
+
 
 /**视频录制器*/
 #import "FSLAVFirstVideoRecorder.h"
@@ -42,5 +47,12 @@
 
 
 @interface FSLAVComponent : NSObject
+
+/**
+ *  设置日志输出级别
+ *
+ *  @param level 日志输出级别 (默认：FSLAVLogLevelFATAL 不输出)
+ */
++ (void)setLogLevel:(FSLAVLogLevel)level;
 
 @end

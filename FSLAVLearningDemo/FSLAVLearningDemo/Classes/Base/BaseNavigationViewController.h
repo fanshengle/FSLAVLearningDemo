@@ -1,9 +1,9 @@
 //
 //  BaseNavigationViewController.h
-//  TuSDKVideoDemo
+//  FSLAVLearningDemo
 //
 //  Created by bqlin on 2018/6/20.
-//  Copyright © 2018年 TuSDK. All rights reserved.
+//  Copyright © 2018年 tutu. All rights reserved.
 //
 
 #import "BaseViewController.h"

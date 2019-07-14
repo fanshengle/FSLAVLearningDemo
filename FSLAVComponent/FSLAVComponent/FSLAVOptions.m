@@ -10,14 +10,13 @@
 
 @implementation FSLAVOptions
 
-@synthesize savePathURL = _savePathURL;
-
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         
         _sandboxDirType = FSLAVSandboxDirCache;
+        _enableCreateFilePath = YES;
     }
     return self;
 }
@@ -78,7 +77,13 @@
         default:
             break;
     }
-    [FSLAVFileManager createFilePath:datePath];
+    if (_enableCreateFilePath) {//创建文件路径，其中的没有的文件夹也一并创建了
+        
+        [FSLAVFileManager createFilePath:datePath];
+    }else{//只创建文件路径中的文件夹路径
+        
+        [FSLAVFileManager createDir:[FSLAVFileManager pathInCacheWithDirPath:self.outputFileName filePath:@""]];
+    }
 
     return datePath;
 }

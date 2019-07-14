@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化音频配置
  
- @param configuration 音频配置
+ @param options 音频配置
  @return FSLAVAACAudioEncoder
  */
 - (instancetype)initWithAudioStreamOptions:(FSLAVAACEncodeOptions *)options;

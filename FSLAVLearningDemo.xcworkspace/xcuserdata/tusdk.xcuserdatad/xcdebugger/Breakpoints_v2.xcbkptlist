@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVH246VideoDecoder.m"
-            timestampString = "583604734.863259"
+            filePath = "FSLAVLearningDemo/FSLAVLearningDemo/Classe/Controller/FSLAVAudioMixViewController.m"
+            timestampString = "584772910.648218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
-            landmarkName = "-endReadStreamingData"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-setupAudioMixer"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVMixerAudioOptions.m"
+            timestampString = "584772910.648582"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-setAtTimeRange:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -2,7 +2,7 @@
 //  FSLAVSingleAudioPlayer.h
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/6/29.
+//  Created by tutu on 2019/6/29.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 

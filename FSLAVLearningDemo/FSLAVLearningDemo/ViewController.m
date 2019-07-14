@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  LearningAudioVideo
+//  FSLAVLearningDemo
 //
 //  Created by tutu on 2019/6/4.
 //  Copyright © 2019 tutu. All rights reserved.
@@ -14,6 +14,7 @@
 #import "HWCutMusicViewController.h"
 #import "FSLH264VideoViewController.h"
 #import "FSLAVPlayerViewController.h"
+#import "FSLAVAudioMixViewController.h"
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -157,6 +158,15 @@
                 FSLAudioEncoderViewController *vc = [[FSLAudioEncoderViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             }
+            case 4:
+            {
+//                [self performSegueWithIdentifier:@"FSLAVAudioMixViewController" sender:self];
+                UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"FSLAVAudioMixViewController" bundle:[NSBundle mainBundle]];
+                //将第二个控制器实例化，"SecondViewController"为我们设置的控制器的ID
+                FSLAVAudioMixViewController *vc = [mainStoryBoard instantiateViewControllerWithIdentifier:@"FSLAVAudioMixViewController"];
+                [self presentViewController:vc animated:YES completion:nil];
+//                [self.navigationController pushViewController:vc animated:YES];
+            }
                 break;
             default:
                 break;
@@ -194,6 +204,11 @@
         }
     }
    
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    segue.destinationViewController.title = NSLocalizedStringFromTable(NSStringFromClass(segue.destinationViewController.class), @"VideoDemo", @"API示例列表");
+
+
 }
 
 /*

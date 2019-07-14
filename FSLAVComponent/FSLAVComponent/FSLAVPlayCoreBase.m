@@ -62,7 +62,7 @@
 /**
  检索url是网络、本地哪一种
 
- @param url url
+ @param url urlStr
  @return 返回相应的url
  */
 - (NSURL *)retrieveURL:(NSString *)url{

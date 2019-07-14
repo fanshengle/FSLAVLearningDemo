@@ -14,7 +14,10 @@
                     "itemName" : "音频PCM编码"
                 },
                 {
-                    "itemName" : " 音频编码AAC"
+                    "itemName" : "音频编码AAC"
+                },
+                {
+                    "itemName" : "多音频混合"
                 }
             ]
         },

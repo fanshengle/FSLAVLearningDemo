@@ -1,20 +1,16 @@
 //
-//  FSLAVAudioInfo.h
+//  FSLAVResult.h
 //  FSLAVComponent
 //
-//  Created by tutu on 2019/7/12.
+//  Created by tutu on 2019/7/13.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "FSLAVTimeRange.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- 音频数据实体类
- */
-@interface FSLAVAudioInfo : NSObject
+@interface FSLAVResult : NSObject
 
 @end
 

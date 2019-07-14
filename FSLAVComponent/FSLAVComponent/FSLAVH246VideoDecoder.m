@@ -2,7 +2,7 @@
 //  FSLAVH246VideoDecoder.m
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/6/30.
+//  Created by tutu on 2019/6/30.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 

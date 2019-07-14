@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 @interface FSLAVOptions : NSObject
 /**定义实例变量*/
 {
-    
+    FSLAVSandboxDirType _sandboxDirType;
+    BOOL _enableCreateFilePath;
     NSString *_outputFileName;
     NSString *_saveSuffixFormat;
     NSURL *_savePathURL;
@@ -42,7 +43,16 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 /**
  文件保存在沙盒哪个路径下
  */
-@property (nonatomic, assign) FSLAVSandboxDirType sandboxDirType;
+@property (nonatomic,assign) FSLAVSandboxDirType sandboxDirType;
+
+
+/**
+ 是否创建文件路径，与文件夹路径不同，文件夹路径是必须创建的
+ 文件路径是非必须创建的，有的导出音视频资源到该路径下，并不需要创建文件路径。
+ 举例：多音轨混合中导出混合音轨就不需要创建文件路径。
+ 默认为YES
+ */
+@property (nonatomic,assign) BOOL enableCreateFilePath;
 
 /**
  保存到本地FSLAVSandboxDirType下的路径文件夹名称
@@ -74,9 +84,6 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  */
 @property (nonatomic,strong,readonly) NSString *exportRandomURLStr;
 
-
-
-
 /**
  获取数据操作的本地路径
  
@@ -97,6 +104,9 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  @return  返回清除缓存结果
  */
 - (BOOL)clearCacheData;
+
+
+
 
 @end
 

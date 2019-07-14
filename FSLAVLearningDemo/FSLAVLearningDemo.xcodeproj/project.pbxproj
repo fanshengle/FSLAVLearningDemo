@@ -41,6 +41,9 @@
 		EB10D4F124697C592846E82F /* libPods-FSLAVLearningDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6069DA1EEE1DC50350606B /* libPods-FSLAVLearningDemoTests.a */; };
 		F83365C922C9050A00D70A1D /* 123.h264 in Resources */ = {isa = PBXBuildFile; fileRef = F83365C822C9050900D70A1D /* 123.h264 */; };
 		F83365D222C9131C00D70A1D /* AudioRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F83365D022C9131C00D70A1D /* AudioRecordViewController.m */; };
+		F889CD6D22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F889CD6A22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m */; };
+		F889CD6E22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */; };
+		F889CD7022DA1CD500B4FA29 /* sound_cat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F889CD6F22DA1CD500B4FA29 /* sound_cat.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +130,10 @@
 		F83365C822C9050900D70A1D /* 123.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 123.h264; sourceTree = "<group>"; };
 		F83365D022C9131C00D70A1D /* AudioRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordViewController.m; sourceTree = "<group>"; };
 		F83365D122C9131C00D70A1D /* AudioRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordViewController.h; sourceTree = "<group>"; };
+		F889CD6A22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioMixViewController.m; sourceTree = "<group>"; };
+		F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FSLAVAudioMixViewController.storyboard; sourceTree = "<group>"; };
+		F889CD6C22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioMixViewController.h; sourceTree = "<group>"; };
+		F889CD6F22DA1CD500B4FA29 /* sound_cat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_cat.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +231,7 @@
 		D74310AC22BCBD120055E0C2 /* FSLAVLearningDemo */ = {
 			isa = PBXGroup;
 			children = (
+				F889CD6822DA0C5700B4FA29 /* Classe */,
 				D74310FB22BCBEBC0055E0C2 /* AppDelegate.h */,
 				D74310FC22BCBEBD0055E0C2 /* AppDelegate.m */,
 				D74310FF22BCBEBD0055E0C2 /* ViewController.h */,
@@ -271,11 +279,12 @@
 		D743110022BCBEC40055E0C2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				D743110322BCBEC40055E0C2 /* Model */,
 				D708999322D5D7380020A931 /* abc.aac */,
 				F83365C822C9050900D70A1D /* 123.h264 */,
 				D743110122BCBEC40055E0C2 /* 123.mp3 */,
 				D743110222BCBEC40055E0C2 /* 111.mp3 */,
-				D743110322BCBEC40055E0C2 /* Model */,
+				F889CD6F22DA1CD500B4FA29 /* sound_cat.mp3 */,
 				D743110A22BCBEC40055E0C2 /* FunctionList.json */,
 			);
 			path = Resource;
@@ -358,14 +367,32 @@
 		D743111C22BCBEC70055E0C2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				D743111D22BCBEC70055E0C2 /* BaseViewController.m */,
-				D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */,
 				D743111F22BCBEC70055E0C2 /* BaseNavigationViewController.h */,
 				D743112022BCBEC70055E0C2 /* BaseNavigationViewController.m */,
-				D743112122BCBEC70055E0C2 /* TopNavigationBar.h */,
 				D743112222BCBEC70055E0C2 /* BaseViewController.h */,
+				D743111D22BCBEC70055E0C2 /* BaseViewController.m */,
+				D743112122BCBEC70055E0C2 /* TopNavigationBar.h */,
+				D743111E22BCBEC70055E0C2 /* TopNavigationBar.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		F889CD6822DA0C5700B4FA29 /* Classe */ = {
+			isa = PBXGroup;
+			children = (
+				F889CD6922DA0C7A00B4FA29 /* Controller */,
+			);
+			path = Classe;
+			sourceTree = "<group>";
+		};
+		F889CD6922DA0C7A00B4FA29 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F889CD6C22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.h */,
+				F889CD6A22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m */,
+				F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -482,6 +509,8 @@
 				D743112622BCBEC70055E0C2 /* 123.mp3 in Resources */,
 				D74310FA22BCBE8C0055E0C2 /* Assets.xcassets in Resources */,
 				D743112422BCBEC70055E0C2 /* Main.storyboard in Resources */,
+				F889CD7022DA1CD500B4FA29 /* sound_cat.mp3 in Resources */,
+				F889CD6E22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard in Resources */,
 				D743112D22BCBEC70055E0C2 /* MBProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,6 +613,7 @@
 				D743112522BCBEC70055E0C2 /* ViewController.m in Sources */,
 				D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */,
 				D743112822BCBEC70055E0C2 /* GeneralParamItemModel.m in Sources */,
+				F889CD6D22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m in Sources */,
 				D743112A22BCBEC70055E0C2 /* GeneralGetDataManager.m in Sources */,
 				D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */,
 				D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */,

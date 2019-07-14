@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化配置
  
- @param configuration 配置
+ @param options 配置
  @return options
  */
 - ( instancetype)initWithVideoRecordOptions:(FSLAVVideoRecorderOptions *)options;
@@ -181,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化配置
  
- @param configuration 配置
+ @param options 配置
  @return options
  */
 - ( instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options;

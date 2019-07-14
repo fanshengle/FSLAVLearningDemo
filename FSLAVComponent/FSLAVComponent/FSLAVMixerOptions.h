@@ -43,11 +43,14 @@ typedef NS_ENUM(NSInteger,FSLAVMixStatus)
 };
 
 @interface FSLAVMixerOptions : FSLAVOptions
+{
+    FSLAVMixStatus _mixStatus;
+}
 
 /**
  音视频混合状态
  */
-@property (nonatomic, readonly, assign) FSLAVAudioMixStatus status;
+@property (nonatomic, readonly, assign) FSLAVMixStatus mixStatus;
 
 
 

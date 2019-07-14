@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  LearningAudioVideo
+//  FSLAVLearningDemo
 //
 //  Created by tutu on 2019/6/4.
 //  Copyright © 2019 tutu. All rights reserved.
@@ -17,6 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [FSLAVComponent setLogLevel:FSLAVLogLevelDEBUG];
+    
     //全局设置统一导航条样式
     UIFont *font = [UIFont systemFontOfSize:16];
     NSDictionary *textAttributes = @{NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor whiteColor]};
@@ -27,18 +30,6 @@
                                                          forBarMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
     
-    //全局设置导航栏的返回按钮的图片大小与内容
-    //    UIImage *tmpImage = [UIImage imageNamed:@"edit_nav_ic_back"];
-    //    CGSize newSize = CGSizeMake(16, 16);
-    //    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0f);
-    //    [tmpImage drawInRect:CGRectMake(2, -2, newSize.width, newSize.height)];
-    //    UIImage *backButtonImage = UIGraphicsGetImageFromCurrentImageContext();
-    //    UIGraphicsEndImageContext();
-    //    [[UINavigationBar appearance] setBackIndicatorImage:backButtonImage];
-    //    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:backButtonImage];
-    //    if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 8.0) {
-    //        [UINavigationBar appearance].translucent = NO;
-    //    }
     return YES;
 }
 
