@@ -115,10 +115,7 @@
     }
     _exporter.outputFileType = AVFileTypeAppleM4A;
     _exporter.audioMix = audioMix;
-//    _exporter.outputURL = _mainAudio.savePathURL;
-//    _exporter.outputURL = [NSURL fileURLWithPath:[self generateTempFile]];
-    _exporter.outputURL = [NSURL fileURLWithPath:_mainAudio.savePathURLStr];
-
+    _exporter.outputURL = _mainAudio.savePathURL;
     //设置导出的混合音轨操作时间范围
     _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _mainAudio.atTimeRange.duration);
     
@@ -168,20 +165,10 @@
         [self resetMixOperation];
     }];
 }
+
 /**
- *  生成临时文件路径
- *TuSDKTSMovieSplicer
- *  @return 文件路径
+ 取消混合操作
  */
-- (NSString *)generateTempFile;
-{
-    NSString *path = [FSLAVFileManager createDir:[FSLAVFileManager pathInCacheWithDirPath:@"timeCache" filePath:@""]];
-    path = [NSString stringWithFormat:@"%@%f.m4a", path, [[NSDate date]timeIntervalSince1970]];
-    
-    unlink([path UTF8String]);
-    return path;
-}
-// 取消混合操作
 - (void)cancelMixing;
 {
     if (_exporter) {
@@ -197,7 +184,10 @@
 - (void)resetMixOperation;
 {
     if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-        fslLError(@"Conditions cannot be reset during operation.");
+        fslLWarn(@"Conditions cannot be reset during operation.");
+        if (_exporter) {
+            [_exporter cancelExport];
+        }
     }else{
         if (_audioMixParams) {
             [_audioMixParams removeAllObjects];

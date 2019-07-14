@@ -33,6 +33,8 @@
 #import "FSLAVAACAudioDecoder.h"
 /**音频混合器*/
 #import "FSLAVAudioMixer.h"
+/**音频剪辑器*/
+#import "FSLAVAudioClipper.h"
 
 
 /**视频录制器*/

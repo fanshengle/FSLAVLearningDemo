@@ -24,12 +24,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="9tD-O2-AJj"/>
                     <connections>
-                        <segue destination="NB9-7B-Tbf" kind="show" id="sd9-PT-ffW"/>
+                        <segue destination="4t0-kf-TVp" kind="push" identifier="FSLAVAudioClipperViewController" id="n4F-6x-B23"/>
+                        <segue destination="NB9-7B-Tbf" kind="push" identifier="FSLAVAudioMixViewController" id="ygs-1G-1qu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="441" y="-48"/>
+            <point key="canvasLocation" x="417" y="-48"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tbJ-XH-MNr">
@@ -50,10 +51,22 @@
         <!--FSLAVAudioMixViewController-->
         <scene sceneID="kkX-9R-hHZ">
             <objects>
-                <viewControllerPlaceholder storyboardName="FSLAVAudioMixViewController" id="NB9-7B-Tbf" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="FSLAVAudioMixViewController" id="NB9-7B-Tbf" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="sqH-Oc-svB"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCH-Sr-0UT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1131" y="-257"/>
+            <point key="canvasLocation" x="1130" y="-269"/>
+        </scene>
+        <!--FSLAVAudioClipperViewController-->
+        <scene sceneID="enh-tJ-rPh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="FSLAVAudioClipperViewController" id="4t0-kf-TVp" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="MbP-AP-6Mi"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RWR-pg-hOt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1146" y="-222"/>
         </scene>
     </scenes>
 </document>

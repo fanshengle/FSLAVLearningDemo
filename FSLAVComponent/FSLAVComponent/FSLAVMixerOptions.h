@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVOptions.h"
+#import "FSLAVAudioOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger,FSLAVMixStatus)
     
 };
 
-@interface FSLAVMixerOptions : FSLAVOptions
+@interface FSLAVMixerOptions : FSLAVAudioOptions
 {
     FSLAVMixStatus _mixStatus;
 }

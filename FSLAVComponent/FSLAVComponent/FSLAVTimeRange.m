@@ -93,7 +93,7 @@
 #pragma mark - setter getter
 
 /**
- TuSDKTimeRange转为 CMTimeRange
+ FSLAVTimeRange转为 CMTimeRange
  
  @return CMTimeRange
  */

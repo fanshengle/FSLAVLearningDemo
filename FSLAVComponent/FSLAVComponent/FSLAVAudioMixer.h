@@ -51,7 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startMixingAudioWithCompletion:(void (^)(NSURL*, FSLAVMixStatus))handler;
 
-// 取消混合操作
+/**
+ 取消混合操作
+ */
 - (void)cancelMixing;
 
 @end

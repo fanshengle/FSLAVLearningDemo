@@ -105,7 +105,10 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  */
 - (BOOL)clearCacheData;
 
-
+/**
+ 重置默认参数配置
+ */
+- (void)resetConfig;
 
 
 @end

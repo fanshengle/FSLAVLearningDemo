@@ -14,9 +14,7 @@
 {
     self = [super init];
     if (self) {
-        
-        _sandboxDirType = FSLAVSandboxDirCache;
-        _enableCreateFilePath = YES;
+        [self resetConfig];
     }
     return self;
 }
@@ -58,7 +56,7 @@
  */
 - (NSString *)createSaveDatePath;
 {
-    [self clearCacheData];
+//    [self clearCacheData];
     
     NSString *filePath = [FSLAVFileManager pathAppendDefaultDatePath:self.saveSuffixFormat];
     NSString *datePath = @"";
@@ -137,8 +135,17 @@
         default:
             break;
     }
-
+    _savePathURL = nil;
+    _savePathURLStr = nil;
     return isClear;
 }
 
+/**
+ 重置默认参数配置
+ */
+- (void)resetConfig;
+{
+    _sandboxDirType = FSLAVSandboxDirCache;
+    _enableCreateFilePath = YES;
+}
 @end

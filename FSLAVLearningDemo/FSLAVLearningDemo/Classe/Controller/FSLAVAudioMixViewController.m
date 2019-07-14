@@ -277,7 +277,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     }
 }
 
-#pragma mark - TuSDKTSAudioMixerDelegate
+#pragma mark - FSLAVAudioMixerDelegate
 
 /**
  状态通知代理

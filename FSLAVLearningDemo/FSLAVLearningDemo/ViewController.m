@@ -15,6 +15,8 @@
 #import "FSLH264VideoViewController.h"
 #import "FSLAVPlayerViewController.h"
 #import "FSLAVAudioMixViewController.h"
+#import "FSLAVAudioClipperViewController.h"
+
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -158,14 +160,16 @@
                 FSLAudioEncoderViewController *vc = [[FSLAudioEncoderViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             }
+                break;
             case 4:
             {
-//                [self performSegueWithIdentifier:@"FSLAVAudioMixViewController" sender:self];
-                UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"FSLAVAudioMixViewController" bundle:[NSBundle mainBundle]];
-                //将第二个控制器实例化，"SecondViewController"为我们设置的控制器的ID
-                FSLAVAudioMixViewController *vc = [mainStoryBoard instantiateViewControllerWithIdentifier:@"FSLAVAudioMixViewController"];
-                [self presentViewController:vc animated:YES completion:nil];
-//                [self.navigationController pushViewController:vc animated:YES];
+
+                [self performSegueWithIdentifier:@"FSLAVAudioMixViewController" sender:nil];
+            }
+                break;
+            case 5:
+            {
+                [self performSegueWithIdentifier:@"FSLAVAudioClipperViewController" sender:nil];
             }
                 break;
             default:
@@ -206,9 +210,8 @@
    
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    segue.destinationViewController.title = NSLocalizedStringFromTable(NSStringFromClass(segue.destinationViewController.class), @"VideoDemo", @"API示例列表");
-
-
+    
+    NSLog(@"可以在这里做一些页面跳转属性传值的操作");
 }
 
 /*
