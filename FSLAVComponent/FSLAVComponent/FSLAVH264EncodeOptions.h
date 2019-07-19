@@ -59,7 +59,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
 /**
  默认视频配置
  
- @return FSLAVH264VideoConfiguration
+ @return FSLAVH264VideoOptions
  */
 + (instancetype)defaultOptions;
 
@@ -67,7 +67,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  视频配置(质量)
  
  @param videoQuality 视频质量
- @return FSLAVH264VideoConfiguration
+ @return FSLAVH264VideoOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVH264VideoQuality)videoQuality;
 /**
@@ -75,7 +75,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  
  @param videoQuality 视频质量
  @param outputImageOrientation 屏幕方向
- @return FSLAVH264VideoConfiguration
+ @return FSLAVH264VideoOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 

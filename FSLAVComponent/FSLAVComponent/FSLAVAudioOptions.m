@@ -2,7 +2,7 @@
 //  FSLAVAudioOptions.m
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -56,11 +56,11 @@
 }
 
 /**
- 重置默认参数配置
+ 设置默认参数配置
  */
-- (void)resetConfig;
+- (void)setConfig;
 {
-    [super resetConfig];
+    [super setConfig];
     
     _enableCreateFilePath = NO;
     _audioVolume = 1.0;

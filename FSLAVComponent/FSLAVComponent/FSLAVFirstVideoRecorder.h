@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FSLAVFirstVideoRecorder : FSLAVRecordVideoCoreBase<FSLAVVideoRecorderInterface>
 {
-    FSLAVVideoRecorderOptions *_configuration;
+    FSLAVVideoRecorderOptions *_options;
 }
 
 /**

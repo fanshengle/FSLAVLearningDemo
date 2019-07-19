@@ -2,7 +2,7 @@
 //  FSLAVCliperOptions.h
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- TuSDKMovieClipper 视频裁剪状态
+ 音视频裁剪状态
  */
 typedef NS_ENUM(NSInteger,FSLAVClipStatus)
 {

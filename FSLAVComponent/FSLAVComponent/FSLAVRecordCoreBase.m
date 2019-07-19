@@ -10,14 +10,11 @@
 
 @implementation FSLAVRecordCoreBase
 
-- (void)dealloc{
-    
-    [self removeRecordTimer];
-}
+
 
 #pragma mark --  定时器
 //添加定时器
-- (void)addRecordTimer
+- (void)addRecordTimer;
 {
     if (!_recordTimer) {
         
@@ -45,7 +42,7 @@
     
 
 //定时器事件
-- (void)recordTimerAction
+- (void)recordTimerAction;
 {
     _recordTime ++;
     if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordCurrentTotalTimeLength:)]) {
@@ -55,11 +52,33 @@
 }
 
 //移除定时器
-- (void)removeRecordTimer
+- (void)removeRecordTimer;
 {
     [_recordTimer invalidate];
     _recordTimer = nil;
 }
 
+/**
+ 销毁对象，释放对象
+ */
+- (void)destory;{
+    
+}
+
+/**
+ 设置回调通知，并委托协议
+ 
+ @param state 回调的录制状态
+ */
+- (void)notifyRecordState:(FSLAVRecordState)state;
+{
+    
+}
+
+- (void)dealloc{
+    
+    [self removeRecordTimer];
+    [self destory];
+}
 
 @end

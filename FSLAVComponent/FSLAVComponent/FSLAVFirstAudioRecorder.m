@@ -18,18 +18,11 @@
 
 @implementation FSLAVFirstAudioRecorder
 
-@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
 - (void)dealloc{
     
     if (self.isRecording) [self.recorder stop];
     [self removeSoundWavesTimer];
-}
-
-- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
-    _options = options;
-  
-    return [self init];
 }
 
 
@@ -44,7 +37,7 @@
          error:错误
          */
         NSError *error;
-        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.savePathURL settings:_options.audioConfigure error:&error];
+        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.outputFilePathURL settings:_options.audioConfigure error:&error];
         _recorder.delegate = self;
         //如果要监控声波则必须设置为YES
         _recorder.meteringEnabled = YES;
@@ -119,7 +112,7 @@
     
     if ([self isLessRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
         }
     }
     
@@ -128,7 +121,7 @@
         [self stopRecord];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
+            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
         }
     }
 }
@@ -156,7 +149,7 @@
     }
 
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
     }
 }
 
@@ -227,7 +220,7 @@
     }
 
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
     }
 }
 
@@ -236,7 +229,7 @@
     
     if(!error) return;
     if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_options.savePathURL];
+        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
     }
 }
 

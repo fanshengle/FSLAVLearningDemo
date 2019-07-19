@@ -2,7 +2,7 @@
 //  FSLAVAudioClipperViewController.m
 //  FSLAVLearningDemo
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -165,12 +165,12 @@
 
 - (IBAction)deleteAudio {
     
-    if (_clipAudio.savePathURL) {
+    if (_clipAudio.outputFilePathURL) {
         [_clipAudioPlayer pause];
-        [_clipAudio clearCacheData];
+        [_clipAudio clearOutputFilePath];
     }
     
-    NSLog(@"result path:%@", _clipAudio.savePathURLStr);
+    NSLog(@"result path:%@", _clipAudio.outputFilePath);
     
     [HUDManager showTextHud:@"请重新进行音频剪辑"];
     
@@ -179,8 +179,8 @@
 }
 
 - (IBAction)playClipAudio {
-    if (_clipAudio.savePathURL) {
-        [self playTheAudioWithURL:_clipAudio.savePathURL];
+    if (_clipAudio.outputFilePathURL) {
+        [self playTheAudioWithURL:_clipAudio.outputFilePathURL];
     }
 }
 
@@ -227,8 +227,8 @@
  
  */
 - (void)didMixedAudioResult:(FSLAVCliperAudioOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper{
-    if (result.savePathURLStr) {
-        NSLog(@"result path : %@", result.savePathURLStr);
+    if (result.outputFilePath) {
+        NSLog(@"result path : %@", result.outputFilePath);
     }
 }
 

@@ -11,13 +11,12 @@
 @implementation FSLAVMixerAudioOptions
 
 /**
- 重置默认参数配置
+ 设置默认参数配置
  */
-- (void)resetConfig{
+- (void)setConfig{
     
-    [super resetConfig];
+    [super setConfig];
     
-    _mixStatus = FSLAVMixStatusUnknown;
     _outputFileName = @"audioMix";
     _saveSuffixFormat = @"m4a";
     _enableCycleAdd = NO;

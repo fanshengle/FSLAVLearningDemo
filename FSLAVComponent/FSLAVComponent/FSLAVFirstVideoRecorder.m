@@ -233,13 +233,13 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     if ([self isLessRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedVideoRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_options.savePathURL];
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateLessMinRecordTime fromVideoRecorder:self outputFileAtURL:_options.outputFilePathURL];
         }
     }
     
     if ([self isMoreRecordTime]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedVideoRecordState:fromVideoRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedVideoRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_options.savePathURL];
+            [self.delegate didChangedVideoRecordState:FSLAVRecordStateMoreMaxRecorTime fromVideoRecorder:self outputFileAtURL:_options.outputFilePathURL];
         }
     }
 }
@@ -254,7 +254,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
     
     if (_options.recordOutputType == FSLAVVideoRecordMovieFileOutput) {
         
-        [self.captureMovieFileOutput startRecordingToOutputFileURL:_options.savePathURL recordingDelegate:self];
+        [self.captureMovieFileOutput startRecordingToOutputFileURL:_options.outputFilePathURL recordingDelegate:self];
     }else{
     }
     

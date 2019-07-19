@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- FSLAVMixer 音视频混合状态
+ 音视频混合状态
  */
 typedef NS_ENUM(NSInteger,FSLAVMixStatus)
 {

@@ -2,7 +2,7 @@
 //  FSLAVAudioOptions.h
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -59,10 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithAudioTrack:(AVAssetTrack *)audioTrack;
 
-/**
- 重置默认参数配置
- */
-- (void)resetConfig;
 @end
 
 NS_ASSUME_NONNULL_END

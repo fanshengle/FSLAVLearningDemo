@@ -2,7 +2,7 @@
 //  FSLAVCliperAudioOptions.m
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -11,12 +11,11 @@
 @implementation FSLAVCliperAudioOptions
 
 /**
- 重置默认参数配置
+ 设置默认参数配置
  */
-- (void)resetConfig{
-    [super resetConfig];
+- (void)setConfig{
+    [super setConfig];
     
-    _clipStatus = FSLAVClipStatusUnknown;
     _outputFileName = @"audioCliper";
     _saveSuffixFormat = @"m4a";
 }

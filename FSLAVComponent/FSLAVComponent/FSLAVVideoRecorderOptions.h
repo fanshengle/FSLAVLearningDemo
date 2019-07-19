@@ -114,7 +114,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 /**
  默认视频配置
  
- @return FSLAVVideoRecorderConfiguration
+ @return FSLAVVideoRecorderOptions
  */
 + (instancetype)defaultOptions;
 
@@ -122,7 +122,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  视频配置(分辨率)
  
  @param sessionPreset 视频分辨率
- @return FSLAVVideoRecorderConfiguration
+ @return FSLAVVideoRecorderOptions
  */
 + (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset;
 
@@ -131,7 +131,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  
  @param sessionPreset 视频分辨率
  @param videoRecordPosition 摄像机位置
- @return FSLAVVideoRecorderConfiguration
+ @return FSLAVVideoRecorderOptions
  */
 + (instancetype)defaultOptionsForSessionPreset:(FSLAVCaptureSessionPreset)sessionPreset videoRecordPosition:(FSLAVVideoRecordPosition)videoRecordPosition;
 

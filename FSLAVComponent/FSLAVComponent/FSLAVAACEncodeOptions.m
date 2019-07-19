@@ -50,37 +50,37 @@
     {
         case FSLAVAACAudioQuality_min:
         {
-            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACaudioBitRate_32Kbps : FSLAVAACaudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_16000Hz;
         }
             break;
         case FSLAVAACAudioQuality_Low:
         {
-            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACaudioBitRate_32Kbps : FSLAVAACaudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_22050Hz;
         }
             break;
         case FSLAVAACAudioQuality_Medium:
         {
-            audioConfig.audioBitRate = FSLAVAACaudioBitRate_64Kbps;
+            audioConfig.audioBitRate = FSLAVAACAudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_32000Hz;
         }
             break;
         case FSLAVAACAudioQuality_High:
         {
-            audioConfig.audioBitRate = FSLAVAACaudioBitRate_96Kbps;
+            audioConfig.audioBitRate = FSLAVAACAudioBitRate_96Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
         }
             break;
         case FSLAVAACAudioQuality_Max:
         {
-            audioConfig.audioBitRate = FSLAVAACaudioBitRate_128Kbps;
+            audioConfig.audioBitRate = FSLAVAACAudioBitRate_128Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_48000Hz;
         }
             break;
         default:
         {
-            audioConfig.audioBitRate = FSLAVAACaudioBitRate_96Kbps;
+            audioConfig.audioBitRate = FSLAVAACAudioBitRate_96Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
         }
             break;

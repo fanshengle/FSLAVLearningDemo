@@ -217,7 +217,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 - (IBAction)deleteMixedAudioAndPlay {
     if (_resultURL) {
         [_audioPlayer pause];
-        [_mainAudio clearCacheData];
+        [_mainAudio clearOutputFilePath];
         _resultURL = nil;
     }
     
@@ -301,9 +301,9 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
  
  */
 - (void)didMixedAudioResult:(FSLAVMixerAudioOptions *)result onAudioMix:(FSLAVAudioMixer *)audioMixer{
-    if (result.savePathURLStr) {
-        NSLog(@"result path : %@", result.savePathURLStr);
-        _resultURL = [NSURL URLWithString:result.savePathURLStr];
+    if (result.outputFilePath) {
+        NSLog(@"result path : %@", result.outputFilePath);
+        _resultURL = [NSURL URLWithString:result.outputFilePath];
     }
 }
 

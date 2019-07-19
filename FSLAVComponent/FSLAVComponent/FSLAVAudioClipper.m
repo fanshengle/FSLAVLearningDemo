@@ -2,7 +2,7 @@
 //  FSLAVAudioCliper.m
 //  FSLAVComponent
 //
-//  Created by TuSDK on 2019/7/14.
+//  Created by tutu on 2019/7/14.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
@@ -66,7 +66,7 @@
         _exporter = [AVAssetExportSession exportSessionWithAsset:_clipAudio.audioAsset presetName:AVAssetExportPresetAppleM4A];
     }
     //2.导出剪辑音频到该路径下
-    _exporter.outputURL = _clipAudio.savePathURL;
+    _exporter.outputURL = _clipAudio.outputFilePathURL;
     //3.设置导出音频的数据格式.m4a
     _exporter.outputFileType = AVFileTypeAppleM4A;
     //4.剪辑重点：设置剪辑的时间范围

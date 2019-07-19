@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FSLAVAACAudioEncoder : NSObject<FSLAVAACAudioEncoderInterface>
 {
-    FSLAVAACEncodeOptions *_configuration;
+    FSLAVAACEncodeOptions *_options;
 }
 
 @property (nonatomic,strong,readonly) FSLAVAACEncodeOptions *options;

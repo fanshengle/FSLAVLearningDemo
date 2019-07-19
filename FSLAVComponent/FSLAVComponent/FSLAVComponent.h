@@ -16,6 +16,9 @@
 #import "FSLProxy.h"
 /**日志处理类*/
 #import "FSLAVLog.h"
+/** CMSampleBufferRef 助手*/
+#import "FSLAVMediaSampleBufferAssistant.h"
+
 
 /**音频录制器*/
 #import "FSLAVFirstAudioRecorder.h"

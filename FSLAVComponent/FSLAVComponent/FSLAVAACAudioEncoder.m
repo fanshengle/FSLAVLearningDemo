@@ -42,23 +42,23 @@
 /**
  初始化音频配置
  
- configuration 音频配置
+ options 音频配置
  @return options
  */
-- (instancetype)initWithAudioStreamOptions:(FSLAVAACEncodeOptions *)configuration
+- (instancetype)initWithAudioStreamOptions:(FSLAVAACEncodeOptions *)options
 {
     if (self = [super init])
     {
-        _configuration = configuration;
+        _options = options;
         
         if (!pcmBuffer)
         {
-            pcmBuffer = malloc(_configuration.bufferLength);
+            pcmBuffer = malloc(_options.bufferLength);
         }
         
         if (!aacBuffer)
         {
-            aacBuffer = malloc(_configuration.bufferLength);
+            aacBuffer = malloc(_options.bufferLength);
         }
     }
     return self;
@@ -73,7 +73,7 @@
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_options createSaveDatePath]];
     }
     return _fileHandle;
 }
@@ -81,7 +81,7 @@
 - (FILE *)fileHandle2{
     if (!_fileHandle2) {
         
-        _fileHandle2 = fopen([[_configuration createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
+        _fileHandle2 = fopen([[_options createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
     }
     return _fileHandle2;
 }
@@ -102,17 +102,17 @@
     // 初始化输出流的结构体描述为0. 很重要。
     AudioStreamBasicDescription inputFormat = {0};
     //采样率
-    inputFormat.mSampleRate = _configuration.audioSampleRate;
+    inputFormat.mSampleRate = _options.audioSampleRate;
     //指定流数据格式，格式标识符
     inputFormat.mFormatID = kAudioFormatLinearPCM;
     //指定格式细节的特定于格式的标志。设置为0表示没有格式标志
     inputFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
     //每帧音频数据中的声道数。这个值必须是非零的。
-    inputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
+    inputFormat.mChannelsPerFrame = (UInt32)_options.numberOfChannels;
     //音频数据包中的帧数。对于未压缩的音频，值为1
     inputFormat.mFramesPerPacket = 1;
     //一个音频样本的采样位数（比特数）。
-    inputFormat.mBitsPerChannel = (UInt32)_configuration.bitsPerChannel;
+    inputFormat.mBitsPerChannel = (UInt32)_options.bitsPerChannel;
     //音频缓冲区中从一帧开始到下一帧开始的字节数。为压缩格式将此字段设置为0。
     inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel / 8 * inputFormat.mChannelsPerFrame;
     //inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel * inputFormat.mChannelsPerFrame / 8;
@@ -134,7 +134,7 @@
     //每一个packet的音频数据大小。如果的动态大小设置为0。动态大小的格式需要用AudioStreamPacketDescription来确定每个packet的大小。
     outputFormat.mBytesPerPacket   = 0;
     //每帧的声道数
-    outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
+    outputFormat.mChannelsPerFrame = (UInt32)_options.numberOfChannels;
     //AAC一帧是1024个字节
     outputFormat.mFramesPerPacket = 1024;
 
@@ -163,7 +163,7 @@
      */
     OSStatus status = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &audioConverter);
     //设置码率
-    UInt32 outputBitRate = _configuration.audioBitRate;
+    UInt32 outputBitRate = _options.audioBitRate;
     UInt32 propSize = sizeof(outputBitRate);
     if (status == noErr) {
         status = AudioConverterSetProperty(audioConverter, kAudioConverterEncodeBitRate, propSize, &outputBitRate);
@@ -189,7 +189,7 @@
     inputBuffer.mNumberChannels = 1;
     //指向音频数据缓冲区的指针。
     inputBuffer.mData = buffer;
-    inputBuffer.mDataByteSize = (UInt32)_configuration.bufferLength;
+    inputBuffer.mDataByteSize = (UInt32)_options.bufferLength;
     
     //2、初始化一个输入缓冲区列表
     //保存音频缓冲器结构的可变长度数组。
@@ -234,15 +234,15 @@
     audioFrame.data = [NSData dataWithBytes:aacBuffer length:outBufferList.mBuffers[0].mDataByteSize];
   
     char exeData[2];
-    exeData[0] = _configuration.asc[0];
-    exeData[1] = _configuration.asc[1];
+    exeData[0] = _options.asc[0];
+    exeData[1] = _options.asc[1];
     audioFrame.audioInfo = [NSData dataWithBytes:exeData length:2];
     if (self.encoderDelegate && [self.encoderDelegate respondsToSelector:@selector(didEncordingStreamingBufferFrame:encoder:)]) {
         [self.encoderDelegate didEncordingStreamingBufferFrame:audioFrame encoder:self];
     }
     
     //7、在每个音频包的开始添加ADTS头信息
-    NSData *adtsAudioData = [self addADTSHeaderToAudioPacketWithChannel:_configuration.numberOfChannels dataPacketLength:audioFrame.data.length];
+    NSData *adtsAudioData = [self addADTSHeaderToAudioPacketWithChannel:_options.numberOfChannels dataPacketLength:audioFrame.data.length];
     NSMutableData *fullData = [NSMutableData dataWithData:adtsAudioData];
     //拼接ADTS头数据到AACData
     [fullData appendData:audioFrame.data];
@@ -377,10 +377,10 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     //初始化音频编码转码器
     if (![self initAudioConvert]) return;
     
-    if (pcmBufferLength + audioData.length >= _configuration.bufferLength) {
+    if (pcmBufferLength + audioData.length >= _options.bufferLength) {
         //发送数据
         NSInteger totalSize = pcmBufferLength + audioData.length;
-        NSInteger encodeCount = totalSize/_configuration.bufferLength;
+        NSInteger encodeCount = totalSize/_options.bufferLength;
         
         //指向音频数据缓冲区的指针。
         char *totalBuffer = malloc(totalSize);
@@ -395,7 +395,7 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
         for (NSInteger index = 0; index < encodeCount; index++) {
             //通过音频的输入格式进行输出AAC格式的编码
             [self encodeAudioDataBuffer:pTotalBuffer timeStamp:timeStamp];
-            pTotalBuffer += _configuration.bufferLength;
+            pTotalBuffer += _options.bufferLength;
         }
         free(totalBuffer);
         
@@ -442,12 +442,12 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     }
     
     //初始清零
-    memset(aacBuffer, 0, _configuration.bufferLength);
+    memset(aacBuffer, 0, _options.bufferLength);
     //2、初始化一个输出缓冲区列表
     AudioBufferList outputBufferList = {0};
     outputBufferList.mNumberBuffers = 1;
     outputBufferList.mBuffers[0].mNumberChannels = 1;
-    outputBufferList.mBuffers[0].mDataByteSize  = (UInt32)_configuration.bufferLength;
+    outputBufferList.mBuffers[0].mDataByteSize  = (UInt32)_options.bufferLength;
     outputBufferList.mBuffers[0].mData = aacBuffer;
     
     AudioStreamPacketDescription *outPacketDescription = NULL;
@@ -474,8 +474,8 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     audioFrame.data = [NSData dataWithBytes:aacBuffer length:outputBufferList.mBuffers[0].mDataByteSize];
     
     char exeData[2];
-    exeData[0] = _configuration.asc[0];
-    exeData[1] = _configuration.asc[1];
+    exeData[0] = _options.asc[0];
+    exeData[1] = _options.asc[1];
     audioFrame.audioInfo = [NSData dataWithBytes:exeData length:2];
     if (self.encoderDelegate && [self.encoderDelegate respondsToSelector:@selector(didEncordingStreamingBufferFrame:encoder:)]) {
         [self.encoderDelegate didEncordingStreamingBufferFrame:audioFrame encoder:self];
@@ -535,7 +535,7 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     //每一个packet的音频数据大小。如果的动态大小设置为0。动态大小的格式需要用AudioStreamPacketDescription来确定每个packet的大小。
     outputFormat.mBytesPerPacket   = 0;
     //每帧的声道数
-    //outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
+    //outputFormat.mChannelsPerFrame = (UInt32)_options.numberOfChannels;
     outputFormat.mChannelsPerFrame = inputFormat.mChannelsPerFrame;
     //AAC一帧是1024个字节
     outputFormat.mFramesPerPacket = 1024;
@@ -560,7 +560,7 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
      */
     OSStatus status = AudioConverterNewSpecific(&inputFormat, &outputFormat, 1, description, &audioConverter);
     //设置码率
-    UInt32 outputBitrate = _configuration.audioBitRate;
+    UInt32 outputBitrate = _options.audioBitRate;
     UInt32 propSize = sizeof(outputBitrate);
     if (status == noErr) {
         status = AudioConverterSetProperty(audioConverter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);

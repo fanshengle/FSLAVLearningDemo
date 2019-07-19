@@ -21,7 +21,7 @@
     dispatch_queue_t _encodeQueue;
 }
 
-/**文件写入对象*/
+/**文件写入对象：对文件内容进行读取和写入操作*/
 @property (nonatomic,strong) NSFileHandle *fileHandle;
 
 /**文件写入对象*/
@@ -133,7 +133,7 @@
 - (NSFileHandle *)fileHandle{
     if (!_fileHandle) {
         
-        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_configuration createSaveDatePath]];
+        _fileHandle = [NSFileHandle fileHandleForWritingAtPath:[_options createSaveDatePath]];
     }
     return _fileHandle;
 }
@@ -143,7 +143,7 @@
     
     if (!_fileHandle2) {
         
-        _fileHandle2 = fopen([[_configuration createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
+        _fileHandle2 = fopen([[_options createSaveDatePath] cStringUsingEncoding:NSUTF8StringEncoding], "wb");
     }
     return _fileHandle2;
 }

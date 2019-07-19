@@ -10,19 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-
 /**
  音频录制器：通过组件示例AudioComponentInstance形式获取的音频数据Data格式
  */
-@interface FSLAVThreeAudioRecorder : FSLAVRecordAudioCoreBase<FSLAVAudioRecorderInterface>
-
-/**
- 音频配置项
- */
-@property (nonatomic, strong) FSLAVAudioRecoderOptions *options;
-
-@property (nonatomic, weak) id<FSLAVAudioRecorderDelegate> delegate;
+@interface FSLAVThreeAudioRecorder : FSLAVRecordAudioCoreBase
 
 /**
  *  开启音频采集

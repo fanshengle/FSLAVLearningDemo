@@ -10,4 +10,13 @@
 
 @implementation FSLAVMixerOptions
 
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig{
+    
+    [super setConfig];
+    
+    _mixStatus = FSLAVMixStatusUnknown;
+}
 @end

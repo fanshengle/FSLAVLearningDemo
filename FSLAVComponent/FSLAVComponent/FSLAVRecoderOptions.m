@@ -9,14 +9,15 @@
 #import "FSLAVRecoderOptions.h"
 
 @implementation FSLAVRecoderOptions
-- (instancetype)init
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
 {
-    self = [super init];
-    if (self) {
-        
-        _isAutomaticStop = NO;
-        _maxRecordDelay = 0;
-    }
-    return self;
+    [super setConfig];
+    
+    _isAutomaticStop = NO;
+    _maxRecordDelay = 0;
 }
 @end

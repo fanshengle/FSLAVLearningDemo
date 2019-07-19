@@ -31,10 +31,10 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
     BOOL _enableCreateFilePath;
     NSString *_outputFileName;
     NSString *_saveSuffixFormat;
-    NSURL *_savePathURL;
-    NSString *_savePathURLStr;
-    NSURL *_exportRandomURL;
-    NSString *_exportRandomURLStr;
+    NSURL *_outputFilePathURL;
+    NSString *_outputFilePath;
+    NSURL *_exportRandomFilePathURL;
+    NSString *_exportRandomFilePath;
    
 }
 
@@ -67,22 +67,24 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 /**
  保存到本地FSLAVSandboxDirType下的音视频文件URL路径
  */
-@property (nonatomic,strong,readonly) NSURL *savePathURL;
+@property (nonatomic,strong,readonly) NSURL *outputFilePathURL;
 
 /**
  保存到本地FSLAVSandboxDirType下的音视频文件Str路径
  */
-@property (nonatomic,strong,readonly) NSString *savePathURLStr;
+@property (nonatomic,strong,readonly) NSString *outputFilePath;
 
 /**
  导出保存文件对应文件夹路径下的文件随机URL
  */
-@property (nonatomic,strong,readonly) NSURL *exportRandomURL;
+@property (nonatomic,strong,readonly) NSURL *exportRandomFilePathURL;
 
 /**
  导出保存文件对应文件夹路径下的文件随机URLStr
  */
-@property (nonatomic,strong,readonly) NSString *exportRandomURLStr;
+@property (nonatomic,strong,readonly) NSString *exportRandomFilePath;
+
+
 
 /**
  获取数据操作的本地路径
@@ -99,6 +101,11 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 - (NSString *)exportSaveDatePath;
 
 /**
+ 清除当前路径文件
+ */
+- (void)clearOutputFilePath;
+
+/**
  清除缓存
  
  @return  返回清除缓存结果
@@ -106,9 +113,9 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 - (BOOL)clearCacheData;
 
 /**
- 重置默认参数配置
+ 设置默认参数配置
  */
-- (void)resetConfig;
+- (void)setConfig;
 
 
 @end

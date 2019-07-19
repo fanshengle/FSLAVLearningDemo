@@ -115,7 +115,7 @@
     }
     _exporter.outputFileType = AVFileTypeAppleM4A;
     _exporter.audioMix = audioMix;
-    _exporter.outputURL = _mainAudio.savePathURL;
+    _exporter.outputURL = _mainAudio.outputFilePathURL;
     //设置导出的混合音轨操作时间范围
     _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _mainAudio.atTimeRange.duration);
     

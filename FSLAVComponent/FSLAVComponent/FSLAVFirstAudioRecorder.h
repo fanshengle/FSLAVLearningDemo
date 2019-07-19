@@ -12,17 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频录制器：通过AVAudioRecorder形式录制
  */
-@interface FSLAVFirstAudioRecorder : FSLAVRecordAudioCoreBase<FSLAVAudioRecorderInterface>
+@interface FSLAVFirstAudioRecorder : FSLAVRecordAudioCoreBase
 
-/**
- 音频配置项
- */
-@property (nonatomic, strong) FSLAVAudioRecoderOptions *options;
-
-/**
- 代理
- */
-@property (nonatomic, weak) id<FSLAVAudioRecorderDelegate> delegate;
 
 
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface FSLAVH264VideoEncoder : NSObject<FSLAVH264VideoEncoderInterface>
 {
-    FSLAVH264EncodeOptions *_configuration;
+    FSLAVH264EncodeOptions *_options;
 }
 /**
  视频配置项

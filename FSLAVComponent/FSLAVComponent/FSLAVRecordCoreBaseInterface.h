@@ -144,7 +144,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)didChangedAudioRecordState:(FSLAVRecordState)state fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder outputFileAtURL:(NSURL *)fileURL;
 
-
 /**
  
  FSLAVFirstAudioRecorder的委托

@@ -13,17 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频码率(默认为96Kbps)
  */
-typedef NS_ENUM (NSUInteger, FSLAVAACaudioBitRate)
+typedef NS_ENUM (NSUInteger, FSLAVAACAudioBitRate)
 {
-    FSLAVAACaudioBitRate_32Kbps = 32000,
+    FSLAVAACAudioBitRate_32Kbps = 32000,
     
-    FSLAVAACaudioBitRate_64Kbps = 64000,
+    FSLAVAACAudioBitRate_64Kbps = 64000,
     
-    FSLAVAACaudioBitRate_96Kbps = 96000,
+    FSLAVAACAudioBitRate_96Kbps = 96000,
     
-    FSLAVAACaudioBitRate_128Kbps = 128000,
+    FSLAVAACAudioBitRate_128Kbps = 128000,
     
-    FSLAVAACaudioBitRate_Default = FSLAVAACaudioBitRate_96Kbps
+    FSLAVAACAudioBitRate_Default = FSLAVAACAudioBitRate_96Kbps
 };
 
 /**
@@ -109,7 +109,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
 /**
  码率
  */
-@property (nonatomic, assign) FSLAVAACaudioBitRate audioBitRate;
+@property (nonatomic, assign) FSLAVAACAudioBitRate audioBitRate;
 
 /**
  编码音频头

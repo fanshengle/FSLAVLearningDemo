@@ -14,12 +14,12 @@
 /**
  视频录制配置
  */
-@property (nonatomic, strong) FSLAVVideoRecorderOptions *recorderConfiguration;
+@property (nonatomic, strong) FSLAVVideoRecorderOptions *recorderoptions;
 
 /**
  视频编码配置
  */
-@property (nonatomic, strong) FSLAVH264EncodeOptions *encoderConfiguration;
+@property (nonatomic, strong) FSLAVH264EncodeOptions *encoderoptions;
 
 /**
  视频录制器

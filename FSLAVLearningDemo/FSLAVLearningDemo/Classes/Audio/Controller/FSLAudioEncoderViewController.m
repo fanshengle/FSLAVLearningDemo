@@ -61,7 +61,7 @@
 
 - (FSLAVAudioPlayer *)audioPlayer{
     if (!_audioPlayer) {
-        _audioPlayer = [[FSLAVAudioPlayer alloc] initWithURL:self.audioRecorder.options.savePathURLStr];
+        _audioPlayer = [[FSLAVAudioPlayer alloc] initWithURL:self.audioRecorder.options.outputFilePath];
     }
     return _audioPlayer;
 }
@@ -78,9 +78,9 @@
 
 - (FSLAVAACAudioDecoder *)audioDecoder{
     
-    FSLAVAACEncodeOptions *configuration = [FSLAVAACEncodeOptions defaultOptions];
+    FSLAVAACEncodeOptions *options = [FSLAVAACEncodeOptions defaultOptions];
     _audioDecoder = [[FSLAVAACAudioDecoder alloc] init];
-    [_audioDecoder startReadAudioStreamingDataFromPath:configuration.exportRandomURLStr];
+    [_audioDecoder startReadAudioStreamingDataFromPath:options.exportRandomFilePath];
     //[_audioDecoder startReadAudioStreamingDataFromPath:[[NSBundle mainBundle] pathForResource:@"abc.aac" ofType:nil]];
 
     return _audioDecoder;

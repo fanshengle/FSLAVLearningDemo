@@ -14,7 +14,7 @@
 /**
  默认视频配置
  
- @return VideoH264Configuration
+ @return FSLAVH264EncodeOptions
  */
 + (instancetype)defaultOptions{
     
@@ -26,7 +26,7 @@
  视频配置(质量)
  
  @param videoQuality 视频质量
- @return VideoH264Configuration
+ @return FSLAVH264EncodeOptions
  */
 + (instancetype)defaultOptionsForQuality:( FSLAVH264VideoQuality)videoQuality{
     
@@ -38,7 +38,7 @@
  
  @param videoQuality 视频质量
  @param outputImageOrientation 屏幕方向
- @return VideoH264Configuration
+ @return FSLAVH264EncodeOptions
  */
 + (instancetype)defaultOptionsForQuality:( FSLAVH264VideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation{
     

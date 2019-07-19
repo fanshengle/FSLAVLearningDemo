@@ -13,14 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频录制器：通过音频捕捉会话AVCaptureSession形式获取的音频数据CMSampleBufferRef格式
  */
-@interface FSLAVSecondAudioRecorder : FSLAVRecordAudioCoreBase<FSLAVAudioRecorderInterface>
+@interface FSLAVSecondAudioRecorder : FSLAVRecordAudioCoreBase
 
-/**
- 音频配置项
- */
-@property (nonatomic, strong) FSLAVAudioRecoderOptions *options;
 
-@property (nonatomic, weak) id<FSLAVAudioRecorderDelegate> delegate;
 
 @end
 

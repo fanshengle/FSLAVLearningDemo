@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import "FSLAVRecordCoreBaseInterface.h"
+#import "FSLAVLog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,11 +35,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, weak) id<FSLAVRecordCoreBaseDelegate> delegate;
 
-
 /**
  是否正在录制中
  */
 @property (readonly, getter=isRecording) BOOL isRecording;
+
+/**
+ 销毁对象，释放对象
+ */
+- (void)destory;
+
+/**
+ 设置回调通知，并委托协议
+ 
+ @param state 回调的录制状态
+ */
+- (void)notifyRecordState:(FSLAVRecordState)state;
 
 
 @end

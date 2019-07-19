@@ -33,15 +33,14 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 @property (nonatomic, assign) BOOL isAudioCapture;
 /**文件写入对象*/
 @property (nonatomic , strong) NSFileHandle *fileHandle;
+
 @end
 
 @implementation FSLAVThreeAudioRecorder
 
-@dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
-
 - (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
-    if (self = [super init]) {
-        _options = options;
+    if (self = [super initWithAudioRecordOptions:options]) {
+        
         _audioCaptureTaskQueue = dispatch_queue_create("com.FSLAVComponent.audioCapture.Queue", NULL);
         [self initAudioCaptureSession];
     }
@@ -177,7 +176,7 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
     //音频数据包中的帧数。对于未压缩的音频，值为1。
     //对于可变比特率格式，该值是一个较大的固定数字，比如AAC的1024。对于每个数据包帧数可变的格式，如Ogg Vorbis，将此字段设置为0。
     desc.mFramesPerPacket = 1;
-    desc.mBitsPerChannel = (UInt32)_options.audioLinearPCMBit;
+    desc.mBitsPerChannel = (UInt32)_options.audioLinearBitDepth;
     //音频缓冲区中从一帧开始到下一帧开始的字节数。为压缩格式将此字段设置为0。每帧多少字节 bytes -> bit / 8
     desc.mBytesPerFrame = desc.mBitsPerChannel / 8 * desc.mChannelsPerFrame;
     //音频数据包中的字节数。若要指示可变包大小，请将此字段设置为0。
