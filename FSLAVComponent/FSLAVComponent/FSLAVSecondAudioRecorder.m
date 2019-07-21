@@ -33,7 +33,7 @@
     return self;
 }
 
-- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecorderOptions *)options{
     if (self = [super initWithAudioRecordOptions:options]) {
         
         _audioCaptureQueue = dispatch_queue_create("Audio Capture Queue", DISPATCH_QUEUE_SERIAL);

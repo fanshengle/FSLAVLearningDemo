@@ -37,7 +37,7 @@
          error:错误
          */
         NSError *error;
-        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.outputFilePathURL settings:_options.audioConfigure error:&error];
+        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.outputFileURL settings:_options.audioConfigure error:&error];
         _recorder.delegate = self;
         //如果要监控声波则必须设置为YES
         _recorder.meteringEnabled = YES;
@@ -111,18 +111,13 @@
     _options.recordTimeLength = _recordTime;
     
     if ([self isLessRecordTime]) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateLessMinRecordTime fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
-        }
+        [self notifyRecordState:FSLAVRecordStateLessMinRecordTime];
     }
     
     if ([self isMoreRecordTime]) {
         
         [self stopRecord];
-        
-        if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-            [self.delegate didChangedAudioRecordState:FSLAVRecordStateMoreMaxRecorTime fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
-        }
+        [self notifyRecordState:FSLAVRecordStateMoreMaxRecordTime];
     }
 }
 
@@ -147,10 +142,7 @@
 
         self.soundWavesTimer.fireDate = [NSDate distantPast];
     }
-
-    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateReadyToRecord fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
-    }
+    [self notifyRecordState:FSLAVRecordStateReadyToRecord];
 }
 
 #pragma mark -- 暂停录音
@@ -218,18 +210,26 @@
         _options.recordTimeLength = _recordTime;
         _isRecording = NO;
     }
-
-    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFinish fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
-    }
+    [self notifyRecordState:FSLAVRecordStateCompleted];
 }
 
 //录音失败
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError * __nullable)error{
     
     if(!error) return;
-    if ([self.delegate respondsToSelector:@selector(didChangedAudioRecordState:fromAudioRecorder:outputFileAtURL:)]) {
-        [self.delegate didChangedAudioRecordState:FSLAVRecordStateFailed fromAudioRecorder:self outputFileAtURL:_options.outputFilePathURL];
+    [self notifyRecordState:FSLAVRecordStateFailed];
+}
+
+
+/**
+ 录制状态：代理通知回调
+
+ @param state 音频录制状态
+ */
+- (void)notifyRecordState:(FSLAVRecordState)state{
+    
+    if ([self.delegate respondsToSelector:@selector(didRecordingStatusChanged:recorder:)]) {
+        [self.delegate didRecordingStatusChanged:state recorder:self];
     }
 }
 

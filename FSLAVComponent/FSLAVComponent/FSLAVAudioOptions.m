@@ -101,7 +101,7 @@
     if(_audioTrack == audioTrack) return;
     _audioTrack = audioTrack;
     if (audioTrack) {
-        _audioTimeRange = [FSLAVTimeRange makeTimeRangeWithStart:kCMTimeZero end:audioTrack.timeRange.duration];
+        _audioTimeRange = [FSLAVTimeRange timeRangeWithStartTime:kCMTimeZero endTime:audioTrack.timeRange.duration];
         _atTimeRange = _audioTimeRange;
     }
 }

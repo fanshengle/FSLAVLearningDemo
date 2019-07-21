@@ -1,5 +1,5 @@
 //
-//  FSLAVConfiguraction.h
+//  FSLAVOptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/26.
@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "FSLAVFileManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 //文件在沙盒中的位置类型
@@ -22,18 +23,39 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 };
 
 /**
+ 导出的视频文件类型
+ */
+typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
+{
+    /**视频导出文件格式*/
+    /** MOV */
+    FSLAVVideoOutputFileTypeQuickTimeMovie,
+    
+    /** MP4 */
+    FSLAVVideoOutputFileTypeMPEG4,
+    
+    /**音频导出文件格式*/
+    FSLAVAudioOutputFileTypeM4A,
+    
+    /**音视频苹果通用格式,安卓平台需要另外转换*/
+    FSLAVMediaOutputFileTypeM4V
+};
+
+/**
  音视频的基础配置类
  */
 @interface FSLAVOptions : NSObject
 /**定义实例变量*/
 {
     FSLAVSandboxDirType _sandboxDirType;
+    FSLAVMediaOutputFileType _outputFileType;
+    AVFileType _appOutputFileType;
     BOOL _enableCreateFilePath;
     NSString *_outputFileName;
     NSString *_saveSuffixFormat;
-    NSURL *_outputFilePathURL;
+    NSURL *_outputFileURL;
     NSString *_outputFilePath;
-    NSURL *_exportRandomFilePathURL;
+    NSURL *_exportRandomFileURL;
     NSString *_exportRandomFilePath;
    
 }
@@ -45,6 +67,17 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  */
 @property (nonatomic,assign) FSLAVSandboxDirType sandboxDirType;
 
+/**
+ 输出的文件格式视频： FSLAVMediaOutputFileTypeQuickTimeMovie 或 FSLAVMediaOutputFileTypeMPEG4
+ 音频：FSLAVAudioOutputFileTypeM4A
+ 通用：FSLAVMediaOutputFileTypeM4V
+ */
+@property (nonatomic, assign) FSLAVMediaOutputFileType outputFileType;
+
+/**
+ 传给苹果export导出素材的导出文件类型
+ */
+@property (nonatomic, assign,readonly) AVFileType appOutputFileType;
 
 /**
  是否创建文件路径，与文件夹路径不同，文件夹路径是必须创建的
@@ -67,23 +100,22 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 /**
  保存到本地FSLAVSandboxDirType下的音视频文件URL路径
  */
-@property (nonatomic,strong,readonly) NSURL *outputFilePathURL;
+@property (nonatomic,strong) NSURL *outputFileURL;
 
 /**
  保存到本地FSLAVSandboxDirType下的音视频文件Str路径
  */
-@property (nonatomic,strong,readonly) NSString *outputFilePath;
+@property (nonatomic,strong) NSString *outputFilePath;
 
 /**
  导出保存文件对应文件夹路径下的文件随机URL
  */
-@property (nonatomic,strong,readonly) NSURL *exportRandomFilePathURL;
+@property (nonatomic,strong,readonly) NSURL *exportRandomFileURL;
 
 /**
  导出保存文件对应文件夹路径下的文件随机URLStr
  */
 @property (nonatomic,strong,readonly) NSString *exportRandomFilePath;
-
 
 
 /**
@@ -102,8 +134,9 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
 
 /**
  清除当前路径文件
+ @return  返回清除结果
  */
-- (void)clearOutputFilePath;
+- (BOOL)clearOutputFilePath;
 
 /**
  清除缓存

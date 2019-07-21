@@ -107,9 +107,6 @@
 
 
 #pragma mark -- FSLAVVideoRecorderDelegate
-- (void)didChangedVideoRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL{
-    
-}
 
 - (void)didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder{
     
@@ -119,7 +116,7 @@
 }
 
 #pragma mark -- FSLAVRecordCoreBaseDelegate
-- (void)didChangedRecordCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength{
+- (void)didRecordedChangedCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength{
     
 }
 

@@ -8,6 +8,8 @@
 
 #import "FSLAVAudioPitchEngineRecorder.h"
 #import "FSLAVMediaSampleBufferAssistant.h"
+#import "FSLAVMeidaTimelineSlice.h"
+#import "FSLAVMeidaTimelineSlice.h"
 
 @interface  FSLAVAudioPitchEngineRecorder()
 <
@@ -24,23 +26,74 @@ AVCaptureVideoDataOutputSampleBufferDelegate
     
     dispatch_queue_t audioProcessingQueue;
     
-    CMTime _startTime;
-    
-    // 音频变调处理引擎
-    FSLAVAudioPitchEngine *_audioPitch;
+    /** 纠正时间戳偏移量 */
+    CMTime _offsetTime;
 }
 
+
+/**
+ 音频变调处理引擎
+ */
+@property (nonatomic, strong) FSLAVAudioPitchEngine *audioPitch;
+
+/**
+ 当前正在录制的音频片段
+ */
+@property (nonatomic, strong) FSLAVMeidaTimelineSlice *recordingPitchTimeSlice;
+
+/**
+ 记录全部录制片段
+ */
+@property (nonatomic, strong) NSMutableArray<FSLAVMeidaTimelineSlice *> *audioFragmentArray;
+
+/**
+ 记录删除的录制片段
+ */
+@property (nonatomic, strong) NSMutableArray<FSLAVMeidaTimelineSlice *> *dropFragmentArr;
+
+/**
+ 录音状态
+ */
+@property (nonatomic, assign) FSLAVRecordState status;
+
+/**
+ 已录制的时长
+ */
+@property (nonatomic, assign, readonly) NSTimeInterval outputDuration;
 @end
 
 @implementation FSLAVAudioPitchEngineRecorder
 
 #pragma mark -- init
-- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self createCaptureSession];
+    }
+    return self;
+}
+
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecorderOptions *)options{
     if (self = [super initWithAudioRecordOptions:options]) {
         
         [self createCaptureSession];
     }
     return self;
+}
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
+{
+    
+    _pitchType = FSLAVSoundPitchNormal;
+    _audioFragmentArray = [NSMutableArray arrayWithCapacity:2];
+    _dropFragmentArr = [NSMutableArray arrayWithCapacity:2];
+    
+    _options.audioFormat = kAudioFormatMPEG4AAC;
 }
 
 /**
@@ -97,33 +150,35 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  开始
  */
 - (void)startRecord{
-    if(_isRecording && [_captureSession isRunning]) return;
+    
+    if(!_isRecording) return;
     _isRecording = YES;
     
     //开始写数据
     [self startWriting];
     //开始捕获音频
     [_captureSession startRunning];
+    
+    //通知回调
+    [self notifyRecordState:FSLAVRecordStateReadyToRecord];
+    
+    if (_isRecording && _isPaused) {
+        //继续录制
+        [self resumeRecord];
+    }
 }
 
 /**
  暂停
  */
 - (void)pauaseRecord{
-    if(!_isRecording && ![_captureSession isRunning]) return;
-    _isRecording = NO;
     
-    //停止捕获音频
-    [_captureSession stopRunning];
+    if(!_isRecording) return;
+    _isRecording = YES;
+    _isPaused = YES;
     
-    //入列缓存结束调用
-    [_audioPitch processInputBufferEnd];
-    
-    typeof(self) weakSelf = self;
-    //将所有未完成的输入标记为已完成，并完成输出文件的编写。
-    [_audioWriter finishWritingWithCompletionHandler:^{
-        weakSelf->_audioWriter = nil;
-    }];
+    // 添加当前录制音频的时间切片数据
+    [self appendRecordingAudioFrament];
 }
 
 /**
@@ -131,20 +186,26 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  */
 - (void)stopRecord{
     
-    if(!_isRecording && ![_captureSession isRunning]) return;
+    if(!_isRecording) return;
     _isRecording = NO;
+    
+    if (!_isPaused) {//先暂停录制
+        [self pauaseRecord];
+    }
     
     //停止捕获音频
     [_captureSession stopRunning];
     
-    _startTime = kCMTimeInvalid;
+    _offsetTime = kCMTimeInvalid;
     //入列缓存结束调用
     [_audioPitch processInputBufferEnd];
     
-    typeof(self) weakSelf = self;
     //将所有未完成的输入标记为已完成，并完成输出文件的编写。
     [_audioWriter finishWritingWithCompletionHandler:^{
-        weakSelf->_audioWriter = nil;
+        if (self->_options.outputFilePath) {
+            [self startAudioComposition];
+        }
+        self->_audioWriter = nil;
     }];
 }
 
@@ -152,7 +213,228 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  重录
  */
 - (void)reRecording{
+    // 取消录制
+    [self cancleRecord];
     
+    //开始录制
+    [self startRecord];
+}
+
+/**
+ 取消录制
+ */
+- (void)cancleRecord;
+{
+    //停止捕获音频数据
+    [_captureSession stopRunning];
+    //停止写入器写入数据
+    [self cancelWriting];
+    //删除临时存储文件
+    [_options clearOutputFilePath];
+ 
+    //清除音频片段数组
+    [self clearAudioFragmentArray];
+    
+    //通知回调
+    [self notifyRecordState:FSLAVRecordStateCanceled];
+}
+
+/**
+ 删除最后一个音频片段
+ */
+- (void)deleteLastAudioFragment;
+{
+    if (_audioFragmentArray.count == 0 || _isRecording) return;
+    
+    FSLAVMeidaTimelineSlice *lastFragment = [self getLastValidSpeedAudioFragment];
+    if (lastFragment) {
+        lastFragment.isRemove = YES;
+        [_dropFragmentArr addObject:lastFragment];
+    }
+}
+
+#pragma mark -- private methods
+/**
+ 继续录制
+ */
+- (void)resumeRecord;
+{
+    if (!_isRecording || !_isPaused) return;
+    _isRecording = YES;
+    _isPaused = NO;
+    
+    //通知回调
+    [self notifyRecordState:FSLAVRecordStateResume];
+}
+
+/**
+ 合并视频
+ */
+- (void)startAudioComposition;
+{
+    if (!_dropFragmentArr.count) {
+        
+        //状态回调通知
+        [self notifyRecordState:FSLAVRecordStateCompleted];
+        //录制结果通知回调
+        [self notifyRecordResult:_options];
+        
+        //清除数组
+        [self clearAudioFragmentArray];
+        return;
+    }
+    
+    FSLAVMediaTimelineSliceOptions *timeSliceOptions = [[FSLAVMediaTimelineSliceOptions alloc] init];
+    timeSliceOptions.inputMediaPath = _options.outputFilePath;
+    timeSliceOptions.recordOptions = _options;
+    
+    FSLAVMediaTimelineSliceComposition *audioComposition = [[FSLAVMediaTimelineSliceComposition alloc] init];
+    audioComposition.meidaFragmentArr = _audioFragmentArray;
+    
+    typeof(self) weakself = self;
+    [audioComposition startAudioCompositionWithCompletionHandler:^(NSString * _Nonnull outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status) {
+        switch (status)
+        {
+            case FSLAVMediaTimelineSliceCompositionStatusCompleted:
+                //通知回调
+                [weakself notifyRecordState:FSLAVRecordStateCompleted];
+                //替换成合成的输出地址
+                weakself->_options.outputFilePath = outputFilePath;
+                [weakself notifyRecordResult:weakself->_options];
+                
+                break;
+            case FSLAVMediaTimelineSliceCompositionStatusFailed:
+                
+                //通知回调
+                [weakself notifyRecordState:FSLAVRecordStateFailed];
+                break;
+            default:
+                break;
+        }
+        
+        //清除数组
+        [self clearAudioFragmentArray];
+    }];
+}
+
+/**
+ 已录制输出时长，不包含已删除的片段
+ 
+ @return 有效输出时长
+ */
+- (NSTimeInterval)outputDuration;
+{
+    float recordingDuration = _isRecording ? CMTimeGetSeconds([self recordingPitchTimeSlicDurationTime]) : 0;
+    float recordedDuration = _audioFragmentArray.count ? CMTimeGetSeconds([self getLastAudioFragmentDuration]) - CMTimeGetSeconds([self getAllRemoveAudioFragmentDuration]) : 0;
+    
+    //更新已录制的有效输出时长
+    _options.outputDuration = recordingDuration + recordedDuration;
+    
+    return recordingDuration + recordedDuration;
+}
+
+
+/**
+ 将当期录制的音频片段添加到数组
+ */
+- (void)appendRecordingAudioFrament;
+{
+    if(!_recordingPitchTimeSlice) return;
+    [_audioFragmentArray addObject:_recordingPitchTimeSlice];
+    _recordingPitchTimeSlice = nil;
+}
+
+/**
+ 计算录制过程中与开始时间获取持续时间
+ @return CMTime
+ */
+- (CMTime)recordingPitchTimeSlicDurationTime;
+{
+    if (!_recordingPitchTimeSlice) return kCMTimeZero;
+    return _recordingPitchTimeSlice.adjustedTime;
+}
+
+/**
+ 已录制片段的总时长 单位：/s:最后一次录制的结束时间
+ @return Float64
+ */
+- (CMTime)getLastAudioFragmentDuration;
+{
+    if (_audioFragmentArray.count == 0) return kCMTimeZero;
+   
+    FSLAVMeidaTimelineSlice *pitchTimeSlice = _audioFragmentArray.lastObject;
+    CMTime totalTime = pitchTimeSlice.end;
+    return totalTime;
+}
+
+/**
+ 所有的已删除的片段持续时间 单位：/s
+ @return Float64
+ */
+- (CMTime)getAllRemoveAudioFragmentDuration;
+{
+    CMTime totalTime = kCMTimeZero;
+    for (FSLAVMeidaTimelineSlice *fragment in _dropFragmentArr) {
+        totalTime = CMTimeAdd(totalTime, fragment.adjustedTime);
+    }
+    return totalTime;
+}
+
+/**
+ 获取最后一个录制片段
+ @return FSLAVMeidaTimelineSlice
+ */
+- (FSLAVMeidaTimelineSlice *)getLastValidSpeedAudioFragment;
+{
+    if(_audioFragmentArray.count == 0) return nil;
+    
+    NSMutableArray<FSLAVMeidaTimelineSlice *> *allTimeRangeArray = [NSMutableArray arrayWithArray:_audioFragmentArray];
+    [allTimeRangeArray removeObjectsInArray:_dropFragmentArr];
+    FSLAVMeidaTimelineSlice *fragment = [allTimeRangeArray lastObject];
+    return fragment;
+}
+
+/**
+ 移除录制声音配置
+ */
+- (void)removeInputsAndOutputs;
+{
+    [_captureSession beginConfiguration];
+    if (_microphone != nil)
+    {
+        [_captureSession removeInput:_audioInput];
+        [_captureSession removeOutput:_audioOutput];
+        _audioInput = nil;
+        _audioOutput = nil;
+        _microphone = nil;
+    }
+    [_captureSession commitConfiguration];
+}
+
+/**
+ 清除音频片段数组
+ */
+- (void)clearAudioFragmentArray;
+{
+    [_audioFragmentArray removeAllObjects];
+    [_dropFragmentArr removeAllObjects];
+}
+
+#pragma mark - AVCaptureAudioDataOutputSampleBufferDelegate
+- (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    if (!_captureSession.isRunning || !_isRecording) return;
+    
+    
+    if(output == _audioOutput){
+        
+        if (!_audioPitch) {
+            //创建音频变调引擎
+            [self createAudioEnginePitch:sampleBuffer];
+        }
+        //将buffer数据喂给音频音调引擎
+        [self processSampleBuffer:sampleBuffer];
+    }
 }
 
 
@@ -160,18 +442,30 @@ AVCaptureVideoDataOutputSampleBufferDelegate
 /**
  step1: 创建音频变调 API
  */
-- (void)createAudioEnginePitch:(FSLAVAudioTrackInfo *)trackInfo;
+- (void)createAudioEnginePitch:(CMSampleBufferRef)sampleBuffer;
 {
-    // step1: 创建变声 API
-    
-    _audioPitch = [[FSLAVAudioPitchEngine alloc] initWithInputAudioInfo:trackInfo];
-    _audioPitch.delegate = self;
-    //pitch与pitchType只能使一个有效
-    if (_pitch) {
-        _audioPitch.pitch = self.pitch;
-        return;
+    if (_audioPitch) {
+        //重置引擎
+        [_audioPitch reset];
+        //刷新引擎数据
+        [_audioPitch flush];
+    }else{
+        
+        //通过buffer获取音频数据描述信息
+        CMFormatDescriptionRef formatRef = CMSampleBufferGetFormatDescription(sampleBuffer);
+        /** 获取 CMSampleBufferRef 音频信息 */
+        FSLAVAudioTrackInfo *trackInfo = [[FSLAVAudioTrackInfo alloc] initWithCMAudioFormatDescriptionRef:formatRef];
+        // 创建 FSLAVAudioPitchEngine 引擎
+        // step1: 创建变声 API
+        _audioPitch = [[FSLAVAudioPitchEngine alloc] initWithInputAudioInfo:trackInfo];
+        _audioPitch.delegate = self;
+        //pitch与pitchType只能使一个有效
+        if (_pitch) {
+            _audioPitch.pitch = self.pitch;
+            return;
+        }
+        _audioPitch.pitchType = self.pitchType;
     }
-    _audioPitch.pitchType = self.pitchType;
 }
 
 /**
@@ -179,6 +473,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  */
 - (void)setPitchType:(FSLAVSoundPitchType)pitchType;
 {
+    if (_pitchType == pitchType) return;
     _pitchType = pitchType;
     _audioPitch.pitchType = pitchType;
 }
@@ -189,6 +484,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
  */
 - (void)setPitch:(float)pitch{
+    if (_pitch == pitch) return;
+
     _pitch = pitch;
     _audioPitch.pitch = pitch;
 }
@@ -199,35 +496,58 @@ AVCaptureVideoDataOutputSampleBufferDelegate
  */
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 {
-    if (!_audioPitch) {
-        
-        /** 获取 CMSampleBufferRef 音频信息 */
-        FSLAVAudioTrackInfo *trackInfo = [[FSLAVAudioTrackInfo alloc] initWithCMAudioFormatDescriptionRef:CMSampleBufferGetFormatDescription(sampleBuffer)];
-        
-        // 创建 FSLAVAudioPitchEngine 引擎
-        [self createAudioEnginePitch:trackInfo];
-    }
     
     _isRecording = YES;
-    // 获取当前buffer的时间
-    CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer);
+    //录制状态通知回调
+    [self notifyRecordState:FSLAVRecordStateRecording];
+
     
-    if (CMTIME_IS_INVALID(_startTime)) {//时间是否有效
-        if (_audioWriter.status != AVAssetWriterStatusWriting) {//是否在写数据
-            [_audioWriter startWriting];
+    //最大时长是否设置
+    if (_options.maxRecordDelay != -1) {
+        //已经录制的总时长是否大于最大允许的录制时长
+        if (self.outputDuration >= _options.maxRecordDelay) {
+            [self stopRecord];
+            //修正录制时长偏差
+            _options.outputDuration = _options.maxRecordDelay;
         }
-        //一定要在startWriting之后调用，该时间定义从源样例的时间轴到编写文件的时间轴的映射
-        [_audioWriter startSessionAtSourceTime:currentSampleTime];
-        _startTime = currentSampleTime;
+        return;
     }
+    //录制结果通知回调
+    [self notifyRecordResult:_options];
     
+    if (_isPaused) {//暂停
+        _isRecording = NO;
+        //录制状态通知回调
+        [self notifyRecordState:FSLAVRecordStatePause];
+        return;
+    }
+
+    /** 记录录制的时间片段 */
+    if (!_recordingPitchTimeSlice) {
+        _recordingPitchTimeSlice = [[FSLAVMeidaTimelineSlice alloc] init];
+        
+        //获取最后时间片段的结束时间
+        CMTime lastEndTime = [self getLastAudioFragmentDuration];
+        //当前正在录制的音频片段的时间赋值:lastEndTime上一次的录制结束时间，这一次录制的开始时间
+        _recordingPitchTimeSlice.start = lastEndTime;
+        
+        //当前buffer显示（z录制）时间
+        CMTime sampleBufferTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer);
+        //时间的偏移量,新老两次时间的间隔
+        _offsetTime = CMTimeSubtract(sampleBufferTime, lastEndTime);
+     }
+
     /**  调整 CMSampleBufferRef 写入时间 */
-    CMSampleBufferRef tempSampleBuffer = [FSLAVMediaSampleBufferAssistant adjustPTS:sampleBuffer byOffset:_startTime];
+    CMSampleBufferRef tempSampleBuffer = [FSLAVMediaSampleBufferAssistant adjustPTS:sampleBuffer byOffset:_offsetTime];
     //深拷贝sampleBuffer
     CMSampleBufferRef copyBuffer = [FSLAVMediaSampleBufferAssistant sampleBufferCreateCopyWithDeep:tempSampleBuffer];
     CMSampleBufferInvalidate(tempSampleBuffer);
     CFRelease(tempSampleBuffer);
     tempSampleBuffer = NULL;
+    
+    // 获取处理后buffer的时间
+    CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(copyBuffer);
+    _recordingPitchTimeSlice.end = currentSampleTime;
     
     // 将音频数据送入处理引擎处理
     [_audioPitch processInputBuffer:copyBuffer];
@@ -271,6 +591,44 @@ AVCaptureVideoDataOutputSampleBufferDelegate
     *autoRelease = YES;
 }
 #pragma mark  ------------------------------------ FSLAVAudioPitchEngine 核心 API END ------------------------------------
+
+/**
+ 录制状态：代理通知回调
+ 
+ @param state 音频录制状态
+ */
+- (void)notifyRecordState:(FSLAVRecordState)state{
+    
+    if ([self.delegate respondsToSelector:@selector(didRecordingStatusChanged:recorder:)])
+        [self.delegate didRecordingStatusChanged:state recorder:self];
+}
+
+/**
+ 录制结果：代理通知回调
+
+ @param recoderOptions 音频的配置项结果
+ */
+- (void)notifyRecordResult:(FSLAVAudioRecorderOptions *)recoderOptions{
+    
+    if ([self.delegate respondsToSelector:@selector(didRecordedAudioResult:recorder:)])
+        [self.delegate didRecordedAudioResult:recoderOptions recorder:self];
+}
+
+/**
+ 摧毁音频音调引擎
+ */
+- (void)destory{
+    [super destory];
+    
+    if (_audioPitch) {
+        [_audioPitch destory];
+        _audioPitch = nil;
+    }
+    [self.options clearOutputFilePath];
+    
+    [_audioOutput setSampleBufferDelegate:nil queue:dispatch_get_main_queue()];
+    [self removeInputsAndOutputs];
+}
 
 
 @end

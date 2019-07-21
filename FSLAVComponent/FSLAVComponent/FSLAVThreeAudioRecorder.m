@@ -38,7 +38,7 @@ NSString *const FSLAudioComponentFailedToCreateNotification = @"FSLAudioComponen
 
 @implementation FSLAVThreeAudioRecorder
 
-- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecorderOptions *)options{
     if (self = [super initWithAudioRecordOptions:options]) {
         
         _audioCaptureTaskQueue = dispatch_queue_create("com.FSLAVComponent.audioCapture.Queue", NULL);

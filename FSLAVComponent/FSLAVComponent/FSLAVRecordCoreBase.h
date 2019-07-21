@@ -6,11 +6,10 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FSLAVCoreBase.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import "FSLAVRecordCoreBaseInterface.h"
-#import "FSLAVLog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,35 +21,30 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音视频录制的基础类
  */
-@interface FSLAVRecordCoreBase : NSObject<FSLAVRecordCoreBaseInterface>
+@interface FSLAVRecordCoreBase : FSLAVCoreBase<FSLAVRecordCoreBaseInterface>
 {
     
     NSTimer *_recordTimer;//录制定时器
     NSTimeInterval _recordTime;//录制时长
     BOOL _isRecording;// 是否正在录制中
+    BOOL _isPaused;// 是否暂停
 }
 
 /**
  代理
  */
-@property (nonatomic, weak) id<FSLAVRecordCoreBaseDelegate> delegate;
+@property (nonatomic,weak) id<FSLAVRecordCoreBaseDelegate> delegate;
 
 /**
  是否正在录制中
  */
 @property (readonly, getter=isRecording) BOOL isRecording;
 
-/**
- 销毁对象，释放对象
- */
-- (void)destory;
 
 /**
- 设置回调通知，并委托协议
- 
- @param state 回调的录制状态
+ 是否暂停
  */
-- (void)notifyRecordState:(FSLAVRecordState)state;
+@property (readonly, getter=isPaused) BOOL isPaused;
 
 
 @end

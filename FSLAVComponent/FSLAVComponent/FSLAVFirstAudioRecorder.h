@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FSLAVFirstAudioRecorder : FSLAVRecordAudioCoreBase
 
 
-
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 
 #import "FSLAVRecordAudioCoreBase.h"
 #import "FSLAVAudioPitchEngine.h"
+#import "FSLAVAudioRecorderOptions.h"
+#import "FSLAVMediaTimelineSliceComposition.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) float speed;
 
+/**
+ 删除最后一个音频片段
+ */
+- (void)deleteLastAudioFragment;
 
 @end
 

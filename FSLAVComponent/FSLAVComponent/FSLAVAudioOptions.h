@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVOptions.h"
+#import "FSLAVMediaOptions.h"
 #import "FSLAVTimeRange.h"
 #import "FSLAVLog.h"
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频媒体资源核心配置项
  */
-@interface FSLAVAudioOptions : FSLAVOptions
+@interface FSLAVAudioOptions : FSLAVMediaOptions
 {
     FSLAVTimeRange *_audioTimeRange;
 }

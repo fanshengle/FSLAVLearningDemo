@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FSLAVCoreBase.h"
 #import "FSLAVMixerAudioOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  3、导出一个视频中的音轨
  
  */
-@interface FSLAVAudioMixer : NSObject
+@interface FSLAVAudioMixer : FSLAVCoreBase
 
 // 代理
 @property (nonatomic, weak) id<FSLAVAudioMixerDelegate> mixDelegate;
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 // 状态通知代理
-- (void)didMixedAudioStatusChanged:(FSLAVMixStatus)audioStatus onAudioMix:(FSLAVAudioMixer *)audioMixer;
+- (void)didMixingAudioStatusChanged:(FSLAVMixStatus)audioStatus onAudioMix:(FSLAVAudioMixer *)audioMixer;
 
 // 结果通知代理
 - (void)didMixedAudioResult:(FSLAVMixerAudioOptions *)result onAudioMix:(FSLAVAudioMixer *)audioMixer;

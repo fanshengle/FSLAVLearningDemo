@@ -104,7 +104,7 @@ namespace fslAVComponent {
         /***
          * 入列缓存
          * @param inputBuffer 输入缓存
-         * @param bufferInfo 缓存信息
+         * @param inputBuffer 缓存信息
          * @return 是否已处理
          */
         bool queueInputBuffer(TBuffer inputBuffer);

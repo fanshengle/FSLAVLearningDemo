@@ -1,12 +1,12 @@
 //
-//  FSLAVAudioRecorderConfiguraction.h
+//  FSLAVAudioRecorderOptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/28.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVRecoderOptions.h"
+#import "FSLAVRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,6 +55,8 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
 {
     FSLAVAudioRecordBitRate_32Kbps = 32000,
     
+    FSLAVAudioRecordBitRate_48Kbps = 48000,
+
     FSLAVAudioRecordBitRate_64Kbps = 64000,
     
     FSLAVAudioRecordBitRate_96Kbps = 96000,
@@ -67,7 +69,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
 /**
  音频录制的参数配置项
  */
-@interface FSLAVAudioRecoderOptions : FSLAVRecoderOptions
+@interface FSLAVAudioRecorderOptions : FSLAVRecorderOptions
 
 
 /**音频格式*/
@@ -119,7 +121,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
  视频配置(质量)
  
  @param audioQuality 视频质量
- @return FSLAVAudioRecorderConfiguraction
+ @return FSLAVAudioRecorderOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality;
 
@@ -129,7 +131,7 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
  
  @param audioQuality 视频质量
  @param channels 声道数1、2
- @return FSLAVAudioRecorderConfiguraction
+ @return FSLAVAudioRecorderOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
 

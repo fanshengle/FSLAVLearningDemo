@@ -1,33 +1,33 @@
 //
-//  FSLAVAudioRecorderConfiguraction.m
+//  FSLAVAudioRecorderOptions.m
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/28.
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVAudioRecoderOptions.h"
+#import "FSLAVAudioRecorderOptions.h"
 
-@implementation FSLAVAudioRecoderOptions
+@implementation FSLAVAudioRecorderOptions
 
 /**
  默认视频配置
  
- @return FSLAVAudioRecorderConfiguraction
+ @return FSLAVAudioRecorderOptions
  */
 + (instancetype)defaultOptions;
 {
-    return [FSLAVAudioRecoderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default];
+    return [FSLAVAudioRecorderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default];
 }
 /**
  视频配置(质量)
  
  @param audioQuality 视频质量
- @return FSLAVAudioRecorderConfiguraction
+ @return FSLAVAudioRecorderOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality;
 {
-    FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default channels:2];
+    FSLAVAudioRecorderOptions *options = [FSLAVAudioRecorderOptions defaultOptionsForQuality:FSLAVAudioRecordQuality_Default channels:2];
     
     return options;
 }
@@ -37,11 +37,11 @@
  
  @param audioQuality 视频质量
  @param channels 声道数1、2
- @return FSLAVAudioRecorderConfiguraction
+ @return FSLAVAudioRecorderOptions
  */
 + (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
 {
-    FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions new];
+    FSLAVAudioRecorderOptions *options = [FSLAVAudioRecorderOptions new];
     //音频编码格式
     options.audioFormat = kAudioFormatLinearPCM;
     //声道数
@@ -63,7 +63,7 @@
         case  FSLAVAudioRecordQuality_min:
         {
             options.audioSampleRat = 16000;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_32Kbps : FSLAVAudioRecordBitRate_64Kbps;
+            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_32Kbps : FSLAVAudioRecordBitRate_48Kbps;
             options.audioLinearBitDepth = 8;
             options.audioQuality = AVAudioQualityMin;
         }
@@ -71,7 +71,7 @@
         case  FSLAVAudioRecordQuality_Low:
         {
             options.audioSampleRat = 22050;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_32Kbps : FSLAVAudioRecordBitRate_64Kbps;
+            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_48Kbps : FSLAVAudioRecordBitRate_64Kbps;
             options.audioLinearBitDepth = 16;
             options.audioQuality = AVAudioQualityLow;
         }

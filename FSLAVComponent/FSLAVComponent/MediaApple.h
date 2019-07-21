@@ -44,14 +44,14 @@ namespace fslAVComponent {
         bool _created = false;
     };
     
-    /** lsqAudioBridgeBlock */
-    typedef void(^lsqAudioBridgeBlock)(AppleAudioData *);
+    /** fslAudioBridgeBlock */
+    typedef void(^fslAudioBridgeBlock)(AppleAudioData *);
     
     /** Apple媒体监听对象 */
     class MediaAppleListener : public MediaListener {
     public:
         /** Apple媒体监听对象 */
-        MediaAppleListener(lsqAudioBridgeBlock jListener);
+        MediaAppleListener(fslAudioBridgeBlock jListener);
         
         virtual ~MediaAppleListener() override;
         
@@ -64,7 +64,7 @@ namespace fslAVComponent {
         
     private:
         /** Apple监听对象 */
-        lsqAudioBridgeBlock _jListener = nullptr;
+        fslAudioBridgeBlock _jListener = nullptr;
     };
 }
 

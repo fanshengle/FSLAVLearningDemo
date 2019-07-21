@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FSLAVVideoRecorderOptions.h"
-#import "FSLAVAudioRecoderOptions.h"
+#import "FSLAVAudioRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,7 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param recordTimeLength 录制的时间
  */
-- (void)didChangedRecordCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength;
+- (void)didRecordedChangedCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength;
+
+/**
+ 音视频录制状态回调通知代理
+
+ @param status 录制状态
+ @param recorder 当前录制音视频录制器
+ */
+- (void)didRecordingStatusChanged:(FSLAVRecordState)status recorder:(id<FSLAVRecordCoreBaseInterface>)recorder;
 
 @end
 
@@ -39,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 //移除定时器
 - (void)removeRecordTimer;
-
 
 /**
  录制时间是否超过最大录制时间
@@ -71,6 +78,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)reRecording;
 
+/**
+ 取消录制
+ */
+- (void)cancleRecord;
+
+/**
+ 设置回调通知，并委托协议
+ 
+ @param state 回调的录制状态
+ */
+- (void)notifyRecordState:(FSLAVRecordState)state;
+
 @end
 
 
@@ -79,12 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FSLAVVideoRecorderDelegate <NSObject,FSLAVRecordCoreBaseDelegate>
 
 @optional
-/**
- 播放器状态变化
- @param state 状态
- @param videoRecorder 录制器
- */
-- (void)didChangedVideoRecordState:(FSLAVRecordState)state fromVideoRecorder:(id<FSLAVVideoRecorderInterface>)videoRecorder outputFileAtURL:(NSURL *)fileURL;
 
 /**
  视频录制：通知委托已写入新的视频帧。
@@ -138,17 +151,18 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 /**
- 音频录制状态变化
- @param state 状态
- @param audioRecorder 音频录制器
+ 音频录制的结果通知代理，试用与所有的音频录制器
+
+ @param result
+ @param recorder 当前音频录制器
  */
-- (void)didChangedAudioRecordState:(FSLAVRecordState)state fromAudioRecorder:(id<FSLAVAudioRecorderInterface>)audioRecorder outputFileAtURL:(NSURL *)fileURL;
+- (void)didRecordedAudioResult:(FSLAVAudioRecorderOptions *)result recorder:(id<FSLAVAudioRecorderInterface>)recorder;
+
 
 /**
  
  FSLAVFirstAudioRecorder的委托
  音频的声波监控，录制时，声波波动值，可以根据该值进行声波UI刷新
-
  @param progress 声波波动值
  */
 - (void)didChangedAudioRecordingPowerProgress:(CGFloat)progress;
@@ -183,8 +197,25 @@ NS_ASSUME_NONNULL_BEGIN
  @param options 配置
  @return options
  */
-- ( instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options;
+- ( instancetype)initWithAudioRecordOptions:(FSLAVAudioRecorderOptions *)options;
 
+#pragma mark -- 媒体写入
+/**
+ 媒体写入器audioWriter开始写入
+ */
+- (void)startWriting;
+
+/**
+ 媒体写入器audioWriter取消写入
+ */
+- (void)cancelWriting;
+
+/**
+ 设置回调通知，并委托协议
+ 
+ @param recoderOptions 回调的录制结果
+ */
+- (void)notifyRecordResult:(FSLAVAudioRecorderOptions *)recoderOptions;
 
 @end
 

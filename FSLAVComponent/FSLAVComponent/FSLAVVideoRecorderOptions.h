@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVRecoderOptions.h"
+#import "FSLAVRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,7 +63,7 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
 /**
  视频录制的参数配置项
  */
-@interface FSLAVVideoRecorderOptions : FSLAVRecoderOptions
+@interface FSLAVVideoRecorderOptions : FSLAVRecorderOptions
 
 /**
  视频录制的画面比例

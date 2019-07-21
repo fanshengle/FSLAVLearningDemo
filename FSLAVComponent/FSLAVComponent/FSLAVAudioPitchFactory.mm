@@ -262,7 +262,8 @@
 /**
  * 释放变调器
  */
-- (void)destory;{
+- (void)destory;
+{
     if (_released) return;
     _released = YES;
     
@@ -271,6 +272,7 @@
         _audioPitch = nullptr;
     }
 }
+
 
 /**
  * 释放变调器

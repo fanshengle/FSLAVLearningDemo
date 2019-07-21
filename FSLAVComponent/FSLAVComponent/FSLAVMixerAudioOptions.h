@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FSLAVMixerAudioOptions : FSLAVMixerOptions
 
 
-// 音轨是否可循环添加 默认 NO 不循环
+// 音轨是否可循环添加播放 默认 NO 不循环
 @property (nonatomic, assign) BOOL enableCycleAdd;
 
 

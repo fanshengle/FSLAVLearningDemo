@@ -30,6 +30,27 @@ typedef NS_ENUM(NSUInteger, FSLAVSoundPitchType) {
     FSLAVSoundPitchLolita,
 };
 
+/**
+ 录制速度模式
+ */
+typedef NS_ENUM(NSInteger,FSLAVSoundSpeedMode)
+{
+    /** 标准模式 速度大小1.0 */
+    FSLAVSoundSpeedMode_Normal,
+    
+    /** 快速模式 速度大小1.5 */
+    FSLAVSoundSpeedMode_Fast1,
+    
+    /** 极快模式 速度大小2.0 */
+    FSLAVSoundSpeedMode_Fast2,
+    
+    /** 慢速模式 速度大小0.7 */
+    FSLAVSoundSpeedMode_Slow1,
+    
+    /** 极慢模式  速度大小0.5 */
+    FSLAVSoundSpeedMode_Slow2,
+};
+
 @protocol FSLAVAudioPitchEngineDelegate;
 
 
@@ -51,6 +72,12 @@ typedef NS_ENUM(NSUInteger, FSLAVSoundPitchType) {
  * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
  */
 @property (nonatomic) float pitch;
+
+/**
+ * 改变音频播放速度 [变速不变调, 音调设置将失效]
+ * speedMode 与 speed不能同时设置；因为FSLAVSoundSpeedMode就是设置固定值speed得到的
+ */
+@property (nonatomic) FSLAVSoundSpeedMode speedMode;
 
 /**
  * 改变音频播放速度 [变速不变调, 音调设置将失效]

@@ -50,37 +50,37 @@
     {
         case FSLAVAACAudioQuality_min:
         {
-            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_48Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_16000Hz;
         }
             break;
         case FSLAVAACAudioQuality_Low:
         {
-            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_32Kbps : FSLAVAACAudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_48Kbps : FSLAVAACAudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_22050Hz;
         }
             break;
         case FSLAVAACAudioQuality_Medium:
         {
-            audioConfig.audioBitRate = FSLAVAACAudioBitRate_64Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_48Kbps : FSLAVAACAudioBitRate_64Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_32000Hz;
         }
             break;
         case FSLAVAACAudioQuality_High:
         {
-            audioConfig.audioBitRate = FSLAVAACAudioBitRate_96Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_64Kbps : FSLAVAACAudioBitRate_96Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
         }
             break;
         case FSLAVAACAudioQuality_Max:
         {
-            audioConfig.audioBitRate = FSLAVAACAudioBitRate_128Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_96Kbps : FSLAVAACAudioBitRate_128Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_48000Hz;
         }
             break;
         default:
         {
-            audioConfig.audioBitRate = FSLAVAACAudioBitRate_96Kbps;
+            audioConfig.audioBitRate = audioConfig.numberOfChannels == 1 ? FSLAVAACAudioBitRate_64Kbps : FSLAVAACAudioBitRate_96Kbps;
             audioConfig.audioSampleRate = FSLAVAACAudioSampleRate_44100Hz;
         }
             break;

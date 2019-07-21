@@ -112,10 +112,13 @@
     //4.创建一个输出对象
     if (!_exporter) {
         _exporter = [[AVAssetExportSession alloc]initWithAsset:composition presetName:AVAssetExportPresetAppleM4A];
+        
+        //添加进度观察者
+        [self addProgressObserver];
     }
     _exporter.outputFileType = AVFileTypeAppleM4A;
     _exporter.audioMix = audioMix;
-    _exporter.outputURL = _mainAudio.outputFilePathURL;
+    _exporter.outputURL = _mainAudio.outputFileURL;
     //设置导出的混合音轨操作时间范围
     _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _mainAudio.atTimeRange.duration);
     
@@ -173,13 +176,46 @@
 {
     if (_exporter) {
         if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-            [_exporter cancelExport];
+            
+            [_mainAudio clearOutputFilePath];
             [self notifyStatus:FSLAVMixStatusCancelled];
+            [self resetMixOperation];
         }
     }
 }
 
 #pragma mark -- private methods
+
+/**
+ 增加进度观察者
+ */
+- (void)addProgressObserver{
+    
+    if (_exporter) {
+        [_exporter addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+/**
+ 移除进度观察者
+ */
+- (void)removeProgressObserver{
+    if (_exporter) {
+        [_exporter removeObserver:self forKeyPath:@"progress" context:nil];
+    }
+}
+
+#pragma mark - FSLAVAssetExportSession progress
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    if ([@"progress" isEqualToString:keyPath]){
+        //progress
+        id newValue = [change objectForKey:NSKeyValueChangeNewKey];
+        CGFloat progerss = 0.9 + ( [newValue floatValue] / 10);
+        [self notifyProgress:progerss];
+    }
+}
+
 // 重置混合状态
 - (void)resetMixOperation;
 {
@@ -192,6 +228,11 @@
         if (_audioMixParams) {
             [_audioMixParams removeAllObjects];
         }
+        if (_exporter) {
+            [_exporter cancelExport];
+        }
+        
+        [self removeProgressObserver];
         _exporter = nil;
     }
 }
@@ -206,13 +247,13 @@
 {
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if ([self.mixDelegate respondsToSelector:@selector(didMixedAudioStatusChanged:onAudioMix:)]) {
-                [self.mixDelegate didMixedAudioStatusChanged:status onAudioMix:self];
+            if ([self.mixDelegate respondsToSelector:@selector(didMixingAudioStatusChanged:onAudioMix:)]) {
+                [self.mixDelegate didMixingAudioStatusChanged:status onAudioMix:self];
             }
         });
     }else{
-        if ([self.mixDelegate respondsToSelector:@selector(didMixedAudioStatusChanged:onAudioMix:)]) {
-            [self.mixDelegate didMixedAudioStatusChanged:status onAudioMix:self];
+        if ([self.mixDelegate respondsToSelector:@selector(didMixingAudioStatusChanged:onAudioMix:)]) {
+            [self.mixDelegate didMixingAudioStatusChanged:status onAudioMix:self];
         }
     }
     if (status == FSLAVMixStatusCompleted) {
@@ -233,7 +274,7 @@
 - (void)addAudioTrack:(FSLAVMixerAudioOptions *)audioOptions toComposition:(AVMutableComposition *)composition atTimeRange:(FSLAVTimeRange *)timeRange mainTimeRange:(FSLAVTimeRange *)mainTimeRange;
 {
     
-    //1.从素材中的音轨
+    //1.从素材中分离的音轨
     AVAssetTrack *audioTrack = audioOptions.audioTrack;
     
     NSError *error = nil;
@@ -286,6 +327,26 @@
             insertDurationTime = CMTimeAdd(insertDurationTime, contentTimeRange.duration);
         }
     }
+}
+
+/**
+ 通知分段时间片段合成进度
+ 
+ @param progress 当前进度
+ */
+- (void)notifyProgress:(CGFloat)progress{
+    
+//    if ([self.compositionDelegate respondsToSelector:@selector(didCompositionMediaProgressChanged:progress:composition:)]) {
+//        [self.compositionDelegate didCompositionMediaStatusChanged:progress composition:self];
+//    }
+}
+/**
+ 销毁对象
+ */
+- (void)destory{
+    [super destory];
+    
+    [self cancelMixing];
 }
 
 @end

@@ -46,6 +46,7 @@
 		F889CD6D22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F889CD6A22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m */; };
 		F889CD6E22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */; };
 		F889CD7022DA1CD500B4FA29 /* sound_cat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F889CD6F22DA1CD500B4FA29 /* sound_cat.mp3 */; };
+		F8DCE3AF22E425560015A0BF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DCE3AE22E425550015A0BF /* libc++.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,7 @@
 		F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FSLAVAudioMixViewController.storyboard; sourceTree = "<group>"; };
 		F889CD6C22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioMixViewController.h; sourceTree = "<group>"; };
 		F889CD6F22DA1CD500B4FA29 /* sound_cat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_cat.mp3; sourceTree = "<group>"; };
+		F8DCE3AE22E425550015A0BF /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DCE3AF22E425560015A0BF /* libc++.tbd in Frameworks */,
 				D7DE246022C0A744001F7ACD /* AVFoundation.framework in Frameworks */,
 				D743115022BCD8130055E0C2 /* libFSLAVComponent.a in Frameworks */,
 				324F2479A87A566A7A706D3C /* libPods-FSLAVLearningDemo.a in Frameworks */,
@@ -188,6 +191,7 @@
 		6321285D5732EFBAE58F1F1F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8DCE3AE22E425550015A0BF /* libc++.tbd */,
 				D7DE245F22C0A744001F7ACD /* AVFoundation.framework */,
 				D743114F22BCD8130055E0C2 /* libFSLAVComponent.a */,
 				4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */,

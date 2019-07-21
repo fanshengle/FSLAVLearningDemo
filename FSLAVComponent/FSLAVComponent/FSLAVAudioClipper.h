@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FSLAVCoreBase.h"
 #import "FSLAVCliperAudioOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频剪辑器
  */
-@interface FSLAVAudioClipper : NSObject
+@interface FSLAVAudioClipper : FSLAVCoreBase
 
 // 代理
 @property (nonatomic, weak) id<FSLAVAudioClipperDelegate> clipDelegate;
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 // 状态通知代理
-- (void)didClipedAudioStatusChanged:(FSLAVClipStatus)audioStatus onAudioClip:(FSLAVAudioClipper *)audioClipper;
+- (void)didClippingAudioStatusChanged:(FSLAVClipStatus)audioStatus onAudioClip:(FSLAVAudioClipper *)audioClipper;
 
 // 结果通知代理
 - (void)didClipedAudioResult:(FSLAVCliperAudioOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper;

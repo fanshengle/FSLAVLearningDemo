@@ -10,7 +10,14 @@
 
 @implementation FSLAVRecordCoreBase
 
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setConfig];
+    }
+    return self;
+}
 
 #pragma mark --  定时器
 //添加定时器
@@ -45,8 +52,8 @@
 - (void)recordTimerAction;
 {
     _recordTime ++;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangedRecordCurrentTotalTimeLength:)]) {
-        [self.delegate didChangedRecordCurrentTotalTimeLength:_recordTime];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didRecordedChangedCurrentTotalTimeLength:)]) {
+        [self.delegate didRecordedChangedCurrentTotalTimeLength:_recordTime];
     }
     //NSLog(@"++++++++>>>%ld",(long)self.recordTime);
 }
@@ -58,10 +65,20 @@
     _recordTimer = nil;
 }
 
-/**
- 销毁对象，释放对象
- */
-- (void)destory;{
+
+- (void)startRecord{
+    
+}
+
+- (void)pauaseRecord{
+    
+}
+
+- (void)stopRecord{
+    
+}
+
+- (void)reRecording{
     
 }
 

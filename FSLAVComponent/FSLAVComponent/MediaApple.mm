@@ -56,7 +56,7 @@ namespace fslAVComponent {
     
     /***************************** MediaAppleListener *************************************/
     /** Apple媒体监听对象 */
-    MediaAppleListener::MediaAppleListener(lsqAudioBridgeBlock jListener) {
+    MediaAppleListener::MediaAppleListener(fslAudioBridgeBlock jListener) {
         _jListener = jListener;
     }
     
@@ -68,7 +68,7 @@ namespace fslAVComponent {
     /** 媒体输出 */
     void MediaAppleListener::onMediaOutputBuffer(TBuffer buffer) {
         if (_jListener == nullptr){
-            LOGE("onMediaOutputBuffer need set lsqAudioBridgeBlock");
+            LOGE("onMediaOutputBuffer need set fslAudioBridgeBlock");
             return;
         }
 

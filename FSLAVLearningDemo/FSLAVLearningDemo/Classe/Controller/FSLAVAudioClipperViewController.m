@@ -76,7 +76,7 @@
     NSURL *mainAudioURL = [self fileURLWithName:@"111.mp3"];
     _clipAudio = [[FSLAVCliperAudioOptions alloc] initWithAudioURL:mainAudioURL];
     _clipAudio.audioVolume = 0;
-    _clipAudio.atTimeRange = [FSLAVTimeRange makeTimeRangeWithStartSeconds:_minTxt.text.floatValue endSeconds:_maxTxt.text.floatValue];
+    _clipAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:_minTxt.text.floatValue endSeconds:_maxTxt.text.floatValue];
     
     // 创建剪辑
     _audioClipper = [[FSLAVAudioClipper alloc] init];
@@ -143,7 +143,7 @@
     // 暂停播放素材音乐
     [self pauseMaterialAudioPlay];
 
-    _clipAudio.atTimeRange = [FSLAVTimeRange makeTimeRangeWithStartSeconds:_minTxt.text.floatValue endSeconds:_maxTxt.text.floatValue];
+    _clipAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:_minTxt.text.floatValue endSeconds:_maxTxt.text.floatValue];
 
     // TODO: 禁用播放按钮
     //playBtn.enabled = NO;
@@ -165,7 +165,7 @@
 
 - (IBAction)deleteAudio {
     
-    if (_clipAudio.outputFilePathURL) {
+    if (_clipAudio.outputFileURL) {
         [_clipAudioPlayer pause];
         [_clipAudio clearOutputFilePath];
     }
@@ -179,8 +179,8 @@
 }
 
 - (IBAction)playClipAudio {
-    if (_clipAudio.outputFilePathURL) {
-        [self playTheAudioWithURL:_clipAudio.outputFilePathURL];
+    if (_clipAudio.outputFileURL) {
+        [self playTheAudioWithURL:_clipAudio.outputFileURL];
     }
 }
 
@@ -208,7 +208,7 @@
 /**
  状态通知代理
  */
-- (void)didClipedAudioStatusChanged:(FSLAVClipStatus)audioStatus onAudioClip:(FSLAVAudioClipper *)audioClipper{
+- (void)didClippingAudioStatusChanged:(FSLAVClipStatus)audioStatus onAudioClip:(FSLAVAudioClipper *)audioClipper{
     
     if (audioStatus == FSLAVMixStatusCompleted) {
         [HUDManager showTextHud:@"操作完成，请点击「播放」，播放混合好的音频"];

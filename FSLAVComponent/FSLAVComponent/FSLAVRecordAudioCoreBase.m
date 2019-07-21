@@ -13,7 +13,7 @@
 @dynamic delegate;//解决子类协议继承父类协议的delegate命名警告
 
 #pragma mark -- init
-- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecoderOptions *)options{
+- (instancetype)initWithAudioRecordOptions:(FSLAVAudioRecorderOptions *)options{
     if (self = [super init]) {
         _options = options;
     }
@@ -65,7 +65,7 @@
 - (AVAssetWriter *)audioWriter{
     if (!_audioWriter) {
         NSError *error;
-        _audioWriter = [AVAssetWriter assetWriterWithURL:_options.outputFilePathURL fileType:AVFileTypeAppleM4A error:&error];
+        _audioWriter = [AVAssetWriter assetWriterWithURL:_options.outputFileURL fileType:AVFileTypeAppleM4A error:&error];
         if(error){
             fslLError(@"audioWriter init failed :%@",error);
             return nil;
@@ -107,7 +107,7 @@
  
  @param recoderOptions 回调的录制结果
  */
-- (void)notifyRecordResult:(FSLAVAudioRecoderOptions *)recoderOptions;
+- (void)notifyRecordResult:(FSLAVAudioRecorderOptions *)recoderOptions;
 {
     
 }

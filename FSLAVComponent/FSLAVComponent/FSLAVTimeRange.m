@@ -15,16 +15,13 @@
 /**
  创建一个FSLAVTimeRange对象
  
- @param start 开始时间
+ @param startTime 开始时间
  @param duration 持续时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStart:(CMTime)start duration:(CMTime)duration;
++ (instancetype)timeRangeWithStartTime:(CMTime)startTime duration:(CMTime)duration;
 {
-    FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] init];
-    timeRange.start = start;
-    timeRange.duration = duration;
-    return timeRange;
+    return [[self alloc] initWithStartTime:startTime duration:duration];
 }
 
 /**
@@ -34,32 +31,21 @@
  @param durationSeconds 持续时间 (单位:/s)
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
++ (instancetype)timeRangeWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
 {
-    FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] init];
-    
-    timeRange.start = CMTimeMakeWithSeconds(startSeconds, 1*USEC_PER_SEC);
-    timeRange.duration = CMTimeMakeWithSeconds(durationSeconds,1*USEC_PER_SEC);
-    return timeRange;
+    return [[self alloc] initWithStartSeconds:startSeconds durationSeconds:durationSeconds];
 }
 
 /**
  创建一个FSLAVTimeRange对象
  
- @param start 开始时间
- @param end 结束时间
+ @param startTime 开始时间
+ @param endTime 结束时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStart:(CMTime)start end:(CMTime)end;
++ (instancetype)timeRangeWithStartTime:(CMTime)startTime endTime:(CMTime)endTime;
 {
-    
-    FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] init];
-    
-    CMTimeRange range = CMTimeRangeFromTimeToTime(start,end);
-    
-    timeRange.start = range.start;
-    timeRange.duration = range.duration;
-    return timeRange;
+    return [[self alloc] initWithStartTime:startTime endTime:endTime];
 }
 
 /**
@@ -69,27 +55,106 @@
  @param endSeconds 结束时间 (单位:/s)
  @return FSLAVTimeRange
  */
-+(instancetype)makeTimeRangeWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
++(instancetype)timeRangeWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
 {
     
     FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] init];
     timeRange.start = CMTimeMakeWithSeconds(startSeconds, 1*USEC_PER_SEC);
     timeRange.duration = CMTimeMakeWithSeconds(fabs(endSeconds - startSeconds), 1*USEC_PER_SEC);
-    
+    timeRange.end = CMTimeAdd(timeRange.start, timeRange.duration);
     return timeRange;
 }
 
-- (instancetype)init;
+/**
+ 初始化方法
+ 
+ @param startTime 开始时间
+ @param duration 持续时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartTime:(CMTime)startTime duration:(CMTime)duration;
 {
-    if (self = [super init])
-    {
-        _start = kCMTimeZero;
-        _duration = kCMTimeZero;
+    if (self == [self init]) {
+        
+        _start = startTime;
+        _duration = duration;
+        _end = CMTimeAdd(startTime, duration);
     }
-    
     return self;
 }
 
+/**
+ 初始化方法
+ 
+ @param startSeconds 开始时间
+ @param durationSeconds 持续时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
+{
+    if (self == [self init]) {
+        
+        _start = CMTimeMakeWithSeconds(startSeconds, 1*USEC_PER_SEC);
+        _duration = CMTimeMakeWithSeconds(durationSeconds,1*USEC_PER_SEC);
+        _end = CMTimeAdd(_start, _duration);
+    }
+    return self;
+}
+
+
+/**
+ 初始化方法
+ 
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartTime:(CMTime)startTime endTime:(CMTime)endTime;
+{
+    if (self == [self init]) {
+        _start = startTime;
+        _end = endTime;
+        _duration = CMTimeSubtract(endTime, startTime);
+    }
+    return self;
+}
+
+/**
+ 初始化方法
+ 
+ @param startSeconds 开始时间
+ @param endSeconds 结束时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
+{
+    if (self == [self init]) {
+        
+        _start = CMTimeMakeWithSeconds(startSeconds, 1*USEC_PER_SEC);
+        _duration = CMTimeMakeWithSeconds(fabs(endSeconds - startSeconds), 1*USEC_PER_SEC);
+        _end = CMTimeAdd(_start, _duration);
+    }
+    return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setConfig];
+    }
+    return self;
+}
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
+{
+    _start = kCMTimeZero;
+    _duration = kCMTimeZero;
+    _end = kCMTimeZero;
+}
 #pragma mark - setter getter
 
 /**
@@ -104,7 +169,6 @@
 
 /**
  开始时间秒数
- 
  @return 秒数
  */
 - (Float64)startSeconds;
@@ -114,7 +178,6 @@
 
 /**
  持续时间(秒)
- 
  @return 持续时间
  */
 - (Float64)durationSeconds;
@@ -124,16 +187,37 @@
 
 /**
  结束时间(秒)
- 
  @return 结束时间
  */
 - (Float64)endSeconds;
 {
     return CMTimeGetSeconds(CMTimeRangeGetEnd(self.CMTimeRange));
 }
+
+/**
+ 持续时间
+ @return 持续时间
+ */
+- (CMTime)duration;
+{
+    // 倒序
+    if ([self isReverse]) {
+        return CMTimeSubtract(_start, _end);
+    }
+    return CMTimeSubtract(_end, _start);
+}
+
+/**
+ 标识该时间区间是否为倒序
+ @return true/false
+ */
+- (BOOL)isReverse;
+{
+    return CMTIME_COMPARE_INLINE(_start, >, _end);
+}
+
 /**
  时间范围是否有效
- 
  @return true/false
  */
 - (BOOL)isValid;
@@ -143,7 +227,6 @@
 
 /**
  是否包含另一个timeRange
- 
  @return true/false
  */
 - (BOOL)containsTimeRange:(FSLAVTimeRange *)timeRange;
@@ -156,7 +239,6 @@
 
 /**
  校验另一个 timeRange，得到一个新的包含在内的 timeRange
- 
  @return 校验后的 timerange
  */
 - (FSLAVTimeRange *)verifyOtherTimeRange:(FSLAVTimeRange *)timeRange;
@@ -172,10 +254,24 @@
     return timeRange;
 }
 
+#pragma mark -- NSObject methods
+/**
+ 实现拷贝协议
+ 
+ @param zone NSZone
+ @return FSLAVTimeRange
+ */
+- (id)copyWithZone:(NSZone *)zone;
+{
+    FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] initWithStartTime:self.start endTime:self.end];
+    return timeRange;
+}
+
+
 - (NSString *)description;
 {
     // 保留三位小数，输出与系统保持一致
-    return [NSString stringWithFormat:@"start: %.3f end: %.3f",self.startSeconds,self.endSeconds];
+    return [NSString stringWithFormat:@"start: %.3f endTime: %.3f",self.startSeconds,self.endSeconds];
 }
 
 

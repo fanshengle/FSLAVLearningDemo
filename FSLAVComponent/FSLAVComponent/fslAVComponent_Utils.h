@@ -32,6 +32,11 @@ typedef unsigned long long int uint64_llu;
 #endif
 
 /**
+ 注意：FSLAVLearningDemo中使用FSLAVComponent，因FSLAVComponent内有c++文件
+ 所以必须在FSLAVLearningDemo->build Phases->link binary with libraries中引入libc++.tbd文件
+ */
+
+/**
  命名空间的使用
  
  namesapce命名空间是在大型项目开发中，为了避免命名冲突而引入的一种机制，

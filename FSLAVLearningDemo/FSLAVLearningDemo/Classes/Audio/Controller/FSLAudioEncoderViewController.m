@@ -89,7 +89,7 @@
 - (FSLAVSecondAudioRecorder *)audioRecorder0{
     if (!_audioRecorder0) {
         
-        FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions defaultOptions];
+        FSLAVAudioRecorderOptions *options = [FSLAVAudioRecorderOptions defaultOptions];
         _audioRecorder0 = [[FSLAVSecondAudioRecorder alloc] initWithAudioRecordOptions:options];
         _audioRecorder0.delegate = self;
     }
@@ -99,7 +99,7 @@
 - (FSLAVThreeAudioRecorder *)audioRecorder{
     if (!_audioRecorder) {
        
-        FSLAVAudioRecoderOptions *options = [FSLAVAudioRecoderOptions defaultOptions];
+        FSLAVAudioRecorderOptions *options = [FSLAVAudioRecorderOptions defaultOptions];
         _audioRecorder = [[FSLAVThreeAudioRecorder alloc] initWithAudioRecordOptions:options];
         _audioRecorder.delegate = self;
     }

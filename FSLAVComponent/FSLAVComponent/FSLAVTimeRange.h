@@ -15,11 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  时间配置类，音视频合成、剪辑、拼接等功能中会使用到
  */
-@interface FSLAVTimeRange : NSObject
-{
-    CMTimeRange _CMTimeRange;
-    CMTime _end;
-}
+@interface FSLAVTimeRange : NSObject<NSCopying>
 
 #pragma mark - Properties
 
@@ -36,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  结束时间 只读类型 若需要修改结束时间,请通过修改duration进行
  */
-@property (nonatomic,assign,readonly) CMTime end;
+@property (nonatomic,assign) CMTime end;
 
 /**
  开始时间
@@ -53,19 +49,31 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,assign,readonly) Float64 endSeconds;
 
-
+/**
+ 时间范围
+ */
 @property (nonatomic,assign,readonly) CMTimeRange CMTimeRange;
+
+/**
+ 标识该时间区间是否为倒序， @return true/false
+ */
+@property (nonatomic, readonly) BOOL isReverse;
+
+/**
+ 标识该时间区间是否有效， @return true/false
+ */
+@property (nonatomic, readonly) BOOL isValid;
 
 #pragma mark - MAKE
 
 /**
  创建一个FSLAVTimeRange对象
  
- @param start 开始时间
+ @param startTime 开始时间
  @param duration 持续时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStart:(CMTime) start duration:(CMTime) duration;
++ (instancetype)timeRangeWithStartTime:(CMTime)startTime duration:(CMTime)duration;
 
 /**
  创建一个FSLAVTimeRange对象
@@ -74,16 +82,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param durationSeconds 持续时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
++ (instancetype)timeRangeWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
 
 /**
  创建一个FSLAVTimeRange对象
  
- @param start 开始时间
- @param end 结束时间
+ @param startTime 开始时间
+ @param endTime 结束时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStart:(CMTime)start end:(CMTime)end;
++ (instancetype)timeRangeWithStartTime:(CMTime)startTime endTime:(CMTime)endTime;
 
 /**
  创建一个FSLAVTimeRange对象
@@ -92,16 +100,50 @@ NS_ASSUME_NONNULL_BEGIN
  @param endSeconds 结束时间
  @return FSLAVTimeRange
  */
-+ (instancetype)makeTimeRangeWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
++ (instancetype)timeRangeWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
+
+/**
+ 初始化方法
+ 
+ @param startTime 开始时间
+ @param duration 持续时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartTime:(CMTime)startTime duration:(CMTime)duration;
+
+/**
+ 初始化方法
+ 
+ @param startSeconds 开始时间
+ @param durationSeconds 持续时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartSeconds:(Float64)startSeconds durationSeconds:(Float64)durationSeconds;
+
+/**
+ 初始化方法
+ 
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartTime:(CMTime)startTime endTime:(CMTime)endTime;
+
+/**
+ 初始化方法
+ 
+ @param startSeconds 开始时间
+ @param endSeconds 结束时间
+ @return FSLAVTimeRange
+ */
+- (instancetype)initWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
 
 #pragma mark - Methods
 
 /**
- 时间范围是否有效
- 
- @return true/false
+ 设置默认参数配置
  */
-- (BOOL)isValid;
+- (void)setConfig;
 
 /**
  是否包含另一个timeRange

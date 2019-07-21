@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     NSURL *mainAudioURL = [self fileURLWithName:@"111.mp3"];
     _mainAudio = [[FSLAVMixerAudioOptions alloc] initWithAudioURL:mainAudioURL];
     _mainAudio.audioVolume = 0;
-//    _mainAudio.atTimeRange = [FSLAVTimeRange makeTimeRangeWithStartSeconds:0 endSeconds:6];
+//    _mainAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:6];
     //是否允许音频循环 默认 NO
     _mainAudio.enableCycleAdd = YES;
     
@@ -109,13 +109,13 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     NSURL *firstMixAudioURL = [self fileURLWithName:@"123.mp3"];
     _firstMixAudio = [[FSLAVMixerAudioOptions alloc] initWithAudioURL:firstMixAudioURL];
     _firstMixAudio.audioVolume = 0;
-    _firstMixAudio.atTimeRange = [FSLAVTimeRange makeTimeRangeWithStartSeconds:20 endSeconds:10];
+    _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:20 endSeconds:10];
     
     // 素材二
     NSURL *secondMixAudioURL = [self fileURLWithName:@"sound_cat.mp3"];
     _secondMixAudio = [[FSLAVMixerAudioOptions alloc] initWithAudioURL:secondMixAudioURL];
     _secondMixAudio.audioVolume = 0;
-    _secondMixAudio.atTimeRange = [FSLAVTimeRange makeTimeRangeWithStartSeconds:0 endSeconds:40];
+    _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:40];
     
     // 创建混音
     _audioMixer = [[FSLAVAudioMixer alloc] init];
@@ -282,7 +282,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 /**
  状态通知代理
  */
-- (void)didMixedAudioStatusChanged:(FSLAVMixStatus)audioStatus onAudioMix:(FSLAVAudioMixer *)audioMixer{
+- (void)didMixingAudioStatusChanged:(FSLAVMixStatus)audioStatus onAudioMix:(FSLAVAudioMixer *)audioMixer{
     
     if (audioStatus == FSLAVMixStatusCompleted) {
         [HUDManager showTextHud:@"操作完成，请点击「播放」，播放混合好的音频"];

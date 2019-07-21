@@ -129,7 +129,7 @@
     [_playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
     
     // AVPlayer播放完成通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidendTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
 }
 
 #pragma mark -- 移除观察者
@@ -319,7 +319,7 @@
 
  @param noti 通知携带的消息
  */
-- (void)moviePlayDidEnd:(NSNotification *)noti {
+- (void)moviePlayDidendTime:(NSNotification *)noti {
     //将当前播放时间设置为指定的时间,恢复初始状态。
     [_player seekToTime:kCMTimeZero];
     _isPlaying = NO;

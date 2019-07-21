@@ -1,5 +1,5 @@
 //
-//  FSLAVConfiguraction.m
+//  FSLAVOptions.h
 //  FSLAVComponent
 //
 //  Created by tutu on 2019/6/26.
@@ -19,12 +19,71 @@
     return self;
 }
 
-- (NSURL *)outputFilePathURL{
-    if (!_outputFilePathURL) {
-        
-        _outputFilePathURL = [NSURL fileURLWithPath:self.outputFilePath];
+#pragma mark -- getter
+
+- (AVFileType)appOutputFileType{
+    if (!_appOutputFileType) {
+        switch (_outputFileType) {
+            case FSLAVVideoOutputFileTypeQuickTimeMovie:
+                _appOutputFileType = AVFileTypeQuickTimeMovie;
+                break;
+            case FSLAVVideoOutputFileTypeMPEG4:
+                _appOutputFileType = AVFileTypeMPEG4;
+                break;
+            case FSLAVAudioOutputFileTypeM4A:
+                _appOutputFileType = AVFileTypeAppleM4A;
+                break;
+            case FSLAVMediaOutputFileTypeM4V:
+                _appOutputFileType = AVFileTypeAppleM4V;
+                break;
+            default:
+                _appOutputFileType = AVFileTypeAppleM4V;
+                break;
+        }
     }
-    return _outputFilePathURL;
+    return _appOutputFileType;
+}
+
+- (NSString *)saveSuffixFormat{
+    
+    if (!_saveSuffixFormat) {
+        
+        switch (_outputFileType) {
+            case FSLAVVideoOutputFileTypeQuickTimeMovie:
+                _saveSuffixFormat = @"mov";
+                break;
+            case FSLAVVideoOutputFileTypeMPEG4:
+                _saveSuffixFormat = @"mp4";
+                break;
+            case FSLAVAudioOutputFileTypeM4A:
+                _saveSuffixFormat = @"m4a";
+                break;
+            case FSLAVMediaOutputFileTypeM4V:
+                _saveSuffixFormat = @"m4v";
+                break;
+            default:
+                break;
+        }
+    }
+    return _saveSuffixFormat;
+}
+
+- (NSString *)outputFileName{
+    if (!_outputFileName) {
+        
+        _outputFileName = @"fslComponentTimeFile";
+    }
+    return _outputFileName;
+}
+
+
+
+- (NSURL *)outputFileURL{
+    if (!_outputFileURL) {
+        
+        _outputFileURL = [NSURL fileURLWithPath:self.outputFilePath];
+    }
+    return _outputFileURL;
 }
 
 - (NSString *)outputFilePath{
@@ -34,12 +93,12 @@
     return _outputFilePath;
 }
 
-- (NSURL *)exportRandomFilePathURL{
-    if (!_exportRandomFilePathURL) {
+- (NSURL *)exportRandomFileURL{
+    if (!_exportRandomFileURL) {
         
-        _exportRandomFilePathURL = [NSURL fileURLWithPath:self.exportRandomFilePath];
+        _exportRandomFileURL = [NSURL fileURLWithPath:self.exportRandomFilePath];
     }
-    return _exportRandomFilePathURL;
+    return _exportRandomFileURL;
 }
 
 - (NSString *)exportRandomFilePath{
@@ -98,13 +157,13 @@
     switch (_sandboxDirType) {
             
         case FSLAVSandboxDirDocuments:
-            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:_outputFileName];
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:self.outputFileName];
             break;
         case FSLAVSandboxDirLibrary:
-            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:_outputFileName];
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:self.outputFileName];
             break;
         case FSLAVSandboxDirCache:
-            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:_outputFileName];
+            filePath = [FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:self.outputFileName];
             break;
         default:
             break;
@@ -116,14 +175,15 @@
 /**
  清除当前路径文件
  */
-- (void)clearOutputFilePath;
+- (BOOL)clearOutputFilePath;
 {
     
-    if (!_outputFilePath) return;
+    if (!_outputFilePath) return NO;
     
     [FSLAVFileManager deletePath:_outputFilePath];
     _outputFilePath = nil;
-    _outputFilePathURL = nil;
+    _outputFileURL = nil;
+    return YES;
 }
 
 /**
@@ -136,23 +196,23 @@
     BOOL isClear = NO;
     
     //文件夹路径是否存在
-    if ([FSLAVFileManager isExistDirAtPath:_outputFileName]) return isClear;
+    if ([FSLAVFileManager isExistDirAtPath:self.outputFileName]) return isClear;
     
     switch (_sandboxDirType) {
             
         case FSLAVSandboxDirDocuments:
-            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:_outputFileName]];
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager DocumentsPath] WithFileName:self.outputFileName]];
             break;
         case FSLAVSandboxDirLibrary:
-            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:_outputFileName]];
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager LibraryPath] WithFileName:self.outputFileName]];
             break;
         case FSLAVSandboxDirCache:
-            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:_outputFileName]];
+            isClear = [FSLAVFileManager deleteCacheOnFilePath:[FSLAVFileManager filePathAtBasicPath:[FSLAVFileManager CachePath] WithFileName:self.outputFileName]];
             break;
         default:
             break;
     }
-    _outputFilePathURL = nil;
+    _outputFileURL = nil;
     _outputFilePath = nil;
     return isClear;
 }

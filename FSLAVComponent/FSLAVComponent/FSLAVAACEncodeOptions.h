@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVRecoderOptions.h"
+#import "FSLAVRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM (NSUInteger, FSLAVAACAudioBitRate)
 {
     FSLAVAACAudioBitRate_32Kbps = 32000,
+    
+    FSLAVAACAudioBitRate_48Kbps = 48000,
     
     FSLAVAACAudioBitRate_64Kbps = 64000,
     
@@ -67,7 +69,7 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
 /**
  音频编码器的配置类
  */
-@interface FSLAVAACEncodeOptions : FSLAVRecoderOptions<NSCoding, NSCopying>
+@interface FSLAVAACEncodeOptions : FSLAVRecorderOptions<NSCoding, NSCopying>
 
 /**
  默认音频配置
