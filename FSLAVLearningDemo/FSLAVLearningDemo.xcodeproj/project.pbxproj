@@ -11,7 +11,13 @@
 		324F2479A87A566A7A706D3C /* libPods-FSLAVLearningDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537B7D7B13336CACC9C627E /* libPods-FSLAVLearningDemo.a */; };
 		D708999422D5D7380020A931 /* abc.aac in Resources */ = {isa = PBXBuildFile; fileRef = D708999322D5D7380020A931 /* abc.aac */; };
 		D70EB3A122D43584008BF0BE /* FSLAudioEncoderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70EB3A022D43584008BF0BE /* FSLAudioEncoderViewController.m */; };
+		D715A74922E728640087D020 /* speedSegmentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D715A74822E728640087D020 /* speedSegmentButton.m */; };
 		D71A68B022C1EBDD00FC4C4A /* FSLH264VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71A68AF22C1EBDD00FC4C4A /* FSLH264VideoViewController.m */; };
+		D73EFA2F22E5544800B93E85 /* MarkableProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D73EFA2E22E5544800B93E85 /* MarkableProgressView.m */; };
+		D73EFA3922E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D73EFA3722E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard */; };
+		D73EFA3C22E5575600B93E85 /* PitchSegmentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D73EFA3A22E5575600B93E85 /* PitchSegmentButton.m */; };
+		D73EFA3F22E5576800B93E85 /* SegmentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D73EFA3E22E5576700B93E85 /* SegmentButton.m */; };
+		D73EFA4222E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73EFA4122E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m */; };
 		D74310BD22BCBD130055E0C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310BC22BCBD130055E0C2 /* main.m */; };
 		D74310C722BCBD130055E0C2 /* FSLAVLearningDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310C622BCBD130055E0C2 /* FSLAVLearningDemoTests.m */; };
 		D74310D222BCBD130055E0C2 /* FSLAVLearningDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74310D122BCBD130055E0C2 /* FSLAVLearningDemoUITests.m */; };
@@ -77,8 +83,19 @@
 		D708999322D5D7380020A931 /* abc.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.aac; sourceTree = "<group>"; };
 		D70EB39F22D43584008BF0BE /* FSLAudioEncoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAudioEncoderViewController.h; sourceTree = "<group>"; };
 		D70EB3A022D43584008BF0BE /* FSLAudioEncoderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAudioEncoderViewController.m; sourceTree = "<group>"; };
+		D715A74722E728640087D020 /* speedSegmentButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = speedSegmentButton.h; sourceTree = "<group>"; };
+		D715A74822E728640087D020 /* speedSegmentButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = speedSegmentButton.m; sourceTree = "<group>"; };
 		D71A68AE22C1EBDD00FC4C4A /* FSLH264VideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSLH264VideoViewController.h; sourceTree = "<group>"; };
 		D71A68AF22C1EBDD00FC4C4A /* FSLH264VideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSLH264VideoViewController.m; sourceTree = "<group>"; };
+		D73EFA2D22E5544800B93E85 /* MarkableProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkableProgressView.h; sourceTree = "<group>"; };
+		D73EFA2E22E5544800B93E85 /* MarkableProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkableProgressView.m; sourceTree = "<group>"; };
+		D73EFA3722E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FSLAVAudioPitchRecordViewController.storyboard; sourceTree = "<group>"; };
+		D73EFA3A22E5575600B93E85 /* PitchSegmentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PitchSegmentButton.m; sourceTree = "<group>"; };
+		D73EFA3B22E5575600B93E85 /* PitchSegmentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PitchSegmentButton.h; sourceTree = "<group>"; };
+		D73EFA3D22E5576700B93E85 /* SegmentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentButton.h; sourceTree = "<group>"; };
+		D73EFA3E22E5576700B93E85 /* SegmentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentButton.m; sourceTree = "<group>"; };
+		D73EFA4022E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSLAVAudioPitchRecordViewController.h; sourceTree = "<group>"; };
+		D73EFA4122E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSLAVAudioPitchRecordViewController.m; sourceTree = "<group>"; };
 		D74310AA22BCBD120055E0C2 /* FSLAVLearningDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSLAVLearningDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74310BB22BCBD130055E0C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D74310BC22BCBD130055E0C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -213,6 +230,21 @@
 				D7B9F93022C4B35200EA3DC3 /* FSLAVPlayerViewController.m */,
 			);
 			path = video;
+			sourceTree = "<group>";
+		};
+		D73EFA2C22E5543D00B93E85 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D73EFA2D22E5544800B93E85 /* MarkableProgressView.h */,
+				D73EFA2E22E5544800B93E85 /* MarkableProgressView.m */,
+				D73EFA3D22E5576700B93E85 /* SegmentButton.h */,
+				D73EFA3E22E5576700B93E85 /* SegmentButton.m */,
+				D73EFA3B22E5575600B93E85 /* PitchSegmentButton.h */,
+				D73EFA3A22E5575600B93E85 /* PitchSegmentButton.m */,
+				D715A74722E728640087D020 /* speedSegmentButton.h */,
+				D715A74822E728640087D020 /* speedSegmentButton.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D74310A122BCBD120055E0C2 = {
@@ -389,6 +421,7 @@
 		F889CD6822DA0C5700B4FA29 /* Classe */ = {
 			isa = PBXGroup;
 			children = (
+				D73EFA2C22E5543D00B93E85 /* Views */,
 				F889CD6922DA0C7A00B4FA29 /* Controller */,
 			);
 			path = Classe;
@@ -403,6 +436,9 @@
 				F82E362422DB18D300315C2B /* FSLAVAudioClipperViewController.h */,
 				F82E362522DB18D300315C2B /* FSLAVAudioClipperViewController.m */,
 				F82E362922DB1BE800315C2B /* FSLAVAudioClipperViewController.storyboard */,
+				D73EFA4022E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.h */,
+				D73EFA4122E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m */,
+				D73EFA3722E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -519,6 +555,7 @@
 				D743112B22BCBEC70055E0C2 /* FunctionList.json in Resources */,
 				D708999422D5D7380020A931 /* abc.aac in Resources */,
 				D7B9F93622C4B74D00EA3DC3 /* ZQPlayerImage.bundle in Resources */,
+				D73EFA3922E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard in Resources */,
 				D743112622BCBEC70055E0C2 /* 123.mp3 in Resources */,
 				D74310FA22BCBE8C0055E0C2 /* Assets.xcassets in Resources */,
 				D743112422BCBEC70055E0C2 /* Main.storyboard in Resources */,
@@ -619,11 +656,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7B9F93122C4B35200EA3DC3 /* FSLAVPlayerViewController.m in Sources */,
+				D73EFA3F22E5576800B93E85 /* SegmentButton.m in Sources */,
+				D715A74922E728640087D020 /* speedSegmentButton.m in Sources */,
 				D743112F22BCBEC70055E0C2 /* HWCutMusicViewController.m in Sources */,
 				D743113122BCBEC70055E0C2 /* BaseViewController.m in Sources */,
 				F83365D222C9131C00D70A1D /* AudioRecordViewController.m in Sources */,
 				F82E362622DB18D300315C2B /* FSLAVAudioClipperViewController.m in Sources */,
 				D743112922BCBEC70055E0C2 /* GeneralParamModel.m in Sources */,
+				D73EFA3C22E5575600B93E85 /* PitchSegmentButton.m in Sources */,
 				D743112522BCBEC70055E0C2 /* ViewController.m in Sources */,
 				D743113222BCBEC70055E0C2 /* TopNavigationBar.m in Sources */,
 				D743112822BCBEC70055E0C2 /* GeneralParamItemModel.m in Sources */,
@@ -631,6 +671,8 @@
 				D743112A22BCBEC70055E0C2 /* GeneralGetDataManager.m in Sources */,
 				D743112C22BCBEC70055E0C2 /* HUDManager.m in Sources */,
 				D743112322BCBEC70055E0C2 /* AppDelegate.m in Sources */,
+				D73EFA4222E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m in Sources */,
+				D73EFA2F22E5544800B93E85 /* MarkableProgressView.m in Sources */,
 				D71A68B022C1EBDD00FC4C4A /* FSLH264VideoViewController.m in Sources */,
 				D7668EE722C9FB8E00775D14 /* AAPLEAGLLayer.m in Sources */,
 				D7B9F93422C4B48000EA3DC3 /* ZQPlayerMaskView.m in Sources */,

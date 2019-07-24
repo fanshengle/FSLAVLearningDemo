@@ -108,7 +108,7 @@
 #pragma mark -- 录制定时事件
 - (void)recordTimerAction{
     
-    _options.recordTimeLength = _recordTime;
+    _options.maxRecordDelay = _recordTime;
     
     if ([self isLessRecordTime]) {
         [self notifyRecordState:FSLAVRecordStateLessMinRecordTime];
@@ -146,7 +146,7 @@
 }
 
 #pragma mark -- 暂停录音
-- (void)pauaseRecord{
+- (void)pauseRecord{
 
     if(!_isRecording) return;
     _isRecording = NO;
@@ -207,7 +207,7 @@
     if (flag) {
         //暂存录音文件路径
 
-        _options.recordTimeLength = _recordTime;
+        _options.maxRecordDelay = _recordTime;
         _isRecording = NO;
     }
     [self notifyRecordState:FSLAVRecordStateCompleted];

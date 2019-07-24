@@ -10,6 +10,16 @@
 
 @implementation FSLAVAudioRecorderOptions
 
+//必须走一下父类的方法；为了一些父类的默认参数生效
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 /**
  默认视频配置
  
@@ -46,58 +56,53 @@
     options.audioFormat = kAudioFormatLinearPCM;
     //声道数
     options.audioChannels = channels;
-    //一种标准的单音流。
-    options.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
+  
     options.audioLinearPCMIsFloat = NO;
     options.audioLinearPCMIsBigEndian = NO;
     
     options.outputFileName = @"audioFile";
     options.saveSuffixFormat = @"caf";
-    options.minRecordDelay = 3.f;
-    options.maxRecordDelay = 0.f;
-    options.isAcousticTimer = YES;
-    options.isAutomaticStop = NO;
-    
+
     switch (audioQuality)
     {
         case  FSLAVAudioRecordQuality_min:
         {
+            options.recordSampleRate = FSLAVAudioRecordSampleRate_16000Hz;
             options.audioSampleRat = 16000;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_32Kbps : FSLAVAudioRecordBitRate_48Kbps;
+            options.encoderBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_32Kbps : FSLAVAudioRecordBitRate_48Kbps;
             options.audioLinearBitDepth = 8;
-            options.audioQuality = AVAudioQualityMin;
         }
             break;
         case  FSLAVAudioRecordQuality_Low:
         {
+            options.recordSampleRate = FSLAVAudioRecordSampleRate_22050Hz;
             options.audioSampleRat = 22050;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_48Kbps : FSLAVAudioRecordBitRate_64Kbps;
+            options.encoderBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_48Kbps : FSLAVAudioRecordBitRate_64Kbps;
             options.audioLinearBitDepth = 16;
-            options.audioQuality = AVAudioQualityLow;
         }
             break;
         case  FSLAVAudioRecordQuality_Medium:
         {
+            options.recordSampleRate = FSLAVAudioRecordSampleRate_32000Hz;
             options.audioSampleRat = 32000;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_64Kbps : FSLAVAudioRecordBitRate_96Kbps;
+            options.encoderBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_64Kbps : FSLAVAudioRecordBitRate_96Kbps;
             options.audioLinearBitDepth = 16;
-            options.audioQuality = AVAudioQualityMedium;
         }
             break;
         case  FSLAVAudioRecordQuality_High:
         {
+            options.recordSampleRate = FSLAVAudioRecordSampleRate_44100Hz;
             options.audioSampleRat = 44100;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_96Kbps : FSLAVAudioRecordBitRate_128Kbps;
+            options.encoderBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_96Kbps : FSLAVAudioRecordBitRate_128Kbps;
             options.audioLinearBitDepth = 16;
-            options.audioQuality = AVAudioQualityHigh;
         }
             break;
         case  FSLAVAudioRecordQuality_Max:
         {
+            options.recordSampleRate = FSLAVAudioRecordSampleRate_48000Hz;
             options.audioSampleRat = 48000;
-            options.audioBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_96Kbps : FSLAVAudioRecordBitRate_128Kbps;
+            options.encoderBitRate = options.audioChannels == 1 ? FSLAVAudioRecordBitRate_96Kbps : FSLAVAudioRecordBitRate_128Kbps;
             options.audioLinearBitDepth = 24;
-            options.audioQuality = AVAudioQualityMax;
         }
             break;
         default:
@@ -111,7 +116,7 @@
         
         //(2)设置录音的音频参数
         /*
-         1 ID号:acc、pcm....
+         1 ID号:pcm、acc....
          2 采样率(HZ):每秒从连续的信号中提取并组成离散信号的采样个数
          3 比特率（bit）：每秒传输的数据量字节
          4 通道的个数:(1 单声道 2 立体声)
@@ -123,15 +128,15 @@
         switch (_audioFormat) {
             case kAudioFormatLinearPCM:
             {
+                //转码格式为pcm时，不能设置比特率AVEncoderBitRateKey，也不能设置AVEncoderAudioQualityKey音频质量
                 _audioConfigure = @{
                                     AVFormatIDKey:@(_audioFormat),//音频格式
                                     AVSampleRateKey:@(_audioSampleRat),//采样率
-                                    AVEncoderBitRateKey:@(_audioSampleRat),//比特率
                                     AVNumberOfChannelsKey:@(_audioChannels),//声道数
                                     AVLinearPCMBitDepthKey:@(_audioLinearBitDepth),//采样位数
-                                    AVLinearPCMIsBigEndianKey:@(_audioLinearPCMIsBigEndian),
-                                    AVLinearPCMIsFloatKey:@(_audioLinearPCMIsFloat),
-                                    AVEncoderAudioQualityKey:@(_audioQuality),
+                                    AVLinearPCMIsBigEndianKey:@(_audioLinearPCMIsBigEndian),// 音频采用高位优先的记录格
+                                    AVLinearPCMIsFloatKey:@(_audioLinearPCMIsFloat),//是否采用浮点数采样
+                                    AVLinearPCMIsNonInterleaved:@(NO)//一个布尔值，指示音频格式是无交错(YES)还是交错(NO)。
                                     };
             }
                 break;
@@ -140,16 +145,24 @@
                 //指定文件或硬件中的通道布局
                 AudioChannelLayout acl;
                 bzero( &acl, sizeof(acl));
-                //指示布局的AudioChannelLayoutTag值
-                acl.mChannelLayoutTag = (UInt32)_mChannelLayoutTag;
+                //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
+                if (_audioChannels == 1) {
+
+                    //指示布局的AudioChannelLayoutTag值
+                    //一种标准的单音流。
+                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
+               
+                }else{//双声道
+                    
+                    //标准立体声流。
+                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
+                }
                 _audioConfigure = @{
                                     AVFormatIDKey:@(_audioFormat),//音频格式
                                     AVSampleRateKey:@(_audioSampleRat),//采样率
-                                    AVEncoderBitRateKey:@(_audioSampleRat),//比特率
+                                    AVEncoderBitRateKey:@(_encoderBitRate),//比特率
                                     AVNumberOfChannelsKey:@(_audioChannels),//声道数
-                                    AVEncoderBitDepthHintKey:@(_audioLinearBitDepth),//采样位数
-                                    AVChannelLayoutKey:[NSData dataWithBytes: &acl length: sizeof(acl) ],
-                                    AVEncoderAudioQualityKey:@(_audioQuality),
+                                    AVChannelLayoutKey:[NSData dataWithBytes: &acl length: sizeof(acl)]
                                     };
             }
                 break;
@@ -159,4 +172,12 @@
     return _audioConfigure;
 }
 
+
+/**
+ 设置默认参数配置(可以重置父类的默认参数，不设置的话，父类的默认参数会无效)
+ */
+- (void)setConfig;
+{
+    [super setConfig];
+}
 @end

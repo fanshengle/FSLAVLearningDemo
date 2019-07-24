@@ -90,7 +90,7 @@
 }
 
 /**
- 初始化
+ 初始化:必须走一下父类的方法；为了一些父类的默认参数生效
  */
 - (instancetype)init
 {
@@ -197,6 +197,13 @@
     return sampleRateIndex;
 }
 
+/**
+ 设置默认参数配置(可以重置父类的默认参数，不设置的话，父类的默认参数会无效)
+ */
+- (void)setConfig;
+{
+    [super setConfig];
+}
 #pragma mark -- 系统化设置
 /**
  归档，解码

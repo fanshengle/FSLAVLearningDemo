@@ -277,7 +277,8 @@
 /**
  * 释放变调器
  */
-- (void)dealloc;{
+- (void)dealloc;
+{
     [self destory];
 }
 @end

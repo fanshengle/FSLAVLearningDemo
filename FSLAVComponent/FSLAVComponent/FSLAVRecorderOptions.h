@@ -70,9 +70,7 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
  */
 @interface FSLAVRecorderOptions : FSLAVOptions
 {
-    BOOL _isAutomaticStop;
     NSUInteger _maxRecordDelay;
-    NSTimeInterval _recordTimeLength;
 }
 
 /**
@@ -86,7 +84,7 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
 @property (nonatomic, assign) BOOL isAcousticTimer;
 
 /**
- 自动停止录制的最小录制时间，默认3s,
+ 最小录制时间，默认3s,
  */
 @property (nonatomic, assign) NSUInteger minRecordDelay;
 
@@ -99,11 +97,6 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
  已录制的总时长
  */
 @property (nonatomic, assign,getter=outputDuration) NSTimeInterval outputDuration;
-
-/**
- 当前的录制音视频的总时长
- */
-@property (nonatomic, assign) NSTimeInterval recordTimeLength;
 
 
 @end

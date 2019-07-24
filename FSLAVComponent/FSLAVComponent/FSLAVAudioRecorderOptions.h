@@ -71,30 +71,25 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
  */
 @interface FSLAVAudioRecorderOptions : FSLAVRecorderOptions
 
-
 /**音频格式*/
 @property (nonatomic,assign) NSUInteger audioFormat;
 /**音频采样率 单位是Hz 常见值 22050：人对频率的识别范围是 20HZ - 20000HZ 44100：CD音质 48000 96000 192000，
  超过48000的采样对人耳已经没有意义。这和电影的每秒 24 帧图片的道理差不多。*/
 @property (nonatomic,assign) NSUInteger audioSampleRat;
-/**音频的比特率*/
-@property (nonatomic,assign) NSUInteger audioBitRate;
 /**音频的通道 声道数 1、2*/
 @property (nonatomic,assign) NSUInteger audioChannels;
-/**音频采样点位数 比特率  8 16（16位基本可以满足所有的情况了）24 32*/
-@property (nonatomic,assign) NSUInteger audioLinearBitDepth;
+
+//----------aac格式使用
 /**音频的编码比特率 BPS传输速率 一般为128000bps*/
 @property (nonatomic,assign) NSUInteger encoderBitRate;
-/**设置录音质量:声音质量*/
-@property (nonatomic,assign) NSUInteger audioQuality;
-/**指示布局的AudioChannelLayoutTag值*/
-@property (nonatomic,assign) NSUInteger mChannelLayoutTag;
 
 //----------带pcm的字段是PCM格式专用，也可以不设置，不影响
 /**音频频格式是否是大端点*/
 @property (nonatomic,assign) NSUInteger audioLinearPCMIsBigEndian;
 /**音频格式是否使用浮点数采样*/
 @property (nonatomic,assign) NSUInteger audioLinearPCMIsFloat;
+/**音频采样点位数 比特率  8 16（16位基本可以满足所有的情况了）24 32*/
+@property (nonatomic,assign) NSUInteger audioLinearBitDepth;
 /** ... 其他设置*/
 
 /** 音频质量（VideoQuality_Default为默认配置）*/

@@ -9,7 +9,15 @@
 #import "FSLAVVideoRecorderOptions.h"
 
 @implementation FSLAVVideoRecorderOptions
-
+//必须走一下父类的方法；为了一些父类的默认参数生效
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
 
 /**
  默认视频配置
@@ -96,5 +104,11 @@
     return options;
 }
 
-
+/**
+ 设置默认参数配置(可以重置父类的默认参数，不设置的话，父类的默认参数会无效)
+ */
+- (void)setConfig;
+{
+    [super setConfig];
+}
 @end

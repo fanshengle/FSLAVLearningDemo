@@ -16,7 +16,7 @@
 #import "FSLProxy.h"
 /**日志处理类*/
 #import "FSLAVLog.h"
-/** CMSampleBufferRef 助手*/
+/**CMSampleBufferRef 助手*/
 #import "FSLAVMediaSampleBufferAssistant.h"
 
 
@@ -26,19 +26,27 @@
 #import "FSLAVSecondAudioRecorder.h"
 /**音频录制器*/
 #import "FSLAVThreeAudioRecorder.h"
+/**音频音调（变调、变速）录制器*/
+#import "FSLAVAudioPitchEngineRecorder.h"
+/**音频音调（变调、变速）引擎*/
+#import "FSLAVAudioPitchEngine.h"
+
 /**音频播放器，alloc初始化的形式*/
 #import "FSLAVAudioPlayer.h"
 /**音频播放器，单例类的形式*/
 #import "FSLAVSingleAudioPlayer.h"
+
 /**音频编码器*/
 #import "FSLAVAACAudioEncoder.h"
 /**音频解码器*/
 #import "FSLAVAACAudioDecoder.h"
+
 /**音频混合器*/
 #import "FSLAVAudioMixer.h"
 /**音频剪辑器*/
 #import "FSLAVAudioClipper.h"
-
+/**音视频分段录制，对一个/多个时间切片进行编辑，调整时间线合成新的音视频*/
+#import "FSLAVMediaTimelineSliceComposition.h"
 
 /**视频录制器*/
 #import "FSLAVFirstVideoRecorder.h"

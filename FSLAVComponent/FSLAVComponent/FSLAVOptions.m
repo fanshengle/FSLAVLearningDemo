@@ -76,8 +76,6 @@
     return _outputFileName;
 }
 
-
-
 - (NSURL *)outputFileURL{
     if (!_outputFileURL) {
         

@@ -10,15 +10,6 @@
 
 @implementation FSLAVRecordCoreBase
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self setConfig];
-    }
-    return self;
-}
-
 #pragma mark --  定时器
 //添加定时器
 - (void)addRecordTimer;
@@ -70,7 +61,7 @@
     
 }
 
-- (void)pauaseRecord{
+- (void)pauseRecord{
     
 }
 

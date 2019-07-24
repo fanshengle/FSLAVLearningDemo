@@ -229,7 +229,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate>
  */
 - (void)recordTimerAction{
     
-    _options.recordTimeLength = _recordTime;
+    _options.maxRecordDelay = _recordTime;
     
     if ([self isLessRecordTime]) {
         [self notifyRecordState:FSLAVRecordStateLessMinRecordTime];

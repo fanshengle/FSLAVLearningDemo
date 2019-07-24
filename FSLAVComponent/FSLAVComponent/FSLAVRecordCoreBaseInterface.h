@@ -26,12 +26,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didRecordedChangedCurrentTotalTimeLength:(NSTimeInterval)recordTimeLength;
 
 /**
- 音视频录制状态回调通知代理
+ 音视频录制状态回调通知代理(所有的音视频录制关于状态的回调都调用这个)
 
  @param status 录制状态
  @param recorder 当前录制音视频录制器
  */
 - (void)didRecordingStatusChanged:(FSLAVRecordState)status recorder:(id<FSLAVRecordCoreBaseInterface>)recorder;
+
+/**
+ 录制完成
+ @param filePath 录制结果文件路径
+ @param recorder 录制器对象
+ */
+- (void)didCompletedOutputFilePath:(NSString *)filePath recorder:(id<FSLAVRecordCoreBaseInterface>)recorder;
+
+/**
+ 录制完成：录制时间回调
+ @param recordDuration 已录制的总时间
+ @param recorder 录制器对象
+ */
+- (void)didCompletedOutputDuration:(NSTimeInterval)recordDuration recorder:(id<FSLAVRecordCoreBaseInterface>)recorder;
 
 @end
 
@@ -66,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  暂停录制
  */
-- (void)pauaseRecord;
+- (void)pauseRecord;
 
 /**
  结束录制
@@ -81,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  取消录制
  */
-- (void)cancleRecord;
+- (void)cancelRecord;
 
 /**
  设置回调通知，并委托协议
@@ -157,7 +171,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param recorder 当前音频录制器
  */
 - (void)didRecordedAudioResult:(FSLAVAudioRecorderOptions *)result recorder:(id<FSLAVAudioRecorderInterface>)recorder;
-
 
 /**
  

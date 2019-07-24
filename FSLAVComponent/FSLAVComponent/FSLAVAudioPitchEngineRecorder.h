@@ -35,6 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 改变音频播放速度 [变速不变调, 音调设置将失效]
+ * speedMode 与 speed不能同时设置；因为FSLAVSoundSpeedMode就是设置固定值speed得到的
+ */
+@property (nonatomic) FSLAVSoundSpeedMode speedMode;
+
+/**
+ * 改变音频播放速度 [变速不变调, 音调设置将失效]
  * speed 0 > speed
  */
 @property (nonatomic) float speed;

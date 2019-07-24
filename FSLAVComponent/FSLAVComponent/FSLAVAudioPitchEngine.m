@@ -86,6 +86,7 @@
  */
 - (void)setSpeed:(float)speed;
 {
+    if(_speed == speed) return;
     _speed = speed;
     _speedMode = FSLAVSoundSpeedMode_Normal;
     _pitchType = FSLAVSoundPitchNormal;
@@ -203,6 +204,7 @@
 {
     [_audioPitch reset];
     _pitchType = FSLAVSoundPitchNormal;
+    _speedMode = FSLAVSoundSpeedMode_Normal;
     _speed = 1.0;
     _pitch = 1.0;
 }
@@ -225,7 +227,9 @@
  */
 - (void)syncAudioPitchOutputBuffer:(CMSampleBufferRef)output autoRelease:(BOOL *)autoRelease;
 {
-    [self processInputBuffer:output];
+    //输出buffer处理
+    [self processOutputBuffer:output];
+    //同步协议回调
     [self.delegate pitchEngine:self syncAudioPitchOutputBuffer:output autoRelease:autoRelease];
 }
 

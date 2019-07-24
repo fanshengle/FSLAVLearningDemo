@@ -40,8 +40,6 @@
 
 #define NMBottomBarHeight         49.0//底部按钮视图高度
 
-//#define NMTopBarHeight           (NMStatusBarHeight + NMNavBarHeight)                                                   //导航栏和标签栏的总高度
-
 #define NMAdapter(value1,value2)           ([[UIApplication sharedApplication] statusBarFrame].size.height>20?value1:value2)              //适配布局
 
 //带状态栏的自适应高度
@@ -50,6 +48,46 @@
 #define NMAdapterBottomH(value)         ([[UIApplication sharedApplication] statusBarFrame].size.height>20?(value + 34):value)            //适配底部布局
 
 
-#define AudioVideoString(key, comment) \
-[[NSBundle mainBundle] localizedStringForKey:(key) value:comment table:@"AudioVideoSDK"]
+/**
+ *  系统字体
+ *
+ *  @param X 字号
+ *
+ *  @return font 返回字体对象
+ */
+#define fslFontSize(X)                 [UIFont systemFontOfSize:X]
+
+/**
+ *  系统加粗字体
+ *
+ *  @param X 字号
+ *
+ *  @return font 返回字体对象
+ */
+#define fslBoldFontSize(X)             [UIFont boldSystemFontOfSize:X]
+
+/**
+ *  系统颜色
+ *
+ *  @param r
+ *  @param g
+ *  @param b
+ *  @param a
+ *
+ *  @return color 系统颜色
+ */
+#define fslRGBA(r, g, b, a)        [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+/**
+ *  系统颜色
+ *
+ *  @param r
+ *  @param g
+ *  @param b
+ *
+ *  @return color
+ */
+#define fslRGB(r, g, b)            fslRGBA(r, g, b, 1)
+
+
 #endif /* LayoutAapter_h */

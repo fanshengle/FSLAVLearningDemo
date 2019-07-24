@@ -61,6 +61,14 @@
     }
 }
 
+- (FSLAVAudioRecorderOptions *)options{
+    if (!_options) {
+        
+        _options = [FSLAVAudioRecorderOptions defaultOptions];
+    }
+    return _options;
+}
+
 #pragma mark -- 媒体写入
 - (AVAssetWriter *)audioWriter{
     if (!_audioWriter) {
@@ -70,6 +78,8 @@
             fslLError(@"audioWriter init failed :%@",error);
             return nil;
         }
+        //创建input
+        [self audioWriterInput];
     }
     return _audioWriter;
 }
@@ -89,8 +99,8 @@
  */
 - (void)startWriting;
 {
-    [self destory];
     [self.audioWriter startWriting];
+    [self.audioWriter startSessionAtSourceTime:CMTimeMake(1, USEC_PER_SEC)];
 }
 
 /**
@@ -98,7 +108,6 @@
  */
 - (void)cancelWriting;
 {
-    
     [self.audioWriter cancelWriting];
 }
 

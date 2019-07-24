@@ -1,6 +1,6 @@
 //
 //  FSLAVAssetExportSession.h
-//  TuSDKVideo
+//  FSLAVLearningDemo
 //
 //  Created by wen on 13/07/2017.
 //  Copyright © 2017 tutu. All rights reserved.

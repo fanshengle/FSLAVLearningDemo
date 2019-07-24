@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, FSLAVSoundPitchType) {
     // 女生
     FSLAVSoundPitchGirl,
     // 萝莉
-    FSLAVSoundPitchLolita,
+    FSLAVSoundPitchLolita
 };
 
 /**
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger,FSLAVSoundSpeedMode)
     FSLAVSoundSpeedMode_Slow1,
     
     /** 极慢模式  速度大小0.5 */
-    FSLAVSoundSpeedMode_Slow2,
+    FSLAVSoundSpeedMode_Slow2
 };
 
 @protocol FSLAVAudioPitchEngineDelegate;
@@ -96,6 +96,18 @@ typedef NS_ENUM(NSInteger,FSLAVSoundSpeedMode)
  * @return FSLAVAudioPitchEngine
  */
 - (instancetype)initWithInputAudioInfo:(FSLAVAudioTrackInfo *)inputInfo;
+
+/**
+ * 获取变调系数 [速度设置将失效]
+ * @param pitchType 设定的变调类型
+ */
+- (float)getPitch:(FSLAVSoundPitchType)pitchType;
+
+/**
+ * 获取变声系数 [变调设置将失效]
+ * @param speedMode 设定的变声类型
+ */
+- (float)getSpeed:(FSLAVSoundSpeedMode)speedMode;
 
 @end
 

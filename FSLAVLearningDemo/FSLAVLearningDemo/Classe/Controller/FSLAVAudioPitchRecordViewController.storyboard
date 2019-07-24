@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qQ5-nw-aFH">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--音频变声-->
+        <scene sceneID="8Q6-Kl-TMn">
+            <objects>
+                <viewController storyboardIdentifier="FSLAVAudioPitchRecordViewController" title="音频变声" id="qQ5-nw-aFH" customClass="FSLAVAudioPitchRecordViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Jqw-ZQ-toh"/>
+                        <viewControllerLayoutGuide type="bottom" id="RWt-Ym-kqi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2hk-Yd-ZFk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Ttv-Nw-WZq">
+                                <rect key="frame" x="48" y="267" width="224" height="291"/>
+                                <subviews>
+                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4A8-LP-pVU" customClass="speedSegmentButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="224" height="28"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="cqP-tE-KvN"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="speedSegmentButtionAction:" destination="qQ5-nw-aFH" eventType="valueChanged" id="JyE-LX-vF9"/>
+                                        </connections>
+                                    </view>
+                                    <view tag="200" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QMZ-fl-I2m" customClass="PitchSegmentButton">
+                                        <rect key="frame" x="0.0" y="43" width="224" height="28"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="5nK-gB-vhh"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="pitchSegmentButtonAction:" destination="qQ5-nw-aFH" eventType="valueChanged" id="apd-UD-sxL"/>
+                                        </connections>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SpX-PN-4OG">
+                                        <rect key="frame" x="0.0" y="86" width="224" height="40"/>
+                                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="6t7-sM-F47"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="开始录音"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="startRecordingAudio" destination="qQ5-nw-aFH" eventType="touchUpInside" id="HVx-DP-Bw1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cX4-0c-BPM">
+                                        <rect key="frame" x="0.0" y="141" width="224" height="40"/>
+                                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="mDo-Fu-gLh"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="暂停录音"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="pauseRecordingAudio" destination="qQ5-nw-aFH" eventType="touchUpInside" id="8rt-0R-MHd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sgP-fE-jLd">
+                                        <rect key="frame" x="0.0" y="196" width="224" height="40"/>
+                                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="ev8-HK-Hby"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="结束录音"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="finishRecordingAudio" destination="qQ5-nw-aFH" eventType="touchUpInside" id="obI-66-VNN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4G-SD-2Mn">
+                                        <rect key="frame" x="0.0" y="251" width="224" height="40"/>
+                                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="yHZ-Jh-oIX"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="播放录音"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="playRecordedAudio" destination="qQ5-nw-aFH" eventType="touchUpInside" id="02T-pD-woj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请点击「开始录音」按钮开始录制音频，录制完成后点击「结束并播放录音」生成并播放音频文件。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etc-Nz-AzX">
+                                <rect key="frame" x="16" y="184" width="288" height="50.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_ic_tape" translatesAutoresizingMaskIntoConstraints="NO" id="iY0-Xk-ZEj">
+                                <rect key="frame" x="110" y="64" width="100" height="100"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="etc-Nz-AzX" firstAttribute="leading" secondItem="2hk-Yd-ZFk" secondAttribute="leadingMargin" id="5mi-Ou-dTK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="etc-Nz-AzX" secondAttribute="trailing" id="5qX-nq-66P"/>
+                            <constraint firstItem="etc-Nz-AzX" firstAttribute="top" secondItem="iY0-Xk-ZEj" secondAttribute="bottom" constant="20" id="9Rk-Kx-tK0"/>
+                            <constraint firstItem="Ttv-Nw-WZq" firstAttribute="leading" secondItem="2hk-Yd-ZFk" secondAttribute="leading" constant="48" id="BxM-gm-s1p"/>
+                            <constraint firstItem="RWt-Ym-kqi" firstAttribute="top" secondItem="Ttv-Nw-WZq" secondAttribute="bottom" constant="10" id="ZHy-Nm-a4w"/>
+                            <constraint firstItem="iY0-Xk-ZEj" firstAttribute="top" secondItem="Jqw-ZQ-toh" secondAttribute="bottom" constant="44" id="dch-UE-cZZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Ttv-Nw-WZq" secondAttribute="trailing" constant="48" id="lRk-iW-OI0"/>
+                            <constraint firstItem="iY0-Xk-ZEj" firstAttribute="centerX" secondItem="2hk-Yd-ZFk" secondAttribute="centerX" id="y04-V1-9lg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pauseAudioRecordBtn" destination="cX4-0c-BPM" id="S4f-Qd-D82"/>
+                        <outlet property="pitchBar" destination="QMZ-fl-I2m" id="MVf-0x-JPP"/>
+                        <outlet property="playAudioRecordBtn" destination="q4G-SD-2Mn" id="VZO-Jg-9wP"/>
+                        <outlet property="speedBar" destination="4A8-LP-pVU" id="UYe-1d-0ye"/>
+                        <outlet property="stopAudioRecordBtn" destination="sgP-fE-jLd" id="xPf-au-1fU"/>
+                        <outlet property="usageLabel" destination="etc-Nz-AzX" id="dtl-w8-eQo"/>
+                        <outletCollection property="actionButtons" destination="SpX-PN-4OG" id="Hoi-K7-yHI"/>
+                        <outletCollection property="actionButtons" destination="cX4-0c-BPM" id="aVd-fN-nJb"/>
+                        <outletCollection property="actionButtons" destination="sgP-fE-jLd" id="0zy-Jm-ZMj"/>
+                        <outletCollection property="actionButtons" destination="q4G-SD-2Mn" id="kra-LY-GKu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IfN-pK-zAB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4363" y="1666"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="list_ic_tape" width="100" height="100"/>
+    </resources>
+</document>
