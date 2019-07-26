@@ -119,13 +119,13 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请点击「开始录音」按钮开始录制音频，录制完成后点击「结束并播放录音」生成并播放音频文件。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etc-Nz-AzX">
-                                <rect key="frame" x="16" y="184" width="288" height="50.5"/>
+                                <rect key="frame" x="16" y="100" width="288" height="50.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_ic_tape" translatesAutoresizingMaskIntoConstraints="NO" id="iY0-Xk-ZEj">
-                                <rect key="frame" x="110" y="64" width="100" height="100"/>
+                                <rect key="frame" x="152" y="64" width="16" height="16"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

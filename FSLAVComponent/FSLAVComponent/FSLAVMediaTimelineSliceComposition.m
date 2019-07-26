@@ -87,7 +87,7 @@
  * @param handler 完成回调处理
  */
 
-- (void)startMediaCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startMediaCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 {
     switch (_timeSliceOptions.meidaType) {
         case FSLAVMediaTypeAudio:
@@ -132,7 +132,7 @@
  *
  * @param handler 完成回调处理
  */
-- (void)startVideoCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startVideoCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 {
     // 0.判断资源是否有效
     [self judgeAssetIsVaild];
@@ -184,7 +184,7 @@
  @param assetVideoTrack 视频轨
  @param handler 回调
  */
-- (void)exportVideoWithVideoTrack:(AVMutableCompositionTrack *)videoTrack assetVideoTrack:(AVAssetTrack *)assetVideoTrack completionHandler:(void (^)(NSString* outputFilePath,FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)exportVideoWithVideoTrack:(AVMutableCompositionTrack *)videoTrack assetVideoTrack:(AVAssetTrack *)assetVideoTrack completionHandler:(void (^)(NSString* outputFilePath,NSTimeInterval mediaTotalTime,FSLAVMediaTimelineSliceCompositionStatus status))handler;
 {
 
     //注意：视频方向不对会引起导出问题；调整视频方向;一个对象，用于修改应用于可变组合中给定轨道的变换、裁剪和不透明度坡道。
@@ -270,11 +270,16 @@
         
         //合成状态通知回调
         [self notifyStatus:exportStatus];
+        //视频进度通知回调
+        [self notifyProgress:1.0];
         if (handler) {
-            handler(self->_timeSliceOptions.outputFilePath, exportStatus);
+            NSTimeInterval mediaTotalTime = CMTimeGetSeconds(self->_mediaTotalTime);
+            handler(self->_timeSliceOptions.outputFilePath,mediaTotalTime,exportStatus);
         }
         //重置合成状态
         [self resetCompositionOperation];
+        
+        [self removeProgressObserver];
     }];
 }
 
@@ -291,7 +296,7 @@
 /**
  * 开始裁剪音频
  */
-- (void)startAudioCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startAudioCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 {
     // 0.判断资源是否有效
     [self judgeAssetIsVaild];
@@ -306,7 +311,7 @@
         [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetAudioTrack atTime:kCMTimeZero error:nil];
         
         //1.调整音频轨的分段时间切片
-        [self adjustMediaTimeSliceWith:compositionAudioTrack];
+        _mediaTotalTime = [self adjustMediaTimeSliceWith:compositionAudioTrack];
         //2.导出音频时间切片编辑结果
         [self exportAudioWithAudioTrack:compositionAudioTrack assetAudioTrack:assetAudioTrack completionHandler:handler];
     }
@@ -318,14 +323,12 @@
  * @param assetAudioTrack 音频轨道对象
  * @param handler block
  */
-- (void)exportAudioWithAudioTrack:(AVMutableCompositionTrack *)compositionAudioTrack assetAudioTrack:(AVAssetTrack *)assetAudioTrack completionHandler:(void (^)(NSString* outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)exportAudioWithAudioTrack:(AVMutableCompositionTrack *)compositionAudioTrack assetAudioTrack:(AVAssetTrack *)assetAudioTrack completionHandler:(void (^)(NSString* outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 {
     //初始化导出素材对象导出器
     if (!_exporter) {
         
         _exporter = [[FSLAVAssetExportSession alloc] initWithAsset:_mixComposition];
-        //添加进度观察者
-        [self addProgressObserver];
     }
     //导出音频地址
     _exporter.outputURL = _timeSliceOptions.outputFileURL;
@@ -374,7 +377,8 @@
         //合成状态通知回调
         [self notifyStatus:exportStatus];
         if (handler) {
-            handler(self->_timeSliceOptions.outputFilePath, exportStatus);
+            NSTimeInterval mediaTotalTime = CMTimeGetSeconds(self->_mediaTotalTime);
+            handler(self->_timeSliceOptions.outputFilePath,mediaTotalTime,exportStatus);
         }
         //重置合成状态
         [self resetCompositionOperation];
@@ -396,9 +400,7 @@
         if (_exporter) {
             [_exporter cancelExport];
         }
-        
-        [self removeProgressObserver];
-
+    
         if (_mixComposition) {
             [[_mixComposition tracks]enumerateObjectsUsingBlock:^(AVMutableCompositionTrack * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 [self->_mixComposition removeTrack:obj];
@@ -630,11 +632,16 @@
         }
     }
     if (status == FSLAVMediaTimelineSliceCompositionStatusCompleted) {
-        if ([self.compositionDelegate respondsToSelector:@selector(didCompositionMediaResult:composition:)]) {
-            [self.compositionDelegate didCompositionMediaResult:_timeSliceOptions composition:self];
-        }
         
-        [self notifyProgress:1.0];
+        if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionMediaResult:composition:)]) {
+            [self.compositionDelegate didCompletedCompositionMediaResult:_timeSliceOptions composition:self];
+        }
+        if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionOutputFilePath:composition:)]) {
+            [self.compositionDelegate didCompletedCompositionOutputFilePath:_timeSliceOptions.outputFilePath composition:self];
+        }
+        if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionmediaTotalTime:composition:)]) {
+            [self.compositionDelegate didCompletedCompositionmediaTotalTime:CMTimeGetSeconds(_mediaTotalTime) composition:self];
+        }
     }
 }
 
@@ -645,7 +652,7 @@
  */
 - (void)notifyProgress:(CGFloat)progress{
     
-    if ([self.compositionDelegate respondsToSelector:@selector(didCompositionMediaProgressChanged:progress:composition:)]) {
+    if ([self.compositionDelegate respondsToSelector:@selector(didCompositionMediaProgressChanged:composition:)]) {
         [self.compositionDelegate didCompositionMediaStatusChanged:progress composition:self];
     }
 }

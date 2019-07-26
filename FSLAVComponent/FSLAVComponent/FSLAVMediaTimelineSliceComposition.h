@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param handler 完成回调处理
  */
 
-- (void)startMediaCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startMediaCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 
 /**
  * 取消操作
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param handler 完成回调处理
  */
 
-- (void)startVideoCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startVideoCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime,FSLAVMediaTimelineSliceCompositionStatus status))handler;
 
 #pragma mark --  处理音频（只有音频）
 
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 开始裁剪音频
  */
-- (void)startAudioCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status))handler;
+- (void)startAudioCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 
 @end
 
@@ -93,20 +93,49 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - protocol FSLAVMediaTimelineSliceCompositionDelegate
 
 /**
- 多音频混合代理
+ 媒体分段时间切片合成代理
  */
 @protocol FSLAVMediaTimelineSliceCompositionDelegate <NSObject>
 
 @optional
 
-// 状态通知代理
+/**
+ 状态通知代理
+
+ @param status 一个/多个片段切片时间合成状态
+ @param composition 合成器
+ */
 - (void)didCompositionMediaStatusChanged:(FSLAVMediaTimelineSliceCompositionStatus)status composition:(FSLAVMediaTimelineSliceComposition *)composition;
 
-// 结果通知代理
-- (void)didCompositionMediaResult:(FSLAVMediaTimelineSliceOptions *)result composition:(FSLAVMediaTimelineSliceComposition *)composition;
+/**
+ 所有的合成结果通知代理
 
-// 进度通知代理
+ @param result 合成结果（如：包括地址输出、媒体资源总时长输出）
+ @param composition 合成器
+ */
+- (void)didCompletedCompositionMediaResult:(FSLAVMediaTimelineSliceOptions *)result composition:(FSLAVMediaTimelineSliceComposition *)composition;
+
+/**
+ 视频片段时间合成才会有进度通知代理
+
+ @param progress 合成进度
+ @param composition 合成器
+ */
 - (void)didCompositionMediaProgressChanged:(CGFloat)progress composition:(FSLAVMediaTimelineSliceComposition *)composition;
+
+/**
+ 合成完成:结果回调
+ @param filePath 合成结果文件路径
+ @param composition 合成器对象
+ */
+- (void)didCompletedCompositionOutputFilePath:(NSString *)filePath composition:(FSLAVMediaTimelineSliceComposition *)composition;
+
+/**
+ 合成完成：合成的媒体总时间回调
+ @param mediaTotalTime 音视频的总时长
+ @param composition 合成器器对象
+ */
+- (void)didCompletedCompositionmediaTotalTime:(NSTimeInterval)mediaTotalTime composition:(FSLAVMediaTimelineSliceComposition *)composition;
 
 @end
 

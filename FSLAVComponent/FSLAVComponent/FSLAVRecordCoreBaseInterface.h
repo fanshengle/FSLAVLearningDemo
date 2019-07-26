@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  音频录制的结果通知代理，试用与所有的音频录制器
 
- @param result
+ @param result 结果
  @param recorder 当前音频录制器
  */
 - (void)didRecordedAudioResult:(FSLAVAudioRecorderOptions *)result recorder:(id<FSLAVAudioRecorderInterface>)recorder;

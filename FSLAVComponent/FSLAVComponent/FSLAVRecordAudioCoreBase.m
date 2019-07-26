@@ -78,8 +78,11 @@
             fslLError(@"audioWriter init failed :%@",error);
             return nil;
         }
-        //创建input
-        [self audioWriterInput];
+        
+        //添加写入器输入
+        if ([_audioWriter canAddInput:self.audioWriterInput]) {
+            [_audioWriter addInput:self.audioWriterInput];
+        }
     }
     return _audioWriter;
 }
@@ -88,8 +91,10 @@
     if (!_audioWriterInput) {
         
         _audioWriterInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:_options.audioConfigure];
-        //一个布尔值，指示输入是否应针对实时源调整其对媒体数据的处理。
-        _audioWriterInput.expectsMediaDataInRealTime = YES;
+        /**
+         这里必须设置为no，否则录制结果播放不了，一个布尔值，指示输入是否应针对实时源调整其对媒体数据的处理。
+         */
+        _audioWriterInput.expectsMediaDataInRealTime = NO;
     }
     return _audioWriterInput;
 }
@@ -99,6 +104,10 @@
  */
 - (void)startWriting;
 {
+    if (_audioWriter) {
+        [_audioWriter cancelWriting];
+        _audioWriter = nil;
+    }
     [self.audioWriter startWriting];
     [self.audioWriter startSessionAtSourceTime:CMTimeMake(1, USEC_PER_SEC)];
 }

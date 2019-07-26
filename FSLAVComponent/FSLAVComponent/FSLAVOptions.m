@@ -20,7 +20,6 @@
 }
 
 #pragma mark -- getter
-
 - (AVFileType)appOutputFileType{
     if (!_appOutputFileType) {
         switch (_outputFileType) {
@@ -62,18 +61,11 @@
                 _saveSuffixFormat = @"m4v";
                 break;
             default:
+                _saveSuffixFormat = @"m4v";
                 break;
         }
     }
     return _saveSuffixFormat;
-}
-
-- (NSString *)outputFileName{
-    if (!_outputFileName) {
-        
-        _outputFileName = @"fslComponentTimeFile";
-    }
-    return _outputFileName;
 }
 
 - (NSURL *)outputFileURL{
@@ -222,5 +214,7 @@
 {
     _sandboxDirType = FSLAVSandboxDirCache;
     _enableCreateFilePath = YES;
+    _outputFileName = @"fslComponentTimeFile";
+    _outputFileType = FSLAVMediaOutputFileTypeM4V;
 }
 @end

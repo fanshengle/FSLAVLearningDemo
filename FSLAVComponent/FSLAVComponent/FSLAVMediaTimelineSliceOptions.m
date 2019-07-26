@@ -16,6 +16,7 @@
 - (void)setConfig{
     [super setConfig];
     
+    _enableCreateFilePath = NO;
     _status = FSLAVMediaTimelineSliceCompositionStatusUnknown;
 }
 

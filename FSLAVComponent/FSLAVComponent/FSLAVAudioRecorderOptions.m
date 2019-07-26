@@ -114,6 +114,22 @@
 - (NSDictionary *)audioConfigure{
     if (!_audioConfigure) {
         
+        //指定文件或硬件中的通道布局
+        AudioChannelLayout acl;
+        bzero( &acl, sizeof(acl));
+        //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
+        if (_audioChannels == 1) {
+            
+            //指示布局的AudioChannelLayoutTag值
+            //一种标准的单音流。
+            acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
+            
+        }else{//双声道
+            
+            //标准立体声流。
+            acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
+        }
+        
         //(2)设置录音的音频参数
         /*
          1 ID号:pcm、acc....
@@ -136,27 +152,28 @@
                                     AVLinearPCMBitDepthKey:@(_audioLinearBitDepth),//采样位数
                                     AVLinearPCMIsBigEndianKey:@(_audioLinearPCMIsBigEndian),// 音频采用高位优先的记录格
                                     AVLinearPCMIsFloatKey:@(_audioLinearPCMIsFloat),//是否采用浮点数采样
-                                    AVLinearPCMIsNonInterleaved:@(NO)//一个布尔值，指示音频格式是无交错(YES)还是交错(NO)。
+                                    AVLinearPCMIsNonInterleaved:@(NO),//一个布尔值，指示音频格式是无交错(YES)还是交错(NO)。
+                                    AVChannelLayoutKey:[NSData dataWithBytes: &acl length: sizeof(acl)]
                                     };
             }
                 break;
             default:
             {
-                //指定文件或硬件中的通道布局
-                AudioChannelLayout acl;
-                bzero( &acl, sizeof(acl));
-                //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
-                if (_audioChannels == 1) {
-
-                    //指示布局的AudioChannelLayoutTag值
-                    //一种标准的单音流。
-                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
-               
-                }else{//双声道
-                    
-                    //标准立体声流。
-                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
-                }
+//                //指定文件或硬件中的通道布局
+//                AudioChannelLayout acl;
+//                bzero( &acl, sizeof(acl));
+//                //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
+//                if (_audioChannels == 1) {
+//
+//                    //指示布局的AudioChannelLayoutTag值
+//                    //一种标准的单音流。
+//                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
+//
+//                }else{//双声道
+//
+//                    //标准立体声流。
+//                    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
+//                }
                 _audioConfigure = @{
                                     AVFormatIDKey:@(_audioFormat),//音频格式
                                     AVSampleRateKey:@(_audioSampleRat),//采样率

@@ -9,7 +9,6 @@
 #import "FSLAVAudioPitchEngineRecorder.h"
 #import "FSLAVMediaSampleBufferAssistant.h"
 #import "FSLAVMeidaTimelineSlice.h"
-#import "FSLAVMeidaTimelineSlice.h"
 
 @interface  FSLAVAudioPitchEngineRecorder()
 <
@@ -51,7 +50,7 @@ FSLAVAudioPitchEngineDelegate
 @property (nonatomic, strong) NSMutableArray<FSLAVMeidaTimelineSlice *> *dropFragmentArr;
 
 /**
- 录音状态
+ 用来标记录音状态，防止出现重复回调
  */
 @property (nonatomic, assign) FSLAVRecordState status;
 
@@ -163,17 +162,17 @@ FSLAVAudioPitchEngineDelegate
         [_audioWriter cancelWriting];
         _audioWriter = nil;
     }
-    
+
     AVAssetWriter *writer = [AVAssetWriter assetWriterWithURL:_options.outputFileURL fileType:AVFileTypeAppleM4A error:nil];
     _audioWriter = writer;
-    
-    AVAssetWriterInput *audioInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:self.options.audioConfigure];
+
+    AVAssetWriterInput *audioInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:_options.audioConfigure];
     if ([writer canAddInput:audioInput]) {
         [writer addInput:audioInput];
     }
     _audioWriterInput = audioInput;
     _audioWriterInput.expectsMediaDataInRealTime = NO;
-    
+
     [_audioWriter startWriting];
     [_audioWriter startSessionAtSourceTime:CMTimeMake(1, USEC_PER_SEC)];
 }
@@ -183,12 +182,13 @@ FSLAVAudioPitchEngineDelegate
 - (void)startRecord{
     
     if (![_captureSession isRunning] && !_isPaused) {//开始录制
+        
         _isRecording = YES;
         _isPaused = NO;
 
         //开始写数据
-        //    [self startWriting];
-        [self createWriter];
+        [self startWriting];
+//        [self createWriter];
         //开始捕获音频
         [_captureSession startRunning];
         //通知回调
@@ -249,8 +249,16 @@ FSLAVAudioPitchEngineDelegate
  重录
  */
 - (void)reRecording{
-    // 取消录制
-    [self cancelRecord];
+    
+    _isRecording = NO;
+    _isPaused = NO;
+    
+    //停止捕获音频数据
+    [_captureSession stopRunning];
+    //删除临时存储文件
+    [_options clearOutputFilePath];
+    //清除音频片段数组
+    [self clearAudioFragmentArray];
     
     //开始录制
     [self startRecord];
@@ -319,8 +327,7 @@ FSLAVAudioPitchEngineDelegate
         //状态回调通知
         [self notifyRecordState:FSLAVRecordStateCompleted];
         //录制结果通知回调
-        [self notifyRecordResult:_options];
-        
+        [self notifyRecordResult:_options isOutputFilePath:YES isOutputDuration:YES];
         //清除数组
         [self clearAudioFragmentArray];
         return;
@@ -331,10 +338,11 @@ FSLAVAudioPitchEngineDelegate
     timeSliceOptions.recordOptions = _options;
     
     FSLAVMediaTimelineSliceComposition *audioComposition = [[FSLAVMediaTimelineSliceComposition alloc] init];
+    audioComposition.timeSliceOptions = timeSliceOptions;
     audioComposition.meidaFragmentArr = _audioFragmentArray;
     
     typeof(self) weakself = self;
-    [audioComposition startAudioCompositionWithCompletionHandler:^(NSString * _Nonnull outputFilePath, FSLAVMediaTimelineSliceCompositionStatus status) {
+    [audioComposition startAudioCompositionWithCompletionHandler:^(NSString * _Nonnull outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status) {
         switch (status)
         {
             case FSLAVMediaTimelineSliceCompositionStatusCompleted:
@@ -343,8 +351,10 @@ FSLAVAudioPitchEngineDelegate
                 //替换成合成的输出地址
                 weakself->_options.outputFilePath = outputFilePath;
                 weakself->_options.outputFileURL = [NSURL fileURLWithPath:outputFilePath];
-                [weakself notifyRecordResult:weakself->_options];
-                
+                //音频处理之后的最终总时长
+                weakself->_options.outputDuration = mediaTotalTime;
+                [weakself notifyRecordResult:weakself->_options isOutputFilePath:YES isOutputDuration:YES];
+
                 break;
             case FSLAVMediaTimelineSliceCompositionStatusFailed:
                 
@@ -548,11 +558,6 @@ FSLAVAudioPitchEngineDelegate
  */
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 {
-    
-    _isRecording = YES;
-    //录制状态通知回调
-    [self notifyRecordState:FSLAVRecordStateRecording];
-    
     //最大时长是否设置
     if (_options.maxRecordDelay != -1) {
         //已经录制的总时长是否大于最大允许的录制时长
@@ -570,6 +575,10 @@ FSLAVAudioPitchEngineDelegate
         [self notifyRecordState:FSLAVRecordStatePause];
         return;
     }
+    
+    _isRecording = YES;
+    //录制状态通知回调
+    [self notifyRecordState:FSLAVRecordStateRecording];
 
     /** 记录录制的时间片段 */
     if (!_recordingPitchTimeSlice) {
@@ -596,7 +605,15 @@ FSLAVAudioPitchEngineDelegate
     
     // 获取处理后buffer的时间
     CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(copyBuffer);
+    
+    //更新时间切片结束时间
     _recordingPitchTimeSlice.end = currentSampleTime;
+    //更新输出时间
+    _options.outputDuration = self.outputDuration;
+    //目的将输出时间回调出去
+    [self notifyRecordResult:_options isOutputFilePath:NO isOutputDuration:YES];
+    
+    
     
     // 将音频数据送入处理引擎处理
     [_audioPitch processInputBuffer:copyBuffer];
@@ -647,6 +664,9 @@ FSLAVAudioPitchEngineDelegate
  @param state 音频录制状态
  */
 - (void)notifyRecordState:(FSLAVRecordState)state{
+    
+    if (_status == state) return;
+    _status = state;
     // 状态回调
     if ([self.delegate respondsToSelector:@selector(didRecordingStatusChanged:recorder:)])
         [self.delegate didRecordingStatusChanged:state recorder:self];
@@ -657,19 +677,25 @@ FSLAVAudioPitchEngineDelegate
 
  @param recoderOptions 音频的配置项结果
  */
-- (void)notifyRecordResult:(FSLAVAudioRecorderOptions *)recoderOptions{
+- (void)notifyRecordResult:(FSLAVAudioRecorderOptions *)recoderOptions isOutputFilePath:(BOOL)isOutputFilePath isOutputDuration:(BOOL)isOutputDuration{
     
     //音频的全部结果回调
     if ([self.delegate respondsToSelector:@selector(didRecordedAudioResult:recorder:)])
         [self.delegate didRecordedAudioResult:recoderOptions recorder:self];
     
-    //已录制时间回调
-    if ([self.delegate respondsToSelector:@selector(didCompletedOutputDuration:recorder:)])
-        [self.delegate didCompletedOutputDuration:recoderOptions.outputDuration recorder:self];
+    if (isOutputDuration) {
+        
+        //已录制时间回调
+        if ([self.delegate respondsToSelector:@selector(didCompletedOutputDuration:recorder:)])
+            [self.delegate didCompletedOutputDuration:recoderOptions.outputDuration recorder:self];
+    }
     
-    //录制结果音频存储地址回调
-    if ([self.delegate respondsToSelector:@selector(didCompletedOutputFilePath:recorder:)])
-        [self.delegate didCompletedOutputFilePath:recoderOptions.outputFilePath recorder:self];
+    if (isOutputFilePath) {
+        
+        //录制结果音频存储地址回调
+        if ([self.delegate respondsToSelector:@selector(didCompletedOutputFilePath:recorder:)])
+            [self.delegate didCompletedOutputFilePath:recoderOptions.outputFilePath recorder:self];
+    }
 }
 
 /**

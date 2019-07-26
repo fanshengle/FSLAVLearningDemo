@@ -17,6 +17,7 @@
 #import "FSLAVAudioMixViewController.h"
 #import "FSLAVAudioClipperViewController.h"
 #import "FSLAVAudioPitchRecordViewController.h"
+#import "FSLAVAudioPitchSegmentRecordViewController.h"
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -176,6 +177,11 @@
             case 6:
             {
                 [self performSegueWithIdentifier:@"FSLAVAudioPitchRecordViewController" sender:nil];
+            }
+                break;
+            case 7:
+            {
+                [self performSegueWithIdentifier:@"FSLAVAudioPitchSegmentRecordViewController" sender:nil];
             }
                 break;
             default:

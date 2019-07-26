@@ -112,9 +112,6 @@
     //4.创建一个输出对象
     if (!_exporter) {
         _exporter = [[AVAssetExportSession alloc]initWithAsset:composition presetName:AVAssetExportPresetAppleM4A];
-        
-        //添加进度观察者
-        [self addProgressObserver];
     }
     _exporter.outputFileType = AVFileTypeAppleM4A;
     _exporter.audioMix = audioMix;
@@ -186,36 +183,6 @@
 
 #pragma mark -- private methods
 
-/**
- 增加进度观察者
- */
-- (void)addProgressObserver{
-    
-    if (_exporter) {
-        [_exporter addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
-/**
- 移除进度观察者
- */
-- (void)removeProgressObserver{
-    if (_exporter) {
-        [_exporter removeObserver:self forKeyPath:@"progress" context:nil];
-    }
-}
-
-#pragma mark - FSLAVAssetExportSession progress
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    
-    if ([@"progress" isEqualToString:keyPath]){
-        //progress
-        id newValue = [change objectForKey:NSKeyValueChangeNewKey];
-        CGFloat progerss = 0.9 + ( [newValue floatValue] / 10);
-        [self notifyProgress:progerss];
-    }
-}
-
 // 重置混合状态
 - (void)resetMixOperation;
 {
@@ -232,7 +199,6 @@
             [_exporter cancelExport];
         }
         
-        [self removeProgressObserver];
         _exporter = nil;
     }
 }
@@ -329,17 +295,6 @@
     }
 }
 
-/**
- 通知分段时间片段合成进度
- 
- @param progress 当前进度
- */
-- (void)notifyProgress:(CGFloat)progress{
-    
-//    if ([self.compositionDelegate respondsToSelector:@selector(didCompositionMediaProgressChanged:progress:composition:)]) {
-//        [self.compositionDelegate didCompositionMediaStatusChanged:progress composition:self];
-//    }
-}
 /**
  销毁对象
  */

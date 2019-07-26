@@ -27,6 +27,7 @@
                         <segue destination="4t0-kf-TVp" kind="push" identifier="FSLAVAudioClipperViewController" id="n4F-6x-B23"/>
                         <segue destination="NB9-7B-Tbf" kind="push" identifier="FSLAVAudioMixViewController" id="ygs-1G-1qu"/>
                         <segue destination="7Jc-Fn-KEj" kind="push" identifier="FSLAVAudioPitchRecordViewController" id="3FD-wF-3v8"/>
+                        <segue destination="vDu-Or-UcU" kind="push" identifier="FSLAVAudioPitchSegmentRecordViewController" id="GIw-9N-dNI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -78,6 +79,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r15-eM-azZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1168" y="-183"/>
+        </scene>
+        <!--FSLAVAudioPitchSegmentRecordViewController-->
+        <scene sceneID="R6t-RN-SYw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="FSLAVAudioPitchSegmentRecordViewController" id="vDu-Or-UcU" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="vbb-94-U9R"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qGf-Yy-JKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1205" y="-147"/>
         </scene>
     </scenes>
 </document>

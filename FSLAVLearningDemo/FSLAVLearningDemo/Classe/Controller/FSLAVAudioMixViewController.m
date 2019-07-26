@@ -109,14 +109,15 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     NSURL *firstMixAudioURL = [self fileURLWithName:@"123.mp3"];
     _firstMixAudio = [[FSLAVMixerAudioOptions alloc] initWithAudioURL:firstMixAudioURL];
     _firstMixAudio.audioVolume = 0;
-    _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:20 endSeconds:10];
-    
+//    _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:20 endSeconds:10];
+    _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:8];
     // 素材二
     NSURL *secondMixAudioURL = [self fileURLWithName:@"sound_cat.mp3"];
     _secondMixAudio = [[FSLAVMixerAudioOptions alloc] initWithAudioURL:secondMixAudioURL];
     _secondMixAudio.audioVolume = 0;
-    _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:40];
-    
+//    _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:40];
+    _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:0 endSeconds:8];
+
     // 创建混音
     _audioMixer = [[FSLAVAudioMixer alloc] init];
     _audioMixer.mixDelegate = self;

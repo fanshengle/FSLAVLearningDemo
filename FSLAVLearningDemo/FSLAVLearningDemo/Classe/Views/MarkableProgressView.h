@@ -21,12 +21,12 @@
 - (CALayer *)addPlaceholder:(CGFloat)progress markWidth:(CGFloat)markWidth;
 
 /**
- 移除最后一个标记
+ 压入一个标记
  */
 - (void)pushMark;
 
 /**
- 压入一个标记
+ 移除最后一个标记
  */
 - (void)popMark;
 

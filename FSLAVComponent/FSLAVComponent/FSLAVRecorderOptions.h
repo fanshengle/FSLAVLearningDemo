@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     FSLAVRecordStateRecording,         //正在录制
     FSLAVRecordStatePause,             //暂停录制
     FSLAVRecordStateResume,            //继续录制
-    FSLAVRecordStateCompleted,            //结束录制
+    FSLAVRecordStateCompleted,         //完成录制
     FSLAVRecordStateCanceled,          //取消录制
     FSLAVRecordStateFailed,            //录制失败
     
