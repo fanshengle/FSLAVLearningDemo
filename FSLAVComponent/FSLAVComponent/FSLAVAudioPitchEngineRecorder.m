@@ -26,6 +26,12 @@ FSLAVAudioPitchEngineDelegate
     
     /** 纠正时间戳偏移量 */
     CMTime _offsetTime;
+    
+    //目的：在变速与变调混合情况下，应对不同的设置模式，进行唯一设置单一有效结果
+    BOOL _isSetPitch;
+    BOOL _isSetPitchType;
+    BOOL _isSetSpeed;
+    BOOL _isSetSpeedMode;
 }
 
 
@@ -153,33 +159,14 @@ FSLAVAudioPitchEngineDelegate
 
 #pragma mark -- public methods
 /**
- 创建writer
- @since v3.0
- */
-- (void)createWriter;
-{
-    if (_audioWriter) {
-        [_audioWriter cancelWriting];
-        _audioWriter = nil;
-    }
-
-    AVAssetWriter *writer = [AVAssetWriter assetWriterWithURL:_options.outputFileURL fileType:AVFileTypeAppleM4A error:nil];
-    _audioWriter = writer;
-
-    AVAssetWriterInput *audioInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:_options.audioConfigure];
-    if ([writer canAddInput:audioInput]) {
-        [writer addInput:audioInput];
-    }
-    _audioWriterInput = audioInput;
-    _audioWriterInput.expectsMediaDataInRealTime = NO;
-
-    [_audioWriter startWriting];
-    [_audioWriter startSessionAtSourceTime:CMTimeMake(1, USEC_PER_SEC)];
-}
-/**
  开始
  */
 - (void)startRecord{
+    
+    if (!_captureSession) {
+        
+        [self createCaptureSession];
+    }
     
     if (![_captureSession isRunning] && !_isPaused) {//开始录制
         
@@ -188,7 +175,6 @@ FSLAVAudioPitchEngineDelegate
 
         //开始写数据
         [self startWriting];
-//        [self createWriter];
         //开始捕获音频
         [_captureSession startRunning];
         //通知回调
@@ -241,7 +227,8 @@ FSLAVAudioPitchEngineDelegate
         if (self->_options.outputFilePath) {
             [self startAudioComposition];
         }
-        self->_audioWriter = nil;
+        
+        [self cancelWriting];
     }];
 }
 
@@ -269,18 +256,7 @@ FSLAVAudioPitchEngineDelegate
  */
 - (void)cancelRecord;
 {
-    //停止捕获音频数据
-    [_captureSession stopRunning];
-    //停止写入器写入数据
-    [self cancelWriting];
-    //删除临时存储文件
-    [_options clearOutputFilePath];
-    
-    //清除音频捕获
-    [self removeInputsAndOutputs];
-    
-    //清除音频片段数组
-    [self clearAudioFragmentArray];
+    [self destory];
     
     //通知回调
     [self notifyRecordState:FSLAVRecordStateCanceled];
@@ -334,7 +310,7 @@ FSLAVAudioPitchEngineDelegate
     }
     
     FSLAVMediaTimelineSliceOptions *timeSliceOptions = [[FSLAVMediaTimelineSliceOptions alloc] init];
-    timeSliceOptions.inputMediaPath = _options.outputFilePath;
+    timeSliceOptions.mediaPath = _options.outputFilePath;
     timeSliceOptions.recordOptions = _options;
     
     FSLAVMediaTimelineSliceComposition *audioComposition = [[FSLAVMediaTimelineSliceComposition alloc] init];
@@ -518,6 +494,63 @@ FSLAVAudioPitchEngineDelegate
     
     [self processPitchOrSpeed];
 }
+/**
+ * 改变音频音调 [速度设置将失效]
+ * pitch 0 > pitch [大于1时声音升调，小于1时为降调]
+ * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
+ */
+- (void)setPitchType:(FSLAVSoundPitchType)pitchType{
+    if(_pitchType == pitchType) return;
+    _pitchType = pitchType;
+    
+    _isSetPitch = NO;
+    _isSetPitchType = YES;
+    _isSetSpeed = NO;
+    _isSetSpeedMode = NO;
+}
+
+/**
+ * 改变音频音调 [速度设置将失效]
+ * pitch 0 > pitch [大于1时声音升调，小于1时为降调]
+ * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
+ */
+- (void)setPitch:(float)pitch{
+    if(_pitch == pitch) return;
+    _pitch = pitch;
+    
+    _isSetPitch = YES;
+    _isSetPitchType = NO;
+    _isSetSpeed = NO;
+    _isSetSpeedMode = NO;
+}
+
+/**
+ * 改变音频播放速度 [变速不变调, 音调设置将失效]
+ * speedMode 与 speed不能同时设置；因为FSLAVSoundSpeedMode就是设置固定值speed得到的
+ */
+- (void)setSpeedMode:(FSLAVSoundSpeedMode)speedMode{
+    if(_speedMode == speedMode) return;
+    _speedMode = speedMode;
+    
+    _isSetPitch = NO;
+    _isSetPitchType = NO;
+    _isSetSpeed = NO;
+    _isSetSpeedMode = YES;
+}
+
+/**
+ * 改变音频播放速度 [变速不变调, 音调设置将失效]
+ * speed 0 > speed
+ */
+- (void)setSpeed:(float)speed;
+{
+    if(_speed == speed) return;
+    _speed = speed;
+    _isSetPitch = NO;
+    _isSetPitchType = NO;
+    _isSetSpeed = YES;
+    _isSetSpeedMode = NO;
+}
 
 /**
  step2:处理变调或变速
@@ -528,24 +561,18 @@ FSLAVAudioPitchEngineDelegate
      speed与speedMode只能使一个有效
      pitch与pitchType只能使一个有效
      */
-    if (_speed) {
-        
-        _audioPitch.speed = _speed;
-    }else if (_speedMode != FSLAVSoundSpeedMode_Normal){
-        
-        _audioPitch.speedMode = _speedMode;
-    }else if (_pitch){
+    if (_isSetPitch) {
         
         _audioPitch.pitch = _pitch;
-    }else if (_pitchType != FSLAVSoundPitchNormal){
+    }else if (_isSetPitchType){
         
         _audioPitch.pitchType = _pitchType;
-    }else if (_pitchType == FSLAVSoundPitchNormal){
+    }else if (_isSetSpeed){
         
-        _audioPitch.pitchType = FSLAVSoundPitchNormal;
-    }else if (_speedMode == FSLAVSoundSpeedMode_Normal){
+        _audioPitch.speed = _speed;
+    }else if (_isSetSpeedMode){
         
-        _audioPitch.speedMode = FSLAVSoundSpeedMode_Normal;
+        _audioPitch.speedMode = _speedMode;
     }else{
         
         _audioPitch.pitchType = FSLAVSoundPitchNormal;
@@ -704,14 +731,22 @@ FSLAVAudioPitchEngineDelegate
 - (void)destory{
     [super destory];
     
+    //停止捕获音频数据
+    [_captureSession stopRunning];
+    //清除音频捕获
+    [self removeInputsAndOutputs];
+
+    //销毁音频变调器
     if (_audioPitch) {
         [_audioPitch destory];
         _audioPitch = nil;
     }
-    [self.options clearOutputFilePath];
     
-    [_audioOutput setSampleBufferDelegate:nil queue:dispatch_get_main_queue()];
-    [self removeInputsAndOutputs];
+    //删除临时存储文件
+    [_options clearOutputFilePath];
+    
+    //清除音频片段数组
+    [self clearAudioFragmentArray];
 }
 
 

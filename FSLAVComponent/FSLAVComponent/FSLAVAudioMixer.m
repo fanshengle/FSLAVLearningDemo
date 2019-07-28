@@ -24,16 +24,26 @@
 @implementation FSLAVAudioMixer
 
 #pragma mark - setter getter
-- (void)setMixAudios:(NSArray<FSLAVMixerAudioOptions *> *)mixAudios;
+- (void)setMixAudios:(NSArray<FSLAVMixerOptions *> *)mixAudios;
 {
     _mixAudios = mixAudios;
     [self resetMixOperation];
 }
 
-- (void)setMainAudio:(FSLAVMixerAudioOptions *)mainAudio;
+- (void)setMainAudio:(FSLAVMixerOptions *)mainAudio;
 {
     _mainAudio = mainAudio;
     [self resetMixOperation];
+}
+
+/**
+设置默认参数配置
+*/
+- (void)setConfig;
+{
+    [super setConfig];
+    
+    _mainAudio.meidaType = FSLAVMediaTypeAudio;
 }
 
 #pragma mark - mix method
@@ -44,7 +54,7 @@
  @param mainAudio 主音轨
  @return FSLAVAudioMixer
  */
-- (instancetype)initWithMixerAudioOptions:(FSLAVMixerAudioOptions *)mainAudio;
+- (instancetype)initWithMixerAudioOptions:(FSLAVMixerOptions *)mainAudio;
 {
     if (self = [super init]) {
         
@@ -59,13 +69,12 @@
  */
 - (void)startMixingAudio;
 {
-    id block = nil;
-    [self startMixingAudioWithCompletion:block];
+    [self startMixingAudioWithCompletion:nil];
 }
 /**
  开始混合音轨，该方法的混合音轨结果有block回调，同时也可通过协议拿到
  */
-- (void)startMixingAudioWithCompletion:(void (^)(NSURL*, FSLAVMixStatus))handler;
+- (void)startMixingAudioWithCompletion:(void (^ _Nullable)(NSString*, FSLAVMixStatus))handler;
 {
     if (!_audioMixParams) {
         
@@ -75,28 +84,38 @@
     if (!_mainAudio) {
         fslLError(@"have not set a valid main track");
         [self notifyStatus:FSLAVMixStatusCancelled];
+        return;
     }
     
     //编辑素材环境，创建新组合的可变对象。
     AVMutableComposition *composition = [AVMutableComposition composition];
 
     //1.处理主音轨
-    if (_mainAudio.audioTrack) {
+    if (_mainAudio.mediaTrack) {
         
         //添加主音轨
-        [self addAudioTrack:_mainAudio toComposition:composition atTimeRange:_mainAudio.audioTimeRange mainTimeRange:_mainAudio.audioTimeRange];
+        [self addAudioTrack:_mainAudio toComposition:composition atTimeRange:_mainAudio.atTimeRange mainTimeRange:_mainAudio.mediaTimeRange];
     }
     
     //2.处理多音轨
     if (_mixAudios && _mixAudios.count > 0) {
-        [_mixAudios enumerateObjectsUsingBlock:^(FSLAVMixerAudioOptions * _Nonnull audio, NSUInteger idx, BOOL * _Nonnull stop) {
+        [_mixAudios enumerateObjectsUsingBlock:^(FSLAVMixerOptions * _Nonnull audio, NSUInteger idx, BOOL * _Nonnull stop) {
             //如果音轨为空，跳出遍历
-            if(!audio.audioTrack) *stop = YES;
+            if(!audio.mediaTrack) *stop = YES;
             //判断需要混合的音轨是否大于主音轨时间
             if (CMTIME_COMPARE_INLINE(audio.atTimeRange.duration, >, self.mainAudio.atTimeRange.duration)) {
                 //将音轨素材的时间改变成与主音轨一致
                 audio.atTimeRange.duration = self.mainAudio.atTimeRange.duration;
             }
+            
+            //开始合成时间节点时间与该音频持续时间的和
+            CMTime atNodeDuration = CMTimeAdd(audio.atNodeTime, audio.atTimeRange.duration);
+            //判断是否大于主音轨的持续时间
+            if (CMTIME_COMPARE_INLINE(atNodeDuration, >=, self.mainAudio.atTimeRange.duration)) {
+                atNodeDuration = kCMTimeZero;
+                audio.atNodeTime = atNodeDuration;
+            }
+            
             //混合音轨注意：确保与主音轨的时间长度一致，否则混合会失败
             
             //添加音轨
@@ -156,10 +175,9 @@
         if (self.exporter.error) {
             fslLError(@"exporter audio error : %@",self.exporter.error);
         }
-        
         [self notifyStatus:exportStatus];
         if (handler) {
-            handler(self.exporter.outputURL,exportStatus);
+            handler(self.mainAudio.outputFilePath,exportStatus);
         }
         
         [self resetMixOperation];
@@ -171,14 +189,9 @@
  */
 - (void)cancelMixing;
 {
-    if (_exporter) {
-        if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-            
-            [_mainAudio clearOutputFilePath];
-            [self notifyStatus:FSLAVMixStatusCancelled];
-            [self resetMixOperation];
-        }
-    }
+    [self notifyStatus:FSLAVMixStatusCancelled];
+    [self resetMixOperation];
+    [_mainAudio clearOutputFilePath];
 }
 
 #pragma mark -- private methods
@@ -226,6 +239,9 @@
         if ([self.mixDelegate respondsToSelector:@selector(didMixedAudioResult:onAudioMix:)]) {
             [self.mixDelegate didMixedAudioResult:_mainAudio onAudioMix:self];
         }
+        if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixAudioOutputPath:onAudioMix:)]) {
+            [self.mixDelegate didCompletedMixAudioOutputPath:_mainAudio.outputFilePath onAudioMix:self];
+        }
     }
 }
 
@@ -234,14 +250,14 @@
 
  @param audioOptions 音轨素材
  @param composition 混合音轨组合类
- @param timeRange 音轨的时间范围
+ @param timeRange 音轨的时间范围(即裁剪的音频有效播放时间范围)
  @param mainTimeRange 主音轨的时间范围
  */
-- (void)addAudioTrack:(FSLAVMixerAudioOptions *)audioOptions toComposition:(AVMutableComposition *)composition atTimeRange:(FSLAVTimeRange *)timeRange mainTimeRange:(FSLAVTimeRange *)mainTimeRange;
+- (void)addAudioTrack:(FSLAVMixerOptions *)audioOptions toComposition:(AVMutableComposition *)composition atTimeRange:(FSLAVTimeRange *)timeRange mainTimeRange:(FSLAVTimeRange *)mainTimeRange;
 {
     
     //1.从素材中分离的音轨
-    AVAssetTrack *audioTrack = audioOptions.audioTrack;
+    AVAssetTrack *audioTrack = audioOptions.mediaTrack;
     
     NSError *error = nil;
     BOOL insertResult = NO;
@@ -258,40 +274,53 @@
     [mixInput setVolume:audioOptions.audioVolume atTime:mainTimeRange.start];
     [_audioMixParams addObject:mixInput];
     
-    if (!_mainAudio.enableCycleAdd || CMTIME_COMPARE_INLINE(atTimeRange.duration, >, mainTimeRange.duration)) {//不需要x循环播放
-        
+    if (!audioOptions.enableCycleAdd || CMTIME_COMPARE_INLINE(atTimeRange.duration, >, mainTimeRange.duration)) {//不需要x循环播放
+
         //5.将源跟踪的时间范围插入到组合的音轨中。
-        insertResult = [compositionTrack insertTimeRange:atTimeRange ofTrack:audioTrack atTime:mainTimeRange.start error:&error];
+        insertResult = [compositionTrack insertTimeRange:atTimeRange ofTrack:audioTrack atTime:audioOptions.atNodeTime error:&error];
     }else{//循环
-        
-        //6.获取音轨的总音轨时间范围；
-        CMTimeRange contentTimeRange =  CMTimeRangeMake(kCMTimeZero, CMTIME_COMPARE_INLINE(audioTrack.timeRange.duration, >,atTimeRange.duration) ? atTimeRange.duration : audioTrack.timeRange.duration);
-        
-        CMTime nextAtTime = atTimeRange.start;
-        CMTime audioDurationTime = contentTimeRange.duration;
-        CMTime insertDurationTime = contentTimeRange.start;
-        
-        //7.遍历音轨总时长，达到循环添加音轨的目的
-        while (CMTIME_COMPARE_INLINE(nextAtTime, <, audioDurationTime)) {
+
+        //多音轨合成的时间节点（意味在什么时间点上开始合成,以主音轨为准）
+        //CMTime nextAtTime = mainTimeRange.start;
+        CMTime nextAtTime = audioOptions.atNodeTime;
+
+        //最后输出的总时长（以主音轨为准）
+        CMTime audioDurationTime = mainTimeRange.duration;
+        //6.遍历音轨总时长，达到循环添加音轨的目的
+        while (CMTIME_COMPARE_INLINE(nextAtTime, <=, audioDurationTime)) {
             
-            /**8.剩余时间,返回两个CMTimes的差值。*/
-            CMTime remainingTime = CMTimeSubtract(atTimeRange.duration, insertDurationTime);
-            if (CMTIME_COMPARE_INLINE(remainingTime, <, audioDurationTime)) {
-                //9.更新音轨总时长为剩余时长
-                contentTimeRange.duration = remainingTime;
-            }
-            
-            //10.将源跟踪的时间范围插入到组合的音轨中。
-            insertResult = [compositionTrack insertTimeRange:contentTimeRange ofTrack:audioTrack atTime:nextAtTime error:&error];
+            //7.将源跟踪的时间范围插入到组合的音轨中。
+            insertResult = [compositionTrack insertTimeRange:atTimeRange ofTrack:audioTrack atTime:nextAtTime error:&error];
             if (!insertResult) {
                 fslLError(@"mix insert error 1: %@",error);
                 break;
             }
             
             //返回两个CMTimes的和值
-            nextAtTime = CMTimeAdd(nextAtTime, contentTimeRange.duration);
-            insertDurationTime = CMTimeAdd(insertDurationTime, contentTimeRange.duration);
+            nextAtTime = CMTimeAdd(nextAtTime, atTimeRange.duration);
         }
+
+//        //7.遍历音轨总时长，达到循环添加音轨的目的
+//        while (CMTIME_COMPARE_INLINE(nextAtTime, <, audioDurationTime)) {
+//
+//            /**8.剩余时间,返回两个CMTimes的差值。*/
+//            CMTime remainingTime = CMTimeSubtract(atTimeRange.duration, insertDurationTime);
+//            if (CMTIME_COMPARE_INLINE(remainingTime, <, audioDurationTime)) {
+//                //9.更新音轨总时长为剩余时长
+//                contentTimeRange.duration = remainingTime;
+//            }
+//
+//            //10.将源跟踪的时间范围插入到组合的音轨中。
+//            insertResult = [compositionTrack insertTimeRange:contentTimeRange ofTrack:audioTrack atTime:nextAtTime error:&error];
+//            if (!insertResult) {
+//                fslLError(@"mix insert error 1: %@",error);
+//                break;
+//            }
+//
+//            //返回两个CMTimes的和值
+//            nextAtTime = CMTimeAdd(nextAtTime, contentTimeRange.duration);
+//            insertDurationTime = CMTimeAdd(insertDurationTime, contentTimeRange.duration);
+//        }
     }
 }
 

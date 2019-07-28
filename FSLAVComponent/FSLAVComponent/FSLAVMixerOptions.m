@@ -17,6 +17,7 @@
     
     [super setConfig];
     
+    _enableCycleAdd = NO;
     _mixStatus = FSLAVMixStatusUnknown;
 }
 

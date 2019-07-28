@@ -7,7 +7,7 @@
 //
 
 #import "FSLAVCoreBase.h"
-#import "FSLAVMixerAudioOptions.h"
+#import "FSLAVMixerOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  2、将一个音频(可设定时间范围)，与多个音频(可设定时间范围)混合
  3、导出一个视频中的音轨
  
+ 注意：该多音轨混合器，合成的开始时间节点、结束时间、时间范围都是以主音轨为准。
  */
 @interface FSLAVAudioMixer : FSLAVCoreBase
 
@@ -28,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<FSLAVAudioMixerDelegate> mixDelegate;
 
 // 主音频，即背景音频，在混合过程中，主音频不变
-@property (nonatomic, strong) FSLAVMixerAudioOptions *mainAudio;
+@property (nonatomic, strong) FSLAVMixerOptions *mainAudio;
 
 // 混合音频，即要添加在主音频上混合音频
-@property (nonatomic, strong) NSArray<FSLAVMixerAudioOptions *> *mixAudios;
+@property (nonatomic, strong) NSArray<FSLAVMixerOptions *> *mixAudios;
 
 /**
  初始化音频混合器，用init初始化也可以，mainAudio都得自行配置
@@ -39,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mainAudio 主音轨
  @return FSLAVAudioMixer
  */
-- (instancetype)initWithMixerAudioOptions:(FSLAVMixerAudioOptions *)mainAudio;
+- (instancetype)initWithMixerAudioOptions:(FSLAVMixerOptions *)mainAudio;
 
 /**
  开始混合音轨，该方法的混合音轨结果没有block回调过程，结果可通过协议拿到
@@ -49,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  开始混合音轨，该方法的混合音轨结果有block回调，同时也可通过协议拿到
  */
-- (void)startMixingAudioWithCompletion:(void (^)(NSURL*, FSLAVMixStatus))handler;
+- (void)startMixingAudioWithCompletion:(void (^ _Nullable)(NSString*, FSLAVMixStatus))handler;
 
 /**
  取消混合操作
@@ -71,8 +72,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didMixingAudioStatusChanged:(FSLAVMixStatus)audioStatus onAudioMix:(FSLAVAudioMixer *)audioMixer;
 
 // 结果通知代理
-- (void)didMixedAudioResult:(FSLAVMixerAudioOptions *)result onAudioMix:(FSLAVAudioMixer *)audioMixer;
+- (void)didMixedAudioResult:(FSLAVMixerOptions *)result onAudioMix:(FSLAVAudioMixer *)audioMixer;
 
+// 混合完成路径通知代理
+- (void)didCompletedMixAudioOutputPath:(NSString *)outputPath onAudioMix:(FSLAVAudioMixer *)audioMixer;
 @end
 
 

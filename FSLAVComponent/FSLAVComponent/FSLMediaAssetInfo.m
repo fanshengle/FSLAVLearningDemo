@@ -10,4 +10,18 @@
 
 @implementation FSLMediaAssetInfo
 
+/**
+ 根据 AVAsset 初始化 FSLMediaAssetInfo
+ 
+ @param asset 资产信息
+ @return FSLMediaAssetInfo
+ */
+- (instancetype)initWithAsset:(AVAsset *)asset;
+{
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
 @end

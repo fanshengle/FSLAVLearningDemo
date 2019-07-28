@@ -43,6 +43,9 @@
                     "itemName" : "音频PCM编码"
                 },
                 {
+                    "itemName" : "音视频混合"
+                },
+                {
                     "itemName" : "视频播放器"
                 },
             ]

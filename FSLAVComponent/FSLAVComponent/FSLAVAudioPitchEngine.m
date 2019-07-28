@@ -73,6 +73,7 @@
 - (void)setSpeedMode:(FSLAVSoundSpeedMode)speedMode{
     if(_speedMode == speedMode) return;
     
+    _speedMode = speedMode;
     _pitch = 1.0;
     _pitchType = FSLAVSoundPitchNormal;
     _speed = 1;
@@ -91,7 +92,7 @@
     _speedMode = FSLAVSoundSpeedMode_Normal;
     _pitchType = FSLAVSoundPitchNormal;
     _pitch = 1;
-    _audioPitch.speed = speed;
+    if (_audioPitch) _audioPitch.speed = speed;
 }
 
 /**
@@ -131,16 +132,16 @@
 {
     float speed;
     switch (speedMode) {
-        case FSLAVSoundSpeedMode_Slow1:
+        case FSLAVSoundSpeedMode_Fast1:
             speed = 1.5;
             break;
-        case FSLAVSoundSpeedMode_Slow2:
+        case FSLAVSoundSpeedMode_Fast2:
             speed = 2.0;
             break;
-        case FSLAVSoundSpeedMode_Fast1:
+        case FSLAVSoundSpeedMode_Slow1:
             speed = 0.7;
             break;
-        case FSLAVSoundSpeedMode_Fast2:
+        case FSLAVSoundSpeedMode_Slow2:
             speed = 0.5;
             break;
         default:

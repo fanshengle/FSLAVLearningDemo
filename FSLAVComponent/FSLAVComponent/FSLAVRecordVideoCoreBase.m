@@ -151,13 +151,13 @@
 
 //拿到所有可用的摄像头(video)设备
 - (NSArray *)obtainAvailableDevices{
-    NSInteger phoneVersion = [[[UIDevice currentDevice] systemName] integerValue];
-    if (phoneVersion > 10.0) {
-        
+    
+    if (@available(iOS 10.2, *)) {
         AVCaptureDeviceDiscoverySession *deviceSession = [AVCaptureDeviceDiscoverySession  discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInDualCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
         return deviceSession.devices;
     } else {
         // Fallback on earlier versions
+        
         return [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     }
 }

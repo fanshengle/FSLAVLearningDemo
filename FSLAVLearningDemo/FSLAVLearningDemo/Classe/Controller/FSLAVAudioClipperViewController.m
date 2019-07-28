@@ -32,7 +32,7 @@
 /**
  音乐素材
  */
-@property (nonatomic, strong) FSLAVCliperAudioOptions *clipAudio;
+@property (nonatomic, strong) FSLAVClipperOptions *clipAudio;
 
 /**
  音频剪辑对象
@@ -74,7 +74,7 @@
 - (void)setupAudiClipper {
     // 原音
     NSURL *mainAudioURL = [self fileURLWithName:@"111.mp3"];
-    _clipAudio = [[FSLAVCliperAudioOptions alloc] initWithAudioURL:mainAudioURL];
+    _clipAudio = [[FSLAVClipperOptions alloc] initWithMediaURL:mainAudioURL];
     _clipAudio.audioVolume = 0;
     _clipAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:_minTxt.text.floatValue endSeconds:_maxTxt.text.floatValue];
     
@@ -226,7 +226,7 @@
  结果通知代理
  
  */
-- (void)didMixedAudioResult:(FSLAVCliperAudioOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper{
+- (void)didMixedAudioResult:(FSLAVClipperOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper{
     if (result.outputFilePath) {
         NSLog(@"result path : %@", result.outputFilePath);
     }

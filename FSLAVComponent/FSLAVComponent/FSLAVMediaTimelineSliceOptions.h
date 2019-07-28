@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVMediaOptions.h"
+#import "FSLAVMediaAssetOptions.h"
 #import "FSLAVAudioRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger,FSLAVMediaTimelineSliceCompositionStatus)
 /**
  媒体资源音视频分段时间线（包括快慢速）编辑工具的配置项
  */
-@interface FSLAVMediaTimelineSliceOptions : FSLAVMediaOptions
+@interface FSLAVMediaTimelineSliceOptions :FSLAVMediaAssetOptions
 
 // 状态
 @property (nonatomic, readonly, assign) FSLAVMediaTimelineSliceCompositionStatus status;

@@ -214,8 +214,7 @@
 //拿到所有可用的摄像头(video)设备
 - (NSArray *)obtainAvailableDevices{
     
-    NSInteger phoneVersion = [[[UIDevice currentDevice] systemName] integerValue];
-    if (phoneVersion > 10.0) {
+    if (@available(iOS 10.0, *)) {
         
         AVCaptureDeviceDiscoverySession *deviceSession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
         return deviceSession.devices;

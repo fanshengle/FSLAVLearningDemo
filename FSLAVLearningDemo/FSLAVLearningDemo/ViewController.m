@@ -207,8 +207,14 @@
             {
                 FSLH264VideoViewController *vc = [[FSLH264VideoViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
+                break;
+
+            } case 3:
+            {
+                [self performSegueWithIdentifier:@"FSLAVVideoMixViewController" sender:nil];
+                break;
             }
-            case 3:
+            case 4:
             {
                 FSLAVPlayerViewController *vc = [[FSLAVPlayerViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];

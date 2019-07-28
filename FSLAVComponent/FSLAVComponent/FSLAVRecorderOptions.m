@@ -17,6 +17,9 @@
 {
     [super setConfig];
     
+    _recordMode = FSLAVRecordModeNormal;
+    _recordSpeedMode = FSLAVRecordSpeedMode_Normal;
+    
     _isAcousticTimer = NO;
     _minRecordDelay = 3;
     _maxRecordDelay = -1;

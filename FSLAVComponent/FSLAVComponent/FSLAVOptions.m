@@ -20,8 +20,24 @@
 }
 
 #pragma mark -- getter
+- (FSLAVMediaOutputFileType)outputFileType{
+    if (!_outputFileType) {
+        
+        switch (_meidaType) {
+            case FSLAVMediaTypeAudio:
+                _outputFileType = FSLAVAudioOutputFileTypeM4A;
+                break;
+            default:
+                _outputFileType = FSLAVVideoOutputFileTypeQuickTimeMovie;
+                break;
+        }
+    }
+    return _outputFileType;
+}
+
 - (AVFileType)appOutputFileType{
     if (!_appOutputFileType) {
+        
         switch (_outputFileType) {
             case FSLAVVideoOutputFileTypeQuickTimeMovie:
                 _appOutputFileType = AVFileTypeQuickTimeMovie;
@@ -47,7 +63,7 @@
     
     if (!_saveSuffixFormat) {
         
-        switch (_outputFileType) {
+        switch (self.outputFileType) {
             case FSLAVVideoOutputFileTypeQuickTimeMovie:
                 _saveSuffixFormat = @"mov";
                 break;
@@ -212,9 +228,12 @@
  */
 - (void)setConfig;
 {
+    
+//    _outputFileType = FSLAVMediaOutputFileTypeM4V;
     _sandboxDirType = FSLAVSandboxDirCache;
     _enableCreateFilePath = YES;
     _outputFileName = @"fslComponentTimeFile";
-    _outputFileType = FSLAVMediaOutputFileTypeM4V;
 }
+
+
 @end

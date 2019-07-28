@@ -46,7 +46,7 @@
 }
 
 + (CGFloat)bottomPreviewOffset {
-    return 199;
+    return 220;
 }
 
 - (void)viewWillDisappear:(BOOL)animated;
@@ -228,6 +228,8 @@
     [_audioPlayer pause];
     _audioPlayer = [AVPlayer playerWithURL:[NSURL fileURLWithPath:filePath]];
     [_audioPlayer play];
+    
+    
 }
 
 /**

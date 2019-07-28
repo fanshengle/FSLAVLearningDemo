@@ -117,7 +117,10 @@
  */
 - (void)cancelWriting;
 {
-    [self.audioWriter cancelWriting];
+    if (_audioWriter) {
+        [_audioWriter cancelWriting];
+        _audioWriter = nil;
+    }
 }
 
 /**

@@ -11,6 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ 录制模式
+ */
+typedef NS_ENUM(NSInteger,FSLAVRecordMode)
+{
+    /** 正常模式 */
+    FSLAVRecordModeNormal,
+    
+    /** 续拍模式 */
+    FSLAVRecordModeKeep,
+};
+
+/**
  录制状态
  */
 typedef NS_ENUM(NSInteger, FSLAVRecordState) {
@@ -30,19 +42,6 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     FSLAVRecordStateSavingCompleted,   //保存完成
     FSLAVRecordStateUnKnow             //录制时，发生未知原因
 };
-
-/**
- 录制模式
- */
-typedef NS_ENUM(NSInteger,FSLAVRecordMode)
-{
-    /** 正常模式 */
-    FSLAVRecordModeNormal,
-    
-    /** 续拍模式 */
-    FSLAVRecordModeKeep,
-};
-
 
 /**
  录制速度模式
@@ -92,6 +91,16 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
  最大录制时长， 默认: -1 不限制录制时长 单位: 秒
  */
 @property (nonatomic, assign) NSUInteger maxRecordDelay;
+
+/**
+ 录制模式：默认正常
+ */
+@property (nonatomic, assign) FSLAVRecordMode recordMode;
+
+/**
+ 录制变速模式：默认正常模式
+ */
+@property (nonatomic, assign) FSLAVRecordSpeedMode recordSpeedMode;
 
 /**
  已录制的总时长

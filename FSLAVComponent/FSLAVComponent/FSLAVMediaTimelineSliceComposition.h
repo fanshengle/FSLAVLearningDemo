@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mediaTotalTime 音视频的总时长
  @param composition 合成器器对象
  */
-- (void)didCompletedCompositionmediaTotalTime:(NSTimeInterval)mediaTotalTime composition:(FSLAVMediaTimelineSliceComposition *)composition;
+- (void)didCompletedCompositionMediaTotalTime:(NSTimeInterval)mediaTotalTime composition:(FSLAVMediaTimelineSliceComposition *)composition;
 
 @end
 

@@ -6,12 +6,12 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVAudioOptions.h"
+#import "FSLAVMediaAssetOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- 音视频混合状态
+ 音频混合状态
  */
 typedef NS_ENUM(NSInteger,FSLAVMixStatus)
 {
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger,FSLAVMixStatus)
     
 };
 
-@interface FSLAVMixerOptions : FSLAVAudioOptions
+@interface FSLAVMixerOptions : FSLAVMediaAssetOptions
 {
     FSLAVMixStatus _mixStatus;
 }
@@ -50,9 +50,10 @@ typedef NS_ENUM(NSInteger,FSLAVMixStatus)
 /**
  音视频混合状态
  */
-@property (nonatomic, readonly, assign) FSLAVMixStatus mixStatus;
+@property (nonatomic, assign) FSLAVMixStatus mixStatus;
 
-
+// 音轨是否可循环添加播放 默认 NO 不循环
+@property (nonatomic, assign) BOOL enableCycleAdd;
 
 @end
 

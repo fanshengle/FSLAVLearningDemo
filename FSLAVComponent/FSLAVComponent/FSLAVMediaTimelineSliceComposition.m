@@ -24,6 +24,8 @@
     
     // 视频总长时间
     CMTime _mediaTotalTime;
+    // 视频总长时间
+    CMTime allTime;
 }
 
 @end
@@ -56,7 +58,7 @@
         
         //一个布尔值，指示是否应准备好资产以指示精确的持续时间并按时间提供精确的随机访问。
         NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey:@NO};
-        _mediaAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_timeSliceOptions.inputMediaPath] options:options];
+        _mediaAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_timeSliceOptions.mediaPath] options:options];
         
         //获取原媒体总长时间
         _mediaTotalTime = _mediaAsset.duration;
@@ -106,16 +108,11 @@
  */
 - (void)cancelMediaComposition;
 {
-    if (_exporter) {
-        
-        if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-            
-            [self resetCompositionOperation];
-            [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusCancelled];
-
-            [_timeSliceOptions clearOutputFilePath];
-        }
-    }
+    [self resetCompositionOperation];
+    [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusCancelled];
+    
+    //清除临时存储地址
+    [_timeSliceOptions clearOutputFilePath];
 }
 
 #pragma mark --  处理视频（包含音频和视频）
@@ -220,19 +217,34 @@
     _exporter.outputFileType = _timeSliceOptions.appOutputFileType;
     //导出视频的时间范围
     _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _mediaTotalTime);
+    //指示是否启用视频合成导出，并提供视频合成说明。
+    _exporter.videoComposition = mainComposition;
     //指示是否应优化电影以供网络使用。
     _exporter.shouldOptimizeForNetworkUse = YES;
 
     // 输出视频格式设置
-    _exporter.videoSettings = @{
-                                AVVideoCodecKey:AVVideoCodecTypeH264,
-                                AVVideoWidthKey:[NSNumber numberWithInt:_renderSize.width],
-                                AVVideoHeightKey:[NSNumber numberWithInt:_renderSize.height],
-                                AVVideoCompressionPropertiesKey:@{
-                                        AVVideoAverageBitRateKey:[NSNumber numberWithInteger: (_videoBitRate <= 0 ? 1000000 : _videoBitRate)],
-                                        AVVideoProfileLevelKey:AVVideoProfileLevelH264HighAutoLevel,
-                                        },
-                                };
+    if (@available(iOS 11.0, *)) {
+        _exporter.videoSettings = @{
+                                    AVVideoCodecKey:AVVideoCodecTypeH264,
+                                    AVVideoWidthKey:[NSNumber numberWithInt:_renderSize.width],
+                                    AVVideoHeightKey:[NSNumber numberWithInt:_renderSize.height],
+                                    AVVideoCompressionPropertiesKey:@{
+                                            AVVideoAverageBitRateKey:[NSNumber numberWithInteger: (_videoBitRate <= 0 ? 1000000 : _videoBitRate)],
+                                            AVVideoProfileLevelKey:AVVideoProfileLevelH264HighAutoLevel,
+                                            },
+                                    };
+    } else {
+        // Fallback on earlier versions
+        _exporter.videoSettings = @{
+                                    AVVideoCodecKey:AVVideoCodecH264,
+                                    AVVideoWidthKey:[NSNumber numberWithInt:_renderSize.width],
+                                    AVVideoHeightKey:[NSNumber numberWithInt:_renderSize.height],
+                                    AVVideoCompressionPropertiesKey:@{
+                                            AVVideoAverageBitRateKey:[NSNumber numberWithInteger: (_videoBitRate <= 0 ? 1000000 : _videoBitRate)],
+                                            AVVideoProfileLevelKey:AVVideoProfileLevelH264HighAutoLevel,
+                                            },
+                                    };
+    }
     // 输出音频格式设置
     _exporter.audioSettings = _timeSliceOptions.recordOptions.audioConfigure;
     
@@ -390,7 +402,7 @@
 - (void)resetCompositionOperation;
 {
     if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-        fslLError(@"Conditions cannot be reset during operation.");
+        fslLDebug(@"Conditions cannot be reset during operation.");
         
         if (_exporter) {
             [_exporter cancelExport];
@@ -420,8 +432,8 @@
  */
 - (void)judgeAssetIsVaild{
     
-    if (!_timeSliceOptions.inputMediaPath) {
-        fslLError(@"inputMediaPath is nil, please choose a video file to mix");
+    if (!_timeSliceOptions.mediaPath) {
+        fslLError(@"mediaPath is nil, please choose a video file to mix");
         //合成失败状态回调
         [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusFailed];
         return;
@@ -639,8 +651,8 @@
         if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionOutputFilePath:composition:)]) {
             [self.compositionDelegate didCompletedCompositionOutputFilePath:_timeSliceOptions.outputFilePath composition:self];
         }
-        if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionmediaTotalTime:composition:)]) {
-            [self.compositionDelegate didCompletedCompositionmediaTotalTime:CMTimeGetSeconds(_mediaTotalTime) composition:self];
+        if ([self.compositionDelegate respondsToSelector:@selector(didCompletedCompositionMediaTotalTime:composition:)]) {
+            [self.compositionDelegate didCompletedCompositionMediaTotalTime:_timeSliceOptions.mediaDuration composition:self];
         }
     }
 }
@@ -662,6 +674,7 @@
  */
 - (void)destory{
     [super destory];
+    
     [self cancelMediaComposition];
 }
 

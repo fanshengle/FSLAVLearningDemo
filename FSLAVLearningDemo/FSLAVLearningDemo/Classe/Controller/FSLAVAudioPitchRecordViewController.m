@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *usageLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *startAudioRecordBtn;
-@property (weak, nonatomic) IBOutlet UIButton *pauseAudioRecordBtn;
+@property (weak, nonatomic) IBOutlet UIButton *reRecordingAudioBtn;
 @property (weak, nonatomic) IBOutlet UIButton *stopAudioRecordBtn;
 @property (weak, nonatomic) IBOutlet UIButton *playAudioRecordBtn;
 
@@ -52,8 +52,8 @@
     
     _usageLabel.text = @"请点击「开始录音」按钮开始录制音频，录制完成后点击「结束并播放录音」生成并播放音频文件。";
     [_actionButtons[0] setTitle:@"开始录音" forState:UIControlStateNormal];
-    [_actionButtons[1] setTitle:@"暂停录音" forState:UIControlStateNormal];
-    [_actionButtons[2] setTitle:@"结束录音" forState:UIControlStateNormal];
+    [_actionButtons[1] setTitle:@"结束录音" forState:UIControlStateNormal];
+    [_actionButtons[2] setTitle:@"重新录音" forState:UIControlStateNormal];
     [_actionButtons[3] setTitle:@"播放录音" forState:UIControlStateNormal];
 
 }
@@ -74,8 +74,8 @@
     [_audioPlayer pause];
     
     _startAudioRecordBtn.enabled = NO;
-    _pauseAudioRecordBtn.enabled = YES;
     _stopAudioRecordBtn.enabled = YES;
+    _reRecordingAudioBtn.enabled = YES;
     _playAudioRecordBtn.enabled = NO;
     
     [_audioPitchRecoder startRecord];
@@ -83,19 +83,19 @@
 }
 
 /**
- 暂停音频采集并播放音效
+ 重新录制音频
  */
-- (IBAction)pauseRecordingAudio {
+- (IBAction)reRecordingAudio {
     
     [_audioPlayer pause];
     
-    _startAudioRecordBtn.enabled = YES;
-    _pauseAudioRecordBtn.enabled = NO;
+    _startAudioRecordBtn.enabled = NO;
     _stopAudioRecordBtn.enabled = YES;
+    _reRecordingAudioBtn.enabled = NO;
     _playAudioRecordBtn.enabled = NO;
 
-    [_audioPitchRecoder pauseRecord];
-    [HUDManager showTextHud:@"录音已暂停"];
+    [_audioPitchRecoder reRecording];
+    [HUDManager showTextHud:@"重现录音"];
 }
 
 /**
@@ -106,8 +106,8 @@
     [_audioPitchRecoder stopRecord];
     
     _startAudioRecordBtn.enabled = YES;
-    _pauseAudioRecordBtn.enabled = NO;
     _stopAudioRecordBtn.enabled = NO;
+    _reRecordingAudioBtn.enabled = NO;
     _playAudioRecordBtn.enabled = YES;
     [HUDManager showTextHud:@"录音结束"];
 }

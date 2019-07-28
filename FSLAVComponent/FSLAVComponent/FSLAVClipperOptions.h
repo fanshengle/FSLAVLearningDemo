@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "FSLAVAudioOptions.h"
+#import "FSLAVMediaAssetOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,10 +41,11 @@ typedef NS_ENUM(NSInteger,FSLAVClipStatus)
     FSLAVClipStatusCancelled
 };
 
-@interface FSLAVClipperOptions : FSLAVAudioOptions
+@interface FSLAVClipperOptions : FSLAVMediaAssetOptions
 {
     FSLAVClipStatus _clipStatus;
 }
+
 // 状态
 @property (nonatomic, readonly, assign) FSLAVClipStatus clipStatus;
 

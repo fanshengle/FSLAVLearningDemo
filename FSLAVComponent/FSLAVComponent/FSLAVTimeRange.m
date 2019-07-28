@@ -58,11 +58,7 @@
 +(instancetype)timeRangeWithStartSeconds:(Float64)startSeconds endSeconds:(Float64)endSeconds;
 {
     
-    FSLAVTimeRange *timeRange = [[FSLAVTimeRange alloc] init];
-    timeRange.start = CMTimeMakeWithSeconds(startSeconds, 1*USEC_PER_SEC);
-    timeRange.duration = CMTimeMakeWithSeconds(fabs(endSeconds - startSeconds), 1*USEC_PER_SEC);
-    timeRange.end = CMTimeAdd(timeRange.start, timeRange.duration);
-    return timeRange;
+    return [[self alloc] initWithStartSeconds:startSeconds endSeconds:endSeconds];
 }
 
 /**
@@ -114,7 +110,11 @@
     if (self == [self init]) {
         _start = startTime;
         _end = endTime;
+        
         _duration = CMTimeSubtract(endTime, startTime);
+        if (self.isReverse) {
+            _duration = CMTimeSubtract(startTime, startTime);
+        }
     }
     return self;
 }

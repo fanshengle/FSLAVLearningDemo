@@ -21,7 +21,6 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
     FSLAVSandboxDirLibrary,
     FSLAVSandboxDirCache
 };
-
 /**
  导出的视频文件类型
  */
@@ -42,14 +41,24 @@ typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
 };
 
 /**
+ 媒体资源类型：视频、音频
+ */
+typedef NS_ENUM(NSInteger,FSLAVMediaType)
+{
+    FSLAVMediaTypeVideo,
+    FSLAVMediaTypeAudio
+};
+/**
  音视频的基础配置类
  */
 @interface FSLAVOptions : NSObject
 /**定义实例变量*/
 {
     FSLAVSandboxDirType _sandboxDirType;
+    FSLAVMediaType _meidaType;
     FSLAVMediaOutputFileType _outputFileType;
     AVFileType _appOutputFileType;
+    
     BOOL _enableCreateFilePath;
     NSString *_outputFileName;
     NSString *_saveSuffixFormat;
@@ -66,6 +75,11 @@ typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
  文件保存在沙盒哪个路径下
  */
 @property (nonatomic,assign) FSLAVSandboxDirType sandboxDirType;
+
+/**
+ 媒体类型
+ */
+@property (nonatomic, assign) FSLAVMediaType meidaType;
 
 /**
  输出的文件格式视频： FSLAVMediaOutputFileTypeQuickTimeMovie 或 FSLAVMediaOutputFileTypeMPEG4
@@ -140,7 +154,6 @@ typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
 
 /**
  清除缓存
- 
  @return  返回清除缓存结果
  */
 - (BOOL)clearCacheData;

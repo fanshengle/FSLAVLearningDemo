@@ -54,6 +54,10 @@
 #import "FSLAVH264VideoEncoder.h"
 /**视频解码器*/
 #import "FSLAVH246VideoDecoder.h"
+
+/**音视频混合器*/
+#import "FSLAVVideoMixer.h"
+
 /**音视频播放器，本地、网络播放*/
 #import "FSLAVPlayer.h"
 

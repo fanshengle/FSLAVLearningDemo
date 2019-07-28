@@ -101,17 +101,28 @@
     //监听耳机的插拔状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkHeaderPhone) name:AVAudioSessionRouteChangeNotification object:nil];
     // app退到后台
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:NSExtensionHostWillResignActiveNotification object:nil];
+    if (@available(iOS 8.2, *)) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:NSExtensionHostWillResignActiveNotification object:nil];
+    }
     // app进入前台
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:NSExtensionHostDidBecomeActiveNotification object:nil];
+    if (@available(iOS 8.2, *)) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:NSExtensionHostDidBecomeActiveNotification object:nil];
+    }
 }
 
 #pragma mark -- 删除通知
 - (void)removeNotification{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSExtensionHostWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSExtensionHostDidBecomeActiveNotification object:nil];
+    if (@available(iOS 8.2, *)) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSExtensionHostWillResignActiveNotification object:nil];
+    } else {
+        // Fallback on earlier versions
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    }
+    if (@available(iOS 8.2, *)) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSExtensionHostDidBecomeActiveNotification object:nil];
+    } 
 }
 
 #pragma mark -- 添加观察者
