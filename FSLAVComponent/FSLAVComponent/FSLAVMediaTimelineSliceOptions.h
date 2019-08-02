@@ -7,7 +7,7 @@
 //
 
 #import "FSLAVMediaAssetOptions.h"
-#import "FSLAVAudioRecorderOptions.h"
+#import "FSLAVEncodeAudioSetting.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,9 +57,9 @@ typedef NS_ENUM(NSInteger,FSLAVMediaTimelineSliceCompositionStatus)
 @property (nonatomic, readonly, assign) FSLAVMediaTimelineSliceCompositionStatus status;
 
 /**
- 音频录制配置项
+ 导出音频编码设置项
  */
-@property (nonatomic, strong) FSLAVAudioRecorderOptions *recordOptions;
+@property (nonatomic, strong) FSLAVEncodeAudioSetting *audioSetting;
 
 
 @end

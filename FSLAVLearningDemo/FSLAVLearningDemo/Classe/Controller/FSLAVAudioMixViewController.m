@@ -66,17 +66,17 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 /**
  原始音乐素材
  */
-@property (nonatomic, strong) FSLAVMixerOptions *mainAudio;
+@property (nonatomic, strong) FSLAVAudioMixerOptions *mainAudio;
 
 /**
  混音素材1
  */
-@property (nonatomic, strong) FSLAVMixerOptions *firstMixAudio;
+@property (nonatomic, strong) FSLAVAudioMixerOptions *firstMixAudio;
 
 /**
  混音素材2
  */
-@property (nonatomic, strong) FSLAVMixerOptions *secondMixAudio;
+@property (nonatomic, strong) FSLAVAudioMixerOptions *secondMixAudio;
 
 @end
 
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 - (void)setupAudioMixer {
     // 原音
     NSURL *mainAudioURL = [self fileURLWithName:@"111.mp3"];
-    _mainAudio = [[FSLAVMixerOptions alloc] initWithMediaURL:mainAudioURL];
+    _mainAudio = [[FSLAVAudioMixerOptions alloc] initWithMediaURL:mainAudioURL];
     _mainAudio.audioVolume = 0;
     _mainAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:1 endSeconds:30];
     _mainAudio.atNodeTime = kCMTimeZero;
@@ -108,7 +108,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     
     // 素材一
     NSURL *firstMixAudioURL = [self fileURLWithName:@"222.mp3"];
-    _firstMixAudio = [[FSLAVMixerOptions alloc] initWithMediaURL:firstMixAudioURL];
+    _firstMixAudio = [[FSLAVAudioMixerOptions alloc] initWithMediaURL:firstMixAudioURL];
     _firstMixAudio.audioVolume = 0;
 //    _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:20 endSeconds:10];
     _firstMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:20 endSeconds:25];
@@ -116,7 +116,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     
     // 素材二
     NSURL *secondMixAudioURL = [self fileURLWithName:@"333.mp3"];
-    _secondMixAudio = [[FSLAVMixerOptions alloc] initWithMediaURL:secondMixAudioURL];
+    _secondMixAudio = [[FSLAVAudioMixerOptions alloc] initWithMediaURL:secondMixAudioURL];
     _secondMixAudio.audioVolume = 0;
     _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:40 endSeconds:50];
 //    _secondMixAudio.atTimeRange = [FSLAVTimeRange timeRangeWithStartSeconds:3 endSeconds:8];

@@ -7,7 +7,8 @@
 //
 
 #import "FSLAVCoreBase.h"
-#import "FSLAVMixerOptions.h"
+#import "FSLAVAudioMixerOptions.h"
+#import "FSLAVVideoMixerOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<FSLAVVideoMixerDelegate> mixDelegate;
 
 // 主视频素材
-@property (nonatomic, strong) FSLAVMixerOptions *mainVideo;
+@property (nonatomic, strong) FSLAVVideoMixerOptions *mainVideo;
 
 // 混合的音频数组
-@property (nonatomic, strong) NSArray<FSLAVMixerOptions *> *mixAudios;
+@property (nonatomic, strong) NSArray<FSLAVAudioMixerOptions *> *mixAudios;
 
 
 /**

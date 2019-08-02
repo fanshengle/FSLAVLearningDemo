@@ -10,6 +10,10 @@
 
 @implementation FSLAVMediaTimelineSliceOptions
 
++ (instancetype)defaultOptions{
+    return [super defaultOptions];
+}
+
 /**
  设置默认参数配置(可以重置父类的默认参数，不设置的话，父类的默认参数会无效)
  */

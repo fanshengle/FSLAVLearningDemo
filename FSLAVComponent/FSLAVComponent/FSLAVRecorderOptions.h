@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, FSLAVRecordState) {
     FSLAVRecordStateFailed,            //录制失败
     
     FSLAVRecordStateLessMinRecordTime, //小于最小录制时间
-    FSLAVRecordStateMoreMaxRecordTime,  //大于等于最大录制时间
+    FSLAVRecordStateMoreMaxRecordTime, //大于等于最大录制时间
     
     FSLAVRecordStateSaving,            //正在保存
     FSLAVRecordStateSavingCompleted,   //保存完成
@@ -69,18 +69,13 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
  */
 @interface FSLAVRecorderOptions : FSLAVOptions
 {
+    NSUInteger _minRecordDelay;
     NSUInteger _maxRecordDelay;
+    FSLAVRecordState _recordStatus;
+    FSLAVRecordMode _recordMode;
+    FSLAVRecordSpeedMode _recordSpeedMode;
+    NSTimeInterval _outputDuration;
 }
-
-/**
- 是否开启自动停止录制,默认是no
- */
-@property (nonatomic, assign) BOOL isAutomaticStop;
-
-/**
- 是否开启音频声波定时器,默认NO
- */
-@property (nonatomic, assign) BOOL isAcousticTimer;
 
 /**
  最小录制时间，默认3s,
@@ -91,6 +86,11 @@ typedef NS_ENUM(NSInteger,FSLAVRecordSpeedMode)
  最大录制时长， 默认: -1 不限制录制时长 单位: 秒
  */
 @property (nonatomic, assign) NSUInteger maxRecordDelay;
+
+/**
+ 录制状态
+ */
+@property (nonatomic, assign, getter=recordStatus) FSLAVRecordState recordStatus;
 
 /**
  录制模式：默认正常

@@ -150,9 +150,9 @@
     [HUDManager showTextHud:@"音频开始剪辑"];
     
     
-    [_audioClipper startClippingAudioWithCompletion:^(NSURL * fileURL, FSLAVClipStatus clipStatus) {
+    [_audioClipper startClippingAudioWithCompletion:^(NSString * filePath, FSLAVClipStatus clipStatus) {
        
-        NSLog(@"fileURL--->%@",fileURL);
+        NSLog(@"filePath--->%@",filePath);
     }];
   
 }

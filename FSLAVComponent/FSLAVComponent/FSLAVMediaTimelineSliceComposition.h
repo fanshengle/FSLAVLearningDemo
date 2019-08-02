@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param handler 完成回调处理
  */
-
 - (void)startMediaCompositionWithCompletionHandler:(void (^ _Nullable)(NSString *outputFilePath,NSTimeInterval mediaTotalTime, FSLAVMediaTimelineSliceCompositionStatus status))handler;
 
 /**

@@ -111,12 +111,6 @@ typedef NS_ENUM (NSUInteger, FSLAVCaptureSessionPreset)
  */
 @property (nonatomic, assign) BOOL isOutPreview;
 
-/**
- 默认视频配置
- 
- @return FSLAVVideoRecorderOptions
- */
-+ (instancetype)defaultOptions;
 
 /**
  视频配置(分辨率)

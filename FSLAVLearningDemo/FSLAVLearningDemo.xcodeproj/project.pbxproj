@@ -453,13 +453,13 @@
 		F889CD6922DA0C7A00B4FA29 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F82E362422DB18D300315C2B /* FSLAVAudioClipperViewController.h */,
+				F82E362522DB18D300315C2B /* FSLAVAudioClipperViewController.m */,
+				F82E362922DB1BE800315C2B /* FSLAVAudioClipperViewController.storyboard */,
 				F889CD6C22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.h */,
 				F889CD6A22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.m */,
 				F889CD6B22DA0C8A00B4FA29 /* FSLAVAudioMixViewController.storyboard */,
-				F82E362522DB18D300315C2B /* FSLAVAudioClipperViewController.m */,
-				F82E362922DB1BE800315C2B /* FSLAVAudioClipperViewController.storyboard */,
 				D73EFA4022E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.h */,
-				F82E362422DB18D300315C2B /* FSLAVAudioClipperViewController.h */,
 				D73EFA4122E5A38300B93E85 /* FSLAVAudioPitchRecordViewController.m */,
 				D73EFA3722E5572300B93E85 /* FSLAVAudioPitchRecordViewController.storyboard */,
 				D7CA6FF322EA94D000BF15D2 /* FSLAVAudioPitchSegmentRecordViewController.h */,

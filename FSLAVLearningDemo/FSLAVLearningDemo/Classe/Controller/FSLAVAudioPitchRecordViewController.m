@@ -48,7 +48,13 @@
     
     // APIAudioPitchEngineRecorder 用以演示音频采集和音频变声处理 API
     _audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] init];
+    
+    //_audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] initWithAudioPitchEngineRecordOptions:[FSLAVAudioPitchEngineRecorderOptions defaultOptions]];
+    //_audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] initWithAudioRecordOptions:[FSLAVAudioPitchEngineRecorderOptions defaultOptions]];
+    //FSLAVAudioPitchEngineRecorderOptions *pitchOptions = [FSLAVAudioPitchEngineRecorderOptions defaultOptions];
+    //_audioPitchRecoder.pitchOptions = pitchOptions;
     _audioPitchRecoder.delegate = self;
+
     
     _usageLabel.text = @"请点击「开始录音」按钮开始录制音频，录制完成后点击「结束并播放录音」生成并播放音频文件。";
     [_actionButtons[0] setTitle:@"开始录音" forState:UIControlStateNormal];
@@ -95,7 +101,8 @@
     _playAudioRecordBtn.enabled = NO;
 
     [_audioPitchRecoder reRecording];
-    [HUDManager showTextHud:@"重现录音"];
+    [_audioPitchRecoder startRecord];
+    [HUDManager showTextHud:@"重新录音"];
 }
 
 /**
@@ -107,7 +114,7 @@
     
     _startAudioRecordBtn.enabled = YES;
     _stopAudioRecordBtn.enabled = NO;
-    _reRecordingAudioBtn.enabled = NO;
+    _reRecordingAudioBtn.enabled = YES;
     _playAudioRecordBtn.enabled = YES;
     [HUDManager showTextHud:@"录音结束"];
 }
@@ -122,10 +129,11 @@
     [_audioPlayer play];
     NSLog(@"_audioPitchRecoder.options.outputFilePath-->%@",_audioPitchRecoder.options.outputFilePath);
 }
+
 #pragma mark - action
 
 - (IBAction)speedSegmentButtionAction:(speedSegmentButton *)sender {
-    _audioPitchRecoder.speedMode = sender.speedMode;
+    _audioPitchRecoder.pitchOptions.speedMode = sender.speedMode;
     
     _pitchBar.selectedIndex = 2;
 }
@@ -136,7 +144,7 @@
  */
 - (IBAction)pitchSegmentButtonAction:(PitchSegmentButton *)sender {
     
-    _audioPitchRecoder.pitchType = sender.pitchType;
+    _audioPitchRecoder.pitchOptions.pitchType = sender.pitchType;
     
     _speedBar.selectedIndex = 2;
 }

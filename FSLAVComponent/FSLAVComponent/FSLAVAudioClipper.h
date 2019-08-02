@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  开始剪辑音轨，该方法的剪辑音轨结果有block回调，同时也可通过协议拿到
  */
-- (void)startClippingAudioWithCompletion:(void (^ _Nullable)(NSURL*, FSLAVClipStatus))handler;
+- (void)startClippingAudioWithCompletion:(void (^ _Nullable)(NSString*, FSLAVClipStatus))handler;
 
 /**
  取消剪辑操作
@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 结果通知代理
 - (void)didClipedAudioResult:(FSLAVClipperOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper;
+
 // 剪辑完成路径通知代理
 - (void)didCompletedClipAudioOutputPath:(NSString *)outputPath onAudioClip:(FSLAVAudioClipper *)audioMixer;
 @end

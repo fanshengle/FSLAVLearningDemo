@@ -20,16 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
     FSLAVTimeRange *_mediaTimeRange;
 }
 
-// 输入的媒体（音视频）路径
+// 输入的媒体（音/视频）路径
 @property (nonatomic, strong) NSString *mediaPath;
 
-// 输入的本地音频地址
+// 输入的本地媒体地址
 @property (nonatomic, strong) NSURL *mediaURL;
 
 // 媒体素材 mediaAsset
 @property (nonatomic, strong) AVAsset *mediaAsset;
 
-// 媒体音轨、视频轨
+// 媒体音轨/视频轨
 @property (nonatomic, strong) AVAssetTrack *mediaTrack;
 
 // 媒体片段所在时间（剪辑的实际有效时间范围）, 默认 整个媒体资源的时间范围
@@ -44,43 +44,43 @@ NS_ASSUME_NONNULL_BEGIN
 // 音量设置
 @property (nonatomic, assign) CGFloat audioVolume;
 
-// 是否保留视频原音，默认 YES，保留视频原音
+// 媒体是否保留视频原音，默认 YES，保留视频原音
 @property (nonatomic, assign) BOOL enableVideoSound;
 
-// 媒体音视频素材的总时长
+// 媒体音/视频素材的总时长
 @property (nonatomic, assign,getter=mediaDuration) NSTimeInterval mediaDuration;
 
 
 #pragma mark - init
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaPath 音频资源地址
- @return 音频信息媒体
+ @param mediaPath 媒体资源地址
+ @return 媒体信息
  */
 - (instancetype)initWithMediaPath:(NSString *)mediaPath;
 
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaURL 音频资源地址
- @return 音频信息媒体
+ @param mediaURL 媒体资源地址
+ @return 媒体信息
  */
 - (instancetype)initWithMediaURL:(NSURL *)mediaURL;
 
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaAsset 音频资源素材
- @return 音频信息媒体
+ @param mediaAsset 媒体资源素材
+ @return 媒体信息
  */
 - (instancetype)initWithMediaAsset:(AVURLAsset *)mediaAsset;
 
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaTrack 音频资源音轨
- @return 音频信息媒体
+ @param mediaTrack 媒体资源音/视频轨
+ @return 媒体信息
  */
 - (instancetype)initWithMediaTrack:(AVAssetTrack *)mediaTrack;
 

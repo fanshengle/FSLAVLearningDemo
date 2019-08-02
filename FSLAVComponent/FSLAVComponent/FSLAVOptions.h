@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, FSLAVSandboxDirType) {
  */
 typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
 {
+    /**音视频苹果通用格式,安卓平台需要另外转换*/
+    FSLAVMediaOutputFileTypeM4V,
     /**视频导出文件格式*/
     /** MOV */
     FSLAVVideoOutputFileTypeQuickTimeMovie,
@@ -34,10 +36,7 @@ typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
     FSLAVVideoOutputFileTypeMPEG4,
     
     /**音频导出文件格式*/
-    FSLAVAudioOutputFileTypeM4A,
-    
-    /**音视频苹果通用格式,安卓平台需要另外转换*/
-    FSLAVMediaOutputFileTypeM4V
+    FSLAVAudioOutputFileTypeM4A
 };
 
 /**
@@ -45,8 +44,8 @@ typedef NS_ENUM(NSInteger,FSLAVMediaOutputFileType)
  */
 typedef NS_ENUM(NSInteger,FSLAVMediaType)
 {
-    FSLAVMediaTypeVideo,
-    FSLAVMediaTypeAudio
+    FSLAVMediaTypeAudio,
+    FSLAVMediaTypeVideo
 };
 /**
  音视频的基础配置类
@@ -131,6 +130,12 @@ typedef NS_ENUM(NSInteger,FSLAVMediaType)
  */
 @property (nonatomic,strong,readonly) NSString *exportRandomFilePath;
 
+/**
+ 初始化/或直接init初始化一样
+ 
+ @return FSLAVOptions
+ */
++ (instancetype)defaultOptions;
 
 /**
  获取数据操作的本地路径

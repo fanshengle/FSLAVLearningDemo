@@ -7,9 +7,8 @@
 //
 
 #import "FSLAVRecordAudioCoreBase.h"
-#import "FSLAVAudioPitchEngine.h"
-#import "FSLAVAudioRecorderOptions.h"
 #import "FSLAVMediaTimelineSliceComposition.h"
+#import "FSLAVAudioPitchEngineRecorderOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,35 +19,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FSLAVAudioPitchEngineRecorder : FSLAVRecordAudioCoreBase
 
 /**
- * 改变音频音调 [速度设置将失效]
- * pitch 0 > pitch [大于1时声音升调，小于1时为降调]
- * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
+ 音频变掉录制器配置项
  */
-@property (nonatomic) FSLAVSoundPitchType pitchType;
-
-/**
- * 改变音频音调 [速度设置将失效]
- * pitch 0 > pitch [大于1时声音升调，小于1时为降调]
- * pitchType 与 pitch不能同时设置；因为pitchType就是设置固定值pitch得到的
- */
-@property (nonatomic) float pitch;
-
-/**
- * 改变音频播放速度 [变速不变调, 音调设置将失效]
- * speedMode 与 speed不能同时设置；因为FSLAVSoundSpeedMode就是设置固定值speed得到的
- */
-@property (nonatomic) FSLAVSoundSpeedMode speedMode;
-
-/**
- * 改变音频播放速度 [变速不变调, 音调设置将失效]
- * speed 0 > speed
- */
-@property (nonatomic) float speed;
+@property (nonatomic, strong) FSLAVAudioPitchEngineRecorderOptions *pitchOptions;
 
 /**
  删除最后一个音频片段
  */
 - (void)deleteLastAudioFragment;
+
+- (instancetype)initWithAudioPitchEngineRecordOptions:(FSLAVAudioPitchEngineRecorderOptions *)options;
 
 @end
 

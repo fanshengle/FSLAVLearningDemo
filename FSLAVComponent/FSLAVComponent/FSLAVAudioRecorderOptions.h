@@ -7,6 +7,7 @@
 //
 
 #import "FSLAVRecorderOptions.h"
+#import "FSLAVEncodeAudioSetting.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,6 +48,21 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordSampleRate)
     FSLAVAudioRecordSampleRate_Default = FSLAVAudioRecordSampleRate_32000Hz
 };
 
+/**
+ 采样位数(默认为16d)
+ */
+typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitDepth)
+{
+    FSLAVAudioRecordBitDepth_8d  = 8,
+    
+    FSLAVAudioRecordBitDepth_16d = 16,
+    
+    FSLAVAudioRecordBitDepth_24d = 24,
+    
+    FSLAVAudioRecordBitDepth_32d = 32,
+    
+    FSLAVAudioRecordBitDepth_Default = FSLAVAudioRecordBitDepth_16d
+};
 
 /**
  音频码率(默认为64Kbps)
@@ -70,66 +86,37 @@ typedef NS_ENUM (NSUInteger, FSLAVAudioRecordBitRate)
  音频录制的参数配置项
  */
 @interface FSLAVAudioRecorderOptions : FSLAVRecorderOptions
+{
+    FSLAVAudioRecordQuality _recordQuality;
+    NSUInteger _audioChannels;
+    FSLAVAudioRecordSampleRate _recordSampleRate;
+    FSLAVAudioRecordBitDepth _recordBitDepth;
+    FSLAVAudioRecordBitRate _recordBitRate;
+    FSLAVEncodeAudioSetting *_audioSetting;
+}
 
-/**音频格式*/
-@property (nonatomic,assign) NSUInteger audioFormat;
-/**音频采样率 单位是Hz 常见值 22050：人对频率的识别范围是 20HZ - 20000HZ 44100：CD音质 48000 96000 192000，
- 超过48000的采样对人耳已经没有意义。这和电影的每秒 24 帧图片的道理差不多。*/
-@property (nonatomic,assign) NSUInteger audioSampleRat;
-/**音频的通道 声道数 1、2*/
-@property (nonatomic,assign) NSUInteger audioChannels;
-
-//----------aac格式使用
-/**音频的编码比特率 BPS传输速率 一般为128000bps*/
-@property (nonatomic,assign) NSUInteger encoderBitRate;
-
-//----------带pcm的字段是PCM格式专用，也可以不设置，不影响
-/**音频频格式是否是大端点*/
-@property (nonatomic,assign) NSUInteger audioLinearPCMIsBigEndian;
-/**音频格式是否使用浮点数采样*/
-@property (nonatomic,assign) NSUInteger audioLinearPCMIsFloat;
-/**音频采样点位数 比特率  8 16（16位基本可以满足所有的情况了）24 32*/
-@property (nonatomic,assign) NSUInteger audioLinearBitDepth;
-/** ... 其他设置*/
+/**
+ 是否开启音频声波定时器,默认NO
+ */
+@property (nonatomic, assign) BOOL isAcousticTimer;
 
 /** 音频质量（VideoQuality_Default为默认配置）*/
 @property (nonatomic,assign) FSLAVAudioRecordQuality recordQuality;
 
+/**音频的通道 声道数 1、2*/
+@property (nonatomic,assign) NSUInteger audioChannels;
+
 /** 采样率 (默认为44.1Hz)*/
 @property (nonatomic,assign) FSLAVAudioRecordSampleRate recordSampleRate;
+
+/** 采样率 (默认为采样位数(默认为16d))*/
+@property (nonatomic,assign) FSLAVAudioRecordBitDepth recordBitDepth;
 
 /** 比特率 (默认为64Kbps)*/
 @property (nonatomic,assign) FSLAVAudioRecordBitRate recordBitRate;
 
-/** 音频的配置项*/
-@property (nonatomic,strong) NSDictionary *audioConfigure;
-
-
-/**
- 默认视频配置
- 
- @return FSLAVAudioRecorderOptions
- */
-+ (instancetype)defaultOptions;
-
-/**
- 视频配置(质量)
- 
- @param audioQuality 视频质量
- @return FSLAVAudioRecorderOptions
- */
-+ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality;
-
-
-/**
- 视频配置(质量)
- 
- @param audioQuality 视频质量
- @param channels 声道数1、2
- @return FSLAVAudioRecorderOptions
- */
-+ (instancetype)defaultOptionsForQuality:(FSLAVAudioRecordQuality)audioQuality channels:(NSInteger)channels;
-
+/** 音频编码设置*/
+@property (nonatomic,strong) FSLAVEncodeAudioSetting *audioSetting;
 
 @end
 

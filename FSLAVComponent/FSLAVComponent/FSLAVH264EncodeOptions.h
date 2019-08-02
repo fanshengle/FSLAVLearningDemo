@@ -56,12 +56,6 @@ typedef NS_ENUM (NSUInteger,  FSLAVH264VideoQuality)
  */
 @interface FSLAVH264EncodeOptions : FSLAVOptions<NSCoding, NSCopying>
 
-/**
- 默认视频配置
- 
- @return FSLAVH264VideoOptions
- */
-+ (instancetype)defaultOptions;
 
 /**
  视频配置(质量)

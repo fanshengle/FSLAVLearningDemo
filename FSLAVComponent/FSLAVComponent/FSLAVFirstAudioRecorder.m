@@ -37,7 +37,7 @@
          error:错误
          */
         NSError *error;
-        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.outputFileURL settings:_options.audioConfigure error:&error];
+        _recorder = [[AVAudioRecorder alloc] initWithURL:_options.outputFileURL settings:_options.audioSetting.audioConfigure error:&error];
         _recorder.delegate = self;
         //如果要监控声波则必须设置为YES
         _recorder.meteringEnabled = YES;

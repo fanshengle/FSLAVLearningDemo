@@ -11,11 +11,16 @@
 @implementation FSLAVMediaAssetOptions
 
 #pragma mark - init
+
++ (instancetype)defaultOptions{
+    return [super defaultOptions];
+}
+
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaPath 音频资源地址
- @return 音频信息媒体
+ @param mediaPath 媒体资源地址
+ @return 媒体信息
  */
 - (instancetype)initWithMediaPath:(NSString *)mediaPath;
 {
@@ -25,10 +30,10 @@
     return self;
 }
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaURL 音频资源地址
- @return 音频信息媒体
+ @param mediaURL 媒体资源地址
+ @return 媒体信息媒体
  */
 - (instancetype)initWithMediaURL:(NSURL *)mediaURL;
 {
@@ -39,10 +44,10 @@
 }
 
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaAsset 音频资源素材
- @return 音频信息媒体
+ @param mediaAsset 媒体资源素材
+ @return 媒体信息
  */
 - (instancetype)initWithMediaAsset:(AVURLAsset *)mediaAsset;
 {
@@ -54,10 +59,10 @@
 
 
 /**
- 初始化音频信息媒体
+ 初始化媒体信息
  
- @param mediaTrack 音频资源音轨
- @return 音频信息媒体
+ @param mediaTrack 媒体资源音/视频轨
+ @return 媒体信息
  */
 - (instancetype)initWithMediaTrack:(AVAssetTrack *)mediaTrack;
 {
@@ -80,6 +85,110 @@
     _enableVideoSound = YES;
 }
 
+#pragma mark -- setter getter
+
+- (void)setMediaPath:(NSString *)mediaPath{
+    if(_mediaPath == mediaPath) return;
+    _mediaPath = mediaPath;
+    self.mediaURL = [self retrieveURL:mediaPath];
+}
+
+/**
+ 设置媒体url地址
+ 
+ @param mediaURL url地址
+ */
+- (void)setMediaURL:(NSURL *)mediaURL{
+    if(_mediaURL == mediaURL) return;
+    _mediaURL = mediaURL;
+    self.mediaAsset = [AVURLAsset URLAssetWithURL:_mediaURL options:nil];
+}
+
+
+/**
+ 设置媒体素材
+ 
+ @param mediaAsset 媒体素材
+ */
+- (void)setMediaAsset:(AVAsset *)mediaAsset{
+    if(_mediaAsset == mediaAsset) return;
+    _mediaAsset = mediaAsset;
+    
+    if (mediaAsset) {
+        //获取媒体资源开始、结束、持续时间等时间数据
+        _mediaTimeRange = [FSLAVTimeRange timeRangeWithStartTime:kCMTimeZero endTime:_mediaAsset.duration];
+        _atTimeRange = _mediaTimeRange;
+    }
+    
+    NSArray *mediaTracks = [_mediaAsset tracksWithMediaType:AVMediaTypeAudio];
+    if (mediaTracks.count > 0) {
+        
+        self.mediaTrack = mediaTracks.firstObject;
+    }else{
+        
+        fslLWarn(@"This mediaAsset has no tracks，Please check if the meidaURL is correct");
+    }
+}
+
+/**
+ 设置媒体音轨
+ 
+ @param mediaTrack 音轨
+ */
+- (void)setMediaTrack:(AVAssetTrack *)mediaTrack{
+    if(_mediaTrack == mediaTrack) return;
+    _mediaTrack = mediaTrack;
+}
+
+/**
+ 设置音效播放区间
+ 
+ @param atTimeRange 音效播放区间
+ */
+- (void)setAtTimeRange:(FSLAVTimeRange *)atTimeRange;
+{
+    if(_atTimeRange == atTimeRange) return;
+    _atTimeRange = atTimeRange;
+    
+    //判断设置的持续时间是否大于素材本身的持续时间
+    if (CMTIME_COMPARE_INLINE(_atTimeRange.duration, >, _mediaTimeRange.duration)) {
+        fslLWarn(@"_atTimeRange.duration > _mediaTimeRange.duration : %f > %f",_atTimeRange.durationSeconds,_mediaTimeRange.durationSeconds);
+        
+        _atTimeRange.duration = _mediaTimeRange.duration;
+    }
+    
+    //判断开始时间是否大于结束时间
+    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _atTimeRange.end)) {
+        fslLWarn(@"_atTimeRange.start > _atTimeRange.end : %f > %f",_atTimeRange.startSeconds,_atTimeRange.endSeconds);
+        
+        CMTime start = _atTimeRange.start;
+        CMTime end = _atTimeRange.end;
+        _atTimeRange.start = end;
+        _atTimeRange.end = start;
+        _atTimeRange.duration = CMTimeSubtract(_atTimeRange.end, _atTimeRange.start);
+    }
+    
+    //判断开始时间是否大于素材本身的持续时间
+    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _mediaTimeRange.end)) {
+            fslLWarn(@"_atTimeRange.start > _mediaTimeRange.end : %f > %f",_atTimeRange.startSeconds,_mediaTimeRange.endSeconds);
+            
+            _atTimeRange.start = _mediaTimeRange.duration;
+            _atTimeRange.duration = _mediaTimeRange.start;
+    }
+}
+
+/**
+ 音量设置
+ 
+ @param audioVolume 音量调节值
+ */
+- (void)setAudioVolume:(CGFloat)audioVolume;
+{
+    _audioVolume = audioVolume > 1.0 ? 1.0 : (audioVolume < 0.0 ? 0.0 : audioVolume);
+}
+
+
+#pragma mark -- private methods
 /**
  检索url是网络、本地哪一种
  
@@ -109,95 +218,6 @@
     return [NSURL URLWithString:encodedString];
 }
 
-#pragma mark - setter getter
-- (void)setMediaPath:(NSString *)mediaPath{
-    if(_mediaPath == mediaPath) return;
-    _mediaPath = mediaPath;
-    self.mediaURL = [self retrieveURL:mediaPath];
-}
 
-/**
- 设置音频url地址
- 
- @param mediaURL url地址
- */
-- (void)setMediaURL:(NSURL *)mediaURL{
-    if(_mediaURL == mediaURL) return;
-    _mediaURL = mediaURL;
-    self.mediaAsset = [AVURLAsset URLAssetWithURL:_mediaURL options:nil];
-}
-
-
-/**
- 设置音频素材
- 
- @param mediaAsset 音频素材
- */
-- (void)setMediaAsset:(AVAsset *)mediaAsset{
-    if(_mediaAsset == mediaAsset) return;
-    _mediaAsset = mediaAsset;
-    self.mediaTrack = [[_mediaAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-}
-
-/**
- 设置音频音轨
- 
- @param mediaTrack 音轨
- */
-- (void)setMediaTrack:(AVAssetTrack *)mediaTrack{
-    if(_mediaTrack == mediaTrack) return;
-    _mediaTrack = mediaTrack;
-    if (mediaTrack) {
-        _mediaTimeRange = [FSLAVTimeRange timeRangeWithStartTime:kCMTimeZero endTime:mediaTrack.timeRange.duration];
-        _atTimeRange = _mediaTimeRange;
-    }
-}
-
-/**
- 设置音效播放区间
- 
- @param atTimeRange 音效播放区间
- */
-- (void)setAtTimeRange:(FSLAVTimeRange *)atTimeRange;
-{
-    if(_atTimeRange == atTimeRange) return;
-    _atTimeRange = atTimeRange;
-    
-    //判断开始时间是否大于结束时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _atTimeRange.end)) {
-        fslLWarn(@"_atTimeRange.start > _atTimeRange.end : %f > %f",_atTimeRange.startSeconds,_atTimeRange.endSeconds);
-        
-        CMTime start = _atTimeRange.start;
-        CMTime end = _atTimeRange.end;
-        _atTimeRange.start = end;
-        _atTimeRange.end = start;
-        _atTimeRange.duration = CMTimeSubtract(_atTimeRange.end, _atTimeRange.start);
-    }
-    
-    //判断设置的持续时间是否大于素材本身的持续时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.duration, >, _mediaTimeRange.duration)) {
-        fslLWarn(@"_atTimeRange.duration > _mediaTimeRange.duration : %f > %f",_atTimeRange.durationSeconds,_mediaTimeRange.durationSeconds);
-        
-        _atTimeRange.duration = _mediaTimeRange.duration;
-    }
-    
-    //判断开始时间是否大于素材本身的持续时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _mediaTimeRange.end)) {
-            fslLWarn(@"_atTimeRange.start > _mediaTimeRange.end : %f > %f",_atTimeRange.startSeconds,_mediaTimeRange.endSeconds);
-            
-            _atTimeRange.start = _mediaTimeRange.duration;
-            _atTimeRange.duration = _mediaTimeRange.start;
-    }
-}
-
-/**
- 音量设置
- 
- @param audioVolume 音量调节值
- */
-- (void)setAudioVolume:(CGFloat)audioVolume;
-{
-    _audioVolume = audioVolume > 1.0 ? 1.0 : (audioVolume < 0.0 ? 0.0 : audioVolume);
-}
 
 @end

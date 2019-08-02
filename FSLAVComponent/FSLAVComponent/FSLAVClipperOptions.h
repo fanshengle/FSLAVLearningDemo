@@ -47,8 +47,7 @@ typedef NS_ENUM(NSInteger,FSLAVClipStatus)
 }
 
 // 状态
-@property (nonatomic, readonly, assign) FSLAVClipStatus clipStatus;
-
+@property (nonatomic, assign) FSLAVClipStatus clipStatus;
 
 @end
 

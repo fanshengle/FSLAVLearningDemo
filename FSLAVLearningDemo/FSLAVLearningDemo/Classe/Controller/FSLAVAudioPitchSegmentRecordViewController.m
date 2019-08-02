@@ -105,14 +105,14 @@
 }
 - (IBAction)speedSegmentBtn:(speedSegmentButton *)sender {
     
-    _audioRecorder.speedMode = sender.speedMode;
+    _audioRecorder.pitchOptions.speedMode = sender.speedMode;
     
     _pitchBar.selectedIndex = 2;
 }
 
 - (IBAction)pitchSegmentBtn:(PitchSegmentButton *)sender {
     
-    _audioRecorder.pitchType = sender.pitchType;
+    _audioRecorder.pitchOptions.pitchType = sender.pitchType;
     
     _speedBar.selectedIndex = 2;
 }

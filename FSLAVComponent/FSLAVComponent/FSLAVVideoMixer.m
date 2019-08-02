@@ -43,30 +43,22 @@
 @implementation FSLAVVideoMixer
 
 #pragma mark - setter getter
-- (void)setMixAudios:(NSArray<FSLAVMixerOptions *> *)mixAudios;
+- (void)setMixAudios:(NSArray<FSLAVAudioMixerOptions *> *)mixAudios;
 {
     _mixAudios = mixAudios;
 }
 
-- (void)setMainVideo:(FSLAVMixerOptions *)mainVideo{
+- (void)setMainVideo:(FSLAVVideoMixerOptions *)mainVideo{
     if(_mainVideo == mainVideo) return;
     _mainVideo = mainVideo;
     
+    //将主视频配置好的内容取出来，方便使用
     _enableCycleAdd = _mainVideo.enableCycleAdd;
     _enableVideoSound = _mainVideo.enableVideoSound;
     _videoTimeRange = _mainVideo.atTimeRange;
     _videoAtNodeTime = _mainVideo.atNodeTime;
     _videoAsset = _mainVideo.mediaAsset;
     _outputFilePath = _mainVideo.outputFilePath;
-}
-
-/**
- 设置默认参数配置
- */
-- (void)setConfig;
-{
-    [super setConfig];
-    _mainVideo.meidaType = FSLAVMediaTypeVideo;
 }
 
 #pragma mark -- mixing methods
@@ -76,7 +68,7 @@
  @param mainVideo 主视频轨
  @return FSLAVAudioMixer
  */
-- (instancetype)initWithMixerVideoOptions:(FSLAVMixerOptions *)mainVideo;
+- (instancetype)initWithMixerVideoOptions:(FSLAVVideoMixerOptions *)mainVideo;
 {
     if (self = [super init]) {
         
@@ -117,14 +109,12 @@
         //编辑素材环境，创建新组合的可变对象。保证该对象是唯一的
         _mixComposition = [[AVMutableComposition alloc]init];
     }
-    
 
-    typeof(self) weakSelf = self;
     // 1.优先处理视频音轨与多音频进行混合，最后返回合成音频的地址
     [self processVideoOfAudioMixWithCompletion:^(NSString *mixAudioFilePath) {
         
         //2. 导出音视频合成视频：通过视频轨编辑环境
-        [weakSelf exportVideoWithMixAudioPath:mixAudioFilePath CompletionHandler:handler];
+        [self exportVideoWithMixAudioPath:mixAudioFilePath CompletionHandler:handler];
     }];
 }
 
@@ -136,7 +126,6 @@
  */
 - (void)processVideoOfAudioMixWithCompletion:(void (^ _Nullable)(NSString *mixAudioFilePath))handler;
 {
-    
     //优先处理视频的音轨与音轨合成
     if (_mixAudios && _mixAudios.count > 0) {// 保留视频原音
         
@@ -144,11 +133,11 @@
         if (_mainVideo.enableVideoSound) {//保留视频原音
             //分离视频的音频轨
             NSArray *audioTracks = [_videoAsset tracksWithMediaType:AVMediaTypeAudio];
-            FSLAVMixerOptions *mainAudio;
+            FSLAVAudioMixerOptions *mainAudio;
             if (audioTracks.count > 0) {
                 
                 AVAssetTrack *mainAudioTrack = [audioTracks firstObject];
-                mainAudio = [[FSLAVMixerOptions alloc] init];
+                mainAudio = [[FSLAVAudioMixerOptions alloc] init];
                 mainAudio.mediaTrack = mainAudioTrack;
                 //是否循环添加音频
                 mainAudio.enableCycleAdd = _enableCycleAdd;
@@ -158,7 +147,7 @@
             }else{
                 
                 fslLError(@"This video has no audio tracks.");
-                mainAudio = [[FSLAVMixerOptions alloc]init];
+                mainAudio = [[FSLAVAudioMixerOptions alloc]init];
                 mainAudio.enableCycleAdd = NO;
                 mainAudio.atTimeRange = _videoTimeRange;
                 mainAudio.audioVolume = 0;
@@ -172,7 +161,7 @@
             }];
         }else{// 不保留视频原音
 
-            FSLAVMixerOptions *mainAudio = [[FSLAVMixerOptions alloc]init];
+            FSLAVAudioMixerOptions *mainAudio = [[FSLAVAudioMixerOptions alloc]init];
             mainAudio.enableCycleAdd = NO;
             mainAudio.atTimeRange = _videoTimeRange;
             mainAudio.audioVolume = 0;
@@ -192,7 +181,7 @@
             if (audioTracks.count > 0) {
                 
                 AVAssetTrack *mainAudioTrack = [audioTracks firstObject];
-                FSLAVMixerOptions *mainAudio = [[FSLAVMixerOptions alloc] init];
+                FSLAVAudioMixerOptions *mainAudio = [[FSLAVAudioMixerOptions alloc] init];
                 //是否循环添加音频
                 mainAudio.enableCycleAdd = _enableCycleAdd;
                 mainAudio.mediaTrack = mainAudioTrack;
@@ -221,7 +210,7 @@
 }
 
 // 保留原音时，添加背景音乐，首先 音频与音频 混合
-- (void)mixAudioWithMainTrack:(FSLAVMixerOptions *)mainAudio completionHandler:(void (^)(NSString *filePath))handler;
+- (void)mixAudioWithMainTrack:(FSLAVAudioMixerOptions *)mainAudio completionHandler:(void (^)(NSString *filePath))handler;
 {
     FSLAVAudioMixer *audioMix = [[FSLAVAudioMixer alloc]init];
     audioMix.mainAudio = mainAudio;
@@ -292,7 +281,7 @@
     //5.表示可变视频合成的对象。
     AVMutableVideoComposition *mainComposition = [AVMutableVideoComposition videoComposition];
     mainComposition.instructions = [NSMutableArray arrayWithObject:mainInstruction];
-    //帧率间隔：视频合成应该呈现合成视频帧的时间间隔。
+    //帧率间隔：视频合成应该呈现合成视频帧的时间间隔。如：每秒显示30帧：30fps
     mainComposition.frameDuration = CMTimeMake(1, assetVideoTrack.nominalFrameRate);
     //视频合成应该呈现的大小。
     mainComposition.renderSize = _renderSize;
@@ -572,6 +561,15 @@
     //合成进度
     [self notifyProgress:progress];
     //fslLDebug(@"dddddd--->%f",progress);
+}
+
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
+{
+    [super setConfig];
 }
 
 /**

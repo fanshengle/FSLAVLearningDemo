@@ -72,11 +72,6 @@ typedef NS_ENUM (NSUInteger,  FSLAVAACAudioQuality)
 @interface FSLAVAACEncodeOptions : FSLAVRecorderOptions<NSCoding, NSCopying>
 
 /**
- 默认音频配置
- */
-+ (instancetype)defaultOptions;
-
-/**
  音频配置
  
  @param audioQuality 音频质量

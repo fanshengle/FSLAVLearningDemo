@@ -12,6 +12,8 @@
 {
     //导出素材会话
     AVAssetExportSession *_exporter;
+    //编辑视频环境
+    AVMutableComposition *_mixComposition;
 }
 
 @end
@@ -53,28 +55,68 @@
 /**
  开始剪辑音轨，该方法的剪辑音轨结果有block回调，同时也可通过协议拿到
  */
-- (void)startClippingAudioWithCompletion:(void (^ _Nullable)(NSURL*, FSLAVClipStatus))handler;
+- (void)startClippingAudioWithCompletion:(void (^ _Nullable)(NSString*, FSLAVClipStatus))handler;
 {
-
+    
     if (!_clipAudio) {
         fslLError(@"have not set a valid audio track");
         [self notifyStatus:FSLAVClipStatusCancelled];
         return;
     }
+    [self notifyStatus:FSLAVClipStatusClipping];
+
+    if(!_mixComposition){
+        
+        //编辑素材环境，创建新组合的可变对象。保证该对象是唯一的
+        _mixComposition = [[AVMutableComposition alloc]init];
+    }
+    
+
+    //2.导出音频剪辑结果
+    [self exportAudioWithCompletionHandler:handler];
+}
+
+/**
+ * 导出音频剪辑结果
+ 
+ * @param handler block
+ */
+- (void)exportAudioWithCompletionHandler:(void (^ _Nullable)(NSString*, FSLAVClipStatus))handler;
+{
+    
+    //在音频素材的编辑环境下添加音轨
+    AVMutableCompositionTrack *compositionTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    NSError *error = nil;
+    BOOL insertResult = NO;
+    //将源跟踪的时间范围插入到组合的音轨中。
+    insertResult = [compositionTrack insertTimeRange:_clipAudio.atTimeRange.CMTimeRange ofTrack:_clipAudio.mediaTrack atTime:_clipAudio.atNodeTime error:&error];
+    if (!insertResult) {
+        fslLError(@"mix insert error : %@",error);
+    }
+    
+    //将音频轨道添加到混合时使用的参数。
+    AVMutableAudioMixInputParameters *mixInput = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:compositionTrack];
+    //设置音轨音量
+    [mixInput setVolume:_clipAudio.audioVolume atTime:_clipAudio.atNodeTime];
+    //创建一个可变的音频混合对象，用于管理混合音频轨道的输入参数。
+    AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
+    //混合的输入参数数组。
+    audioMix.inputParameters = @[mixInput];
+    
     if (!_exporter) {
         //1.创建导出素材会话
         _exporter = [AVAssetExportSession exportSessionWithAsset:_clipAudio.mediaAsset presetName:AVAssetExportPresetAppleM4A];
-        
     }
+    
     //2.导出剪辑音频到该路径下
     _exporter.outputURL = _clipAudio.outputFileURL;
     //3.设置导出音频的数据格式.m4a
-    _exporter.outputFileType = AVFileTypeAppleM4A;
+    _exporter.outputFileType = _clipAudio.appOutputFileType;
     //4.剪辑重点：设置剪辑的时间范围
-    _exporter.timeRange = _clipAudio.atTimeRange.CMTimeRange;
-    
-    [self notifyStatus:FSLAVClipStatusClipping];
-    
+    //_exporter.timeRange = _clipAudio.atTimeRange.CMTimeRange;
+    _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _clipAudio.atTimeRange.duration);
+    _exporter.audioMix = audioMix;
+
     //5.导出音轨的状态回调
     [_exporter exportAsynchronouslyWithCompletionHandler:^{
         FSLAVClipStatus exportStatus = FSLAVClipStatusUnknown;
@@ -113,7 +155,7 @@
         [self notifyStatus:exportStatus];
         
         if (handler) {
-            handler(self->_exporter.outputURL,exportStatus);
+            handler(self.clipAudio.outputFilePath,exportStatus);
         }
         
         [self resetClipperOperation];

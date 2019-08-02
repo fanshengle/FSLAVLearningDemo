@@ -7,7 +7,7 @@
 //
 
 #import "FSLAVCoreBase.h"
-#import "FSLAVMixerOptions.h"
+#import "FSLAVAudioMixerOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<FSLAVAudioMixerDelegate> mixDelegate;
 
 // 主音频，即背景音频，在混合过程中，主音频不变
-@property (nonatomic, strong) FSLAVMixerOptions *mainAudio;
+@property (nonatomic, strong) FSLAVAudioMixerOptions *mainAudio;
 
 // 混合音频，即要添加在主音频上混合音频
-@property (nonatomic, strong) NSArray<FSLAVMixerOptions *> *mixAudios;
+@property (nonatomic, strong) NSArray<FSLAVAudioMixerOptions *> *mixAudios;
 
 /**
  初始化音频混合器，用init初始化也可以，mainAudio都得自行配置
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mainAudio 主音轨
  @return FSLAVAudioMixer
  */
-- (instancetype)initWithMixerAudioOptions:(FSLAVMixerOptions *)mainAudio;
+- (instancetype)initWithMixerAudioOptions:(FSLAVAudioMixerOptions *)mainAudio;
 
 /**
  开始混合音轨，该方法的混合音轨结果没有block回调过程，结果可通过协议拿到

@@ -10,7 +10,17 @@
 
 @implementation FSLAVOptions
 
-- (instancetype)init
+/**
+ 默认配置/或直接init初始化一样
+ 
+ @return FSLAVOptions
+ */
++ (instancetype)defaultOptions;
+{
+    return [self.alloc init];
+}
+
+- (instancetype)init;
 {
     self = [super init];
     if (self) {
@@ -28,7 +38,7 @@
                 _outputFileType = FSLAVAudioOutputFileTypeM4A;
                 break;
             default:
-                _outputFileType = FSLAVVideoOutputFileTypeQuickTimeMovie;
+                _outputFileType = FSLAVMediaOutputFileTypeM4V;
                 break;
         }
     }
@@ -229,10 +239,10 @@
 - (void)setConfig;
 {
     
-//    _outputFileType = FSLAVMediaOutputFileTypeM4V;
     _sandboxDirType = FSLAVSandboxDirCache;
     _enableCreateFilePath = YES;
     _outputFileName = @"fslComponentTimeFile";
+    _saveSuffixFormat = @"m4v";
 }
 
 

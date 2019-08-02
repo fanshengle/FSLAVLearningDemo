@@ -8,7 +8,7 @@
 
 #import "FSLAVMediaTimelineSliceComposition.h"
 
-@interface FSLAVMediaTimelineSliceComposition()
+@interface FSLAVMediaTimelineSliceComposition()<FSLAVAssetExportSessionDelegate>
 {
     // 混合的composition
     AVMutableComposition    *_mixComposition;
@@ -24,8 +24,6 @@
     
     // 视频总长时间
     CMTime _mediaTotalTime;
-    // 视频总长时间
-    CMTime allTime;
 }
 
 @end
@@ -134,45 +132,39 @@
     // 0.判断资源是否有效
     [self judgeAssetIsVaild];
     
-    // 1.从媒体素材中分离出视频轨
-    AVAssetTrack *assetVideoTrack = [[_mediaAsset tracksWithMediaType:AVMediaTypeVideo] firstObject];
-    
-    // 2.输出前需要调整方向 和 构建视频轨编辑环境 videoComposition;
-    AVMutableCompositionTrack *compositionVideoTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    //轨道引用的媒体数据的自然维度。size
-    _renderSize = assetVideoTrack.naturalSize;
-    //轨道引用的媒体数据的估计数据速率，以比特每秒为单位。
-    _videoBitRate = (NSUInteger)[assetVideoTrack estimatedDataRate];
-    
-    // 注：视频 音频 的duration会存在不一致的情况，所以整体时间应以 视频的时间 为准
-    _mediaTotalTime = assetVideoTrack.timeRange.duration;
-    // 3.将源跟踪的时间范围插入到组合的跟踪中。
-    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetVideoTrack atTime:kCMTimeZero error:nil];
-    
-    //保留视频原音
+    // 1.保留视频原音，有原因必须先处理音轨
     if (_timeSliceOptions.enableVideoSound) {
         
         // 不添加背景音乐，使用视频原声
         NSArray *audioTrackArr = [_mediaAsset tracksWithMediaType:AVMediaTypeAudio];
         if (audioTrackArr.count > 0) {
-            //音轨编辑环境
-            AVMutableCompositionTrack *compositionAudioTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-            //分离出音轨
+            //1.分离出音轨
             AVAssetTrack *assetAudioTrack = [audioTrackArr firstObject];
-            // 给音轨插入以视频为准的时间范围
-            [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetAudioTrack atTime:kCMTimeZero error:nil];
+            //2.从媒体素材中取出音轨进行分段处理
+            [self processMediaOfAssetAideoTrack:assetAudioTrack];
+        }else{
             
-            //5.调整视频原音轨的分段时间切片
-            [self adjustMediaTimeSliceWith:compositionAudioTrack];
+            fslLError(@"This mediaAsset has no audio tracks，Please check if the mediaAsset is correct");
+            return;
         }
     }
-    //6.更新视频轨时间切片
-    _mediaTotalTime = [self adjustMediaTimeSliceWith:compositionVideoTrack];
     
-    //7.导出媒体时间切片编辑结果
-    [self exportVideoWithVideoTrack:compositionVideoTrack assetVideoTrack:assetVideoTrack completionHandler:handler];
+    // 2.将分段时间处理完导出视频
+    NSArray *videoTrackArr = [_mediaAsset tracksWithMediaType:AVMediaTypeVideo];
+    if (videoTrackArr.count > 0) {
+        
+        // 1.从媒体素材中分离出视频轨
+        AVAssetTrack *assetVideoTrack = [videoTrackArr firstObject];
+        // 2.从媒体素材中取出视频轨进行分段处理,并返回视频轨
+        AVMutableCompositionTrack *compositionVideoTrack = [self processMediaOfAssetVideoTrack:assetVideoTrack];
+        // 3.导出媒体时间切片编辑结果
+        [self exportVideoWithVideoTrack:compositionVideoTrack assetVideoTrack:assetVideoTrack completionHandler:handler];
+    }else{
+        
+        fslLError(@"This mediaAsset has no video tracks，Please check if the mediaAsset is correct");
+        return ;
+    }
 }
-
 
 /**
  导出视频：通过视频轨编辑环境、视频轨将时间切片进行更新编辑之后的结果
@@ -246,7 +238,7 @@
                                     };
     }
     // 输出音频格式设置
-    _exporter.audioSettings = _timeSliceOptions.recordOptions.audioConfigure;
+    _exporter.audioSettings = _timeSliceOptions.audioSetting.audioConfigure;
     
     //正在合成通知回调
     [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusComposing];
@@ -315,18 +307,15 @@
     
     NSArray *audioTrackArr = [_mediaAsset tracksWithMediaType:AVMediaTypeAudio];
     if (audioTrackArr.count > 0) {
-        //音轨编辑环境
-        AVMutableCompositionTrack *compositionAudioTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-        //分离出音轨
-        AVAssetTrack *assetAudioTrack = [audioTrackArr firstObject];
-        // 给音轨插入以视频为准的时间范围
-        [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetAudioTrack atTime:kCMTimeZero error:nil];
         
-        //1.调整音频轨的分段时间切片
-        _mediaTotalTime = [self adjustMediaTimeSliceWith:compositionAudioTrack];
-        //2.导出音频时间切片编辑结果
+        //1.分离出音轨
+        AVAssetTrack *assetAudioTrack = [audioTrackArr firstObject];
+        //2.从媒体素材中取出音轨进行分段处理
+        AVMutableCompositionTrack *compositionAudioTrack = [self processMediaOfAssetAideoTrack:assetAudioTrack];
+        //3.导出音频时间切片编辑结果
         [self exportAudioWithAudioTrack:compositionAudioTrack assetAudioTrack:assetAudioTrack completionHandler:handler];
     }
+    
 }
 
 /**
@@ -341,6 +330,8 @@
     if (!_exporter) {
         
         _exporter = [[FSLAVAssetExportSession alloc] initWithAsset:_mixComposition];
+        _exporter.delegate = self;
+
     }
     //导出音频地址
     _exporter.outputURL = _timeSliceOptions.outputFileURL;
@@ -352,7 +343,7 @@
     _exporter.shouldOptimizeForNetworkUse = YES;
     
     // 输出音频格式设置
-    _exporter.audioSettings = _timeSliceOptions.recordOptions.audioConfigure;
+    _exporter.audioSettings = _timeSliceOptions.audioSetting.audioConfigure;
     
     //正在合成通知回调
     [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusComposing];
@@ -397,7 +388,7 @@
     }];
 }
 
-#pragma mark Shared methods
+#pragma mark -- Shared methods
 // 重置合成状态
 - (void)resetCompositionOperation;
 {
@@ -467,7 +458,7 @@
     }
 }
 
-#pragma mark - FSLAVAssetExportSession progress
+#pragma mark -- FSLAVAssetExportSession progress
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
     if ([@"progress" isEqualToString:keyPath]){
@@ -476,6 +467,57 @@
         CGFloat progerss = 0.9 + ( [newValue floatValue] / 10);
         [self notifyProgress:progerss];
     }
+}
+
+/**
+ 从媒体素材中取出视频轨进行分段处理,并返回视频轨
+ @param videoTrack 视频轨
+ @return 视频轨：compositionVideoTrack
+ */
+- (AVMutableCompositionTrack *)processMediaOfAssetVideoTrack:(AVAssetTrack *)videoTrack;
+{
+    
+    // 1.从媒体素材中分离出视频轨
+    AVAssetTrack *assetVideoTrack = videoTrack;
+    
+    // 2.输出前需要调整方向 和 构建视频轨编辑环境 videoComposition;
+    AVMutableCompositionTrack *compositionVideoTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    //轨道引用的媒体数据的自然维度。size
+    _renderSize = assetVideoTrack.naturalSize;
+    //轨道引用的媒体数据的估计数据速率，以比特每秒为单位。
+    _videoBitRate = (NSUInteger)[assetVideoTrack estimatedDataRate];
+    // 注：视频 音频 的duration会存在不一致的情况，所以整体时间应以 视频的时间 为准
+    _mediaTotalTime = assetVideoTrack.timeRange.duration;
+    
+    // 3.将源跟踪的时间范围插入到组合的跟踪中。
+    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetVideoTrack atTime:kCMTimeZero error:nil];
+    
+    // 4.更新视频轨时间切片，并返回处理完分段时间是否删除，的最后时间
+    _mediaTotalTime = [self adjustMediaTimeSliceWith:compositionVideoTrack];
+    
+    return compositionVideoTrack;
+}
+
+/**
+ 从媒体素材中取出音轨进行分段处理,并返回音轨
+ @param audioTrack 音频轨
+ @return 音频轨：compositionVideoTrack
+ */
+- (AVMutableCompositionTrack *)processMediaOfAssetAideoTrack:(AVAssetTrack *)audioTrack;
+{
+    //1.分离出音轨
+    AVAssetTrack *assetAudioTrack = audioTrack;
+    
+    //2.音轨编辑环境
+    AVMutableCompositionTrack *compositionAudioTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    //3.给音轨插入以视频为准的时间范围
+    [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, _mediaTotalTime) ofTrack:assetAudioTrack atTime:kCMTimeZero error:nil];
+    
+    //4.调整视频原音轨的分段时间切片，并返回分段处理后的总时间
+    _mediaTotalTime = [self adjustMediaTimeSliceWith:compositionAudioTrack];
+    
+    return compositionAudioTrack;
 }
 
 /**
@@ -678,4 +720,7 @@
     [self cancelMediaComposition];
 }
 
+- (void)exportSession:(FSLAVAssetExportSession *)exportSession progress:(CGFloat)progress{
+    NSLog(@"----->%f",progress);
+}
 @end
