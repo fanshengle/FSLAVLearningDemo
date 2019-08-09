@@ -22,11 +22,10 @@
 
 #pragma mark - setter getter
 
-- (void)setClipAudio:(FSLAVClipperOptions *)clipAudio{
+- (void)setClipAudio:(FSLAVAudioClipperOptions *)clipAudio{
     _clipAudio = clipAudio;
-    
+    [self resetClipperOperation];
 }
-
 
 #pragma mark -- init
 /**
@@ -35,12 +34,30 @@
  @param clipAudio 需要裁剪的音轨
  @return FSLAVAudioCliper
  */
-- (instancetype)initWithCliperAudioOptions:(FSLAVClipperOptions *)clipAudio;
+- (instancetype)initWithCliperAudioOptions:(FSLAVAudioClipperOptions *)clipAudio;
 {
     if (self = [super init]) {
         _clipAudio = clipAudio;
     }
     return self;
+}
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
+{
+    [super setConfig];
+    
+}
+
+/**
+ 销毁对象
+ */
+- (void)destory{
+    [super destory];
+    
+    [self cancelClipping];
 }
 
 #pragma mark -- public methods
@@ -224,12 +241,4 @@
     }
 }
 
-/**
- 销毁对象
- */
-- (void)destory{
-    [super destory];
-
-    [self cancelClipping];
-}
 @end

@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)deleteLastAudioFragment;
 
-- (instancetype)initWithAudioPitchEngineRecordOptions:(FSLAVAudioPitchEngineRecorderOptions *)options;
+- (instancetype)initWithAudioPitchEngineRecordOptions:(FSLAVAudioPitchEngineRecorderOptions *)pitchOptions;
 
 @end
 

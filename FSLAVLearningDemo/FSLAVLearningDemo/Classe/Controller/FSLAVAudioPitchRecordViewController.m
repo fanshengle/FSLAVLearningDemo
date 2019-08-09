@@ -46,11 +46,10 @@
     // AVPlayer 用以演示音频播放
     _audioPlayer = [[AVPlayer alloc] init];
     
-    // APIAudioPitchEngineRecorder 用以演示音频采集和音频变声处理 API
+    // FSLAVAudioPitchEngineRecorder 用以演示音频采集和音频变声处理 API
     _audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] init];
     
     //_audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] initWithAudioPitchEngineRecordOptions:[FSLAVAudioPitchEngineRecorderOptions defaultOptions]];
-    //_audioPitchRecoder = [[FSLAVAudioPitchEngineRecorder alloc] initWithAudioRecordOptions:[FSLAVAudioPitchEngineRecorderOptions defaultOptions]];
     //FSLAVAudioPitchEngineRecorderOptions *pitchOptions = [FSLAVAudioPitchEngineRecorderOptions defaultOptions];
     //_audioPitchRecoder.pitchOptions = pitchOptions;
     _audioPitchRecoder.delegate = self;
@@ -124,10 +123,10 @@
     [HUDManager showTextHud:@"开始播放"];
 
     [_audioPlayer pause];
-    _audioPlayer = [AVPlayer playerWithURL:_audioPitchRecoder.options.outputFileURL];
+    _audioPlayer = [AVPlayer playerWithURL:_audioPitchRecoder.pitchOptions.outputFileURL];
 
     [_audioPlayer play];
-    NSLog(@"_audioPitchRecoder.options.outputFilePath-->%@",_audioPitchRecoder.options.outputFilePath);
+    NSLog(@"_audioPitchRecoder.pitchOptions.outputFilePath-->%@",_audioPitchRecoder.pitchOptions.outputFilePath);
 }
 
 #pragma mark - action

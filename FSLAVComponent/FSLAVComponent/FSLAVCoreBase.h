@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+#import <UIKit/UIKit.h>
 #import "FSLAVLog.h"
 
 NS_ASSUME_NONNULL_BEGIN

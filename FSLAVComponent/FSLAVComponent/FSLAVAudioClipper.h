@@ -7,7 +7,7 @@
 //
 
 #import "FSLAVCoreBase.h"
-#import "FSLAVClipperOptions.h"
+#import "FSLAVAudioClipperOptions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<FSLAVAudioClipperDelegate> clipDelegate;
 
 // 需要剪辑的音频素材
-@property (nonatomic, strong) FSLAVClipperOptions *clipAudio;
+@property (nonatomic, strong) FSLAVAudioClipperOptions *clipAudio;
 
 /**
  初始化音频剪辑器，用init初始化也可以，clipAudio都得自行配置
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param clipAudio 需要裁剪的音轨
  @return FSLAVAudioCliper
  */
-- (instancetype)initWithCliperAudioOptions:(FSLAVClipperOptions *)clipAudio;
+- (instancetype)initWithCliperAudioOptions:(FSLAVAudioClipperOptions *)clipAudio;
 
 /**
  开始剪辑音轨，该方法的剪辑音轨结果没有block回调过程，结果可通过协议拿到
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didClippingAudioStatusChanged:(FSLAVClipStatus)audioStatus onAudioClip:(FSLAVAudioClipper *)audioClipper;
 
 // 结果通知代理
-- (void)didClipedAudioResult:(FSLAVClipperOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper;
+- (void)didClipedAudioResult:(FSLAVAudioClipperOptions *)result onAudioClip:(FSLAVAudioClipper *)audioClipper;
 
 // 剪辑完成路径通知代理
 - (void)didCompletedClipAudioOutputPath:(NSString *)outputPath onAudioClip:(FSLAVAudioClipper *)audioMixer;

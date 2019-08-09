@@ -263,7 +263,6 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 
 - (void)didMixingVideoProgressChanged:(CGFloat)progress onVideoMix:(FSLAVVideoMixer *)videoMixer{
 
-    NSLog(@"视频合成进度 : %f", progress);
-
+    //NSLog(@"视频合成进度 : %f", progress);
 }
 @end

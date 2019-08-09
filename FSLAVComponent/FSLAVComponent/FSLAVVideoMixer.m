@@ -118,6 +118,34 @@
     }];
 }
 
+/**
+ 取消混合操作
+ */
+- (void)cancelMixing;
+{
+    [self notifyStatus:FSLAVMixStatusCancelled];
+    [self resetMixOperation];
+    [_mainVideo clearOutputFilePath];
+}
+
+/**
+ 设置默认参数配置
+ */
+- (void)setConfig;
+{
+    [super setConfig];
+}
+
+/**
+ 销毁对象，释放对象
+ */
+- (void)destory{
+    [super destory];
+    
+    [self cancelMixing];
+}
+
+#pragma mark -- private methods
 
 /**
  优先处理视频音轨与多音频进行混合，最后返回合成音频的地址
@@ -209,7 +237,13 @@
     }
 }
 
-// 保留原音时，添加背景音乐，首先 音频与音频 混合
+
+/**
+ 多银牌合成：保留原音时，添加背景音乐，首先 音频与音频 混合
+
+ @param mainAudio 主音频
+ @param handler 合成结果回调
+ */
 - (void)mixAudioWithMainTrack:(FSLAVAudioMixerOptions *)mainAudio completionHandler:(void (^)(NSString *filePath))handler;
 {
     FSLAVAudioMixer *audioMix = [[FSLAVAudioMixer alloc]init];
@@ -221,7 +255,7 @@
             if (handler) {
                 handler(filePath);
             }
-        }else{
+        }else if(status == FSLAVMixStatusFailed){
             
             fslLError(@"Audio mixing failure");
             [self notifyStatus:FSLAVMixStatusFailed];
@@ -455,17 +489,6 @@
     return layerInstruction;
 }
 
-/**
- 取消混合操作
- */
-- (void)cancelMixing;
-{
-    [self notifyStatus:FSLAVMixStatusCancelled];
-    [self resetMixOperation];
-    [_mainVideo clearOutputFilePath];
-}
-
-#pragma mark -- private methods
 // 重置混合状态
 - (void)resetMixOperation;
 {
@@ -518,8 +541,8 @@
         if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoOutputFilePath:onVideoMix:)]) {
             [self.mixDelegate didCompletedMixVideoOutputFilePath:_mainVideo.outputFilePath onVideoMix:self];
         }
-        if ([self.mixDelegate respondsToSelector:@selector(didCompletedCompositionMediaTotalTime:onVideoMix:)]) {
-            [self.mixDelegate didCompletedCompositionMediaTotalTime:CMTimeGetSeconds(_mainVideo.atTimeRange.duration) onVideoMix:self];
+        if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoTotalTime:onVideoMix:)]) {
+            [self.mixDelegate didCompletedMixVideoTotalTime:CMTimeGetSeconds(_mainVideo.atTimeRange.duration) onVideoMix:self];
         }
     }
 }
@@ -538,7 +561,6 @@
 }
 
 #pragma mark - FSLAVAssetExportSessionDelegate
-
 - (void)exportSession:(FSLAVAssetExportSession *)exportSession notifyStatus:(AVAssetExportSessionStatus)status;
 {
     if (status == AVAssetExportSessionStatusCancelled) {
@@ -549,7 +571,6 @@
         }
     }
 }
-
 
 /**
  导出器的视频合成进度回调
@@ -563,20 +584,4 @@
     //fslLDebug(@"dddddd--->%f",progress);
 }
 
-
-/**
- 设置默认参数配置
- */
-- (void)setConfig;
-{
-    [super setConfig];
-}
-
-/**
- 销毁对象，释放对象
- */
-- (void)destory{
-    [super destory];
-    
-}
 @end

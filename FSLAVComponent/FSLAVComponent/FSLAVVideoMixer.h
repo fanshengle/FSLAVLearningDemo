@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param result 合成结果（如：包括地址输出）
  @param videoMixer 合成器
- */- (void)didMixedVideoResult:(FSLAVMixerOptions *)result onVideoMix:(FSLAVVideoMixer *)videoMixer;
+ */- (void)didMixedVideoResult:(FSLAVVideoMixerOptions *)result onVideoMix:(FSLAVVideoMixer *)videoMixer;
 
 /**
  合成完成:结果回调
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mediaTotalTime 音视频的总时长
  @param videoMixer 合成器对象
  */
-- (void)didCompletedCompositionMediaTotalTime:(NSTimeInterval)mediaTotalTime onVideoMix:(FSLAVVideoMixer *)videoMixer;
+- (void)didCompletedMixVideoTotalTime:(NSTimeInterval)mediaTotalTime onVideoMix:(FSLAVVideoMixer *)videoMixer;
 
 @end
 

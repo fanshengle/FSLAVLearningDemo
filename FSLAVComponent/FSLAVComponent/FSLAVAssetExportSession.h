@@ -34,7 +34,7 @@
 - (void)exportSession:(FSLAVAssetExportSession *)exportSession renderFrame:(CVPixelBufferRef)pixelBuffer withPresentationTime:(CMTime)presentationTime toBuffer:(CVPixelBufferRef)renderBuffer;
 // 目前只对cancel 进行回调
 - (void)exportSession:(FSLAVAssetExportSession *)exportSession notifyStatus:(AVAssetExportSessionStatus)status;
-// 导出视频才有该进度回调
+// 导出进度回调
 - (void)exportSession:(FSLAVAssetExportSession *)exportSession progress:(CGFloat)progress;
 @end
 

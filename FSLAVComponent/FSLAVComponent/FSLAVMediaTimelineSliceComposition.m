@@ -200,8 +200,7 @@
     if (!_exporter) {
         
         _exporter = [[FSLAVAssetExportSession alloc] initWithAsset:_mixComposition];
-        //添加进度观察者
-        [self addProgressObserver];
+        _exporter.delegate = self;
     }
     //导出视频地址
     _exporter.outputURL = _timeSliceOptions.outputFileURL;
@@ -274,16 +273,12 @@
         
         //合成状态通知回调
         [self notifyStatus:exportStatus];
-        //视频进度通知回调
-        [self notifyProgress:1.0];
         if (handler) {
             NSTimeInterval mediaTotalTime = CMTimeGetSeconds(self->_mediaTotalTime);
             handler(self->_timeSliceOptions.outputFilePath,mediaTotalTime,exportStatus);
         }
         //重置合成状态
         [self resetCompositionOperation];
-        
-        [self removeProgressObserver];
     }];
 }
 
@@ -437,36 +432,6 @@
     }
     //开始合成状态回调
     [self notifyStatus:FSLAVMediaTimelineSliceCompositionStatusStart];
-}
-
-/**
- 增加进度观察者
- */
-- (void)addProgressObserver{
-    
-    if (_exporter) {
-        [_exporter addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
-/**
- 移除进度观察者
- */
-- (void)removeProgressObserver{
-    if (_exporter) {
-        [_exporter removeObserver:self forKeyPath:@"progress" context:nil];
-    }
-}
-
-#pragma mark -- FSLAVAssetExportSession progress
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    
-    if ([@"progress" isEqualToString:keyPath]){
-        //progress
-        id newValue = [change objectForKey:NSKeyValueChangeNewKey];
-        CGFloat progerss = 0.9 + ( [newValue floatValue] / 10);
-        [self notifyProgress:progerss];
-    }
 }
 
 /**
@@ -721,6 +686,8 @@
 }
 
 - (void)exportSession:(FSLAVAssetExportSession *)exportSession progress:(CGFloat)progress{
-    NSLog(@"----->%f",progress);
+    
+    [self notifyProgress:progress];
+    fslLDebug(@"----->%f",progress);
 }
 @end

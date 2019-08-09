@@ -212,7 +212,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/FSLAVComponent/FSLAVThreeAudioRecorder.m"
-                  timestampString = "586436934.002593"
+                  timestampString = "586766562.945484"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "272"
@@ -227,7 +227,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/FSLAVComponent/FSLAVThreeAudioRecorder.m"
-                  timestampString = "586436934.003975"
+                  timestampString = "586766562.947155"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "272"
@@ -372,7 +372,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Classe/Views/MarkableProgressView.m"
-                  timestampString = "586436934.021666"
+                  timestampString = "586766562.969083"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
@@ -387,7 +387,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Classe/Views/MarkableProgressView.m"
-                  timestampString = "586436934.0230269"
+                  timestampString = "586766562.970601"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
@@ -395,38 +395,6 @@
                   offsetFromSymbolStart = "96">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAssetExportSession.m"
-            timestampString = "586436933.795287"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "-encodeReadySamplesFromOutput:toInput:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586436933.7953399"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
-            landmarkName = "-startAudioComposition"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -452,124 +420,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586436933.795437"
+            timestampString = "586766562.709288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
-            landmarkName = "-startAudioComposition"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586436933.795476"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
-            landmarkName = "-startAudioComposition"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioMixer.m"
-            timestampString = "586436933.795516"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "-exportAudioWithCompletionHandler:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586437884.307284"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
-            landmarkName = "-pitchEngine:syncAudioPitchOutputBuffer:autoRelease:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586437912.819136"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "576"
-            endingLineNumber = "576"
-            landmarkName = "-processSampleBuffer:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVRecordAudioCoreBase.m"
-            timestampString = "586437984.392158"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-options"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVEncodeAudioSetting.m"
-            timestampString = "586438010.655354"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-audioConfigure"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVAudioPitchEngineRecorder.m"
-            timestampString = "586438107.7215199"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
-            landmarkName = "-processPitchOrSpeed"
+            startingLineNumber = "706"
+            endingLineNumber = "706"
+            landmarkName = "-notifyRecordResult:isOutputFilePath:isOutputDuration:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

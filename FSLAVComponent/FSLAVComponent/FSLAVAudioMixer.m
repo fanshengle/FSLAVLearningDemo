@@ -37,12 +37,21 @@
 }
 
 /**
-设置默认参数配置
+ 设置默认参数配置
 */
 - (void)setConfig;
 {
     [super setConfig];
     
+}
+
+/**
+ 销毁对象
+ */
+- (void)destory{
+    [super destory];
+    
+    [self cancelMixing];
 }
 
 #pragma mark - mix method
@@ -343,15 +352,6 @@
             [self.mixDelegate didCompletedMixAudioOutputPath:_mainAudio.outputFilePath onAudioMix:self];
         }
     }
-}
-
-/**
- 销毁对象
- */
-- (void)destory{
-    [super destory];
-    
-    [self cancelMixing];
 }
 
 @end

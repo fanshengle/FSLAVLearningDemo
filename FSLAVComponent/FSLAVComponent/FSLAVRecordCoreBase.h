@@ -7,8 +7,6 @@
 //
 
 #import "FSLAVCoreBase.h"
-#import <AVFoundation/AVFoundation.h>
-#import <UIKit/UIKit.h>
 #import "FSLAVRecordCoreBaseInterface.h"
 
 NS_ASSUME_NONNULL_BEGIN

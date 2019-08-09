@@ -61,70 +61,6 @@
     }
 }
 
-- (FSLAVAudioRecorderOptions *)options{
-    if (!_options) {
-        
-        _options = [FSLAVAudioRecorderOptions defaultOptions];
-        _options.audioSetting.audioFormat = kAudioFormatMPEG4AAC;
-    }
-    return _options;
-}
-
-#pragma mark -- 媒体写入
-- (AVAssetWriter *)audioWriter{
-    if (!_audioWriter) {
-        NSError *error;
-        _audioWriter = [AVAssetWriter assetWriterWithURL:self.options.outputFileURL fileType:AVFileTypeAppleM4A error:&error];
-        if(error){
-            fslLError(@"audioWriter init failed :%@",error);
-            return nil;
-        }
-        
-        //添加写入器输入
-        if ([_audioWriter canAddInput:self.audioWriterInput]) {
-            [_audioWriter addInput:self.audioWriterInput];
-        }
-    }
-    return _audioWriter;
-}
-
-- (AVAssetWriterInput *)audioWriterInput{
-    if (!_audioWriterInput) {
-        
-        _audioWriterInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:self.options.audioSetting.audioConfigure];
-        /**
-         这里必须设置为no，否则录制结果播放不了，一个布尔值，指示输入是否应针对实时源调整其对媒体数据的处理。
-         */
-        _audioWriterInput.expectsMediaDataInRealTime = NO;
-    }
-    return _audioWriterInput;
-}
-
-/**
- 媒体写入器audioWriter开始写入
- */
-- (void)startWriting;
-{
-    if (_audioWriter) {
-        [_audioWriter cancelWriting];
-        _audioWriter = nil;
-    }
-    [self.audioWriter startWriting];
-    //这里开始时间是可以自己设置的
-    [self.audioWriter startSessionAtSourceTime:CMTimeMake(1, USEC_PER_SEC)];
-}
-
-/**
- 媒体写入器audioWriter取消写入
- */
-- (void)cancelWriting;
-{
-    if (_audioWriter) {
-        [_audioWriter cancelWriting];
-        _audioWriter = nil;
-    }
-}
-
 /**
  设置回调通知，并委托协议
  
@@ -140,12 +76,7 @@
  */
 - (void)destory{
     [super destory];
-    
-    if (_audioWriter) {
-        //销毁媒体写入器
-        [_audioWriter cancelWriting];
-        _audioWriter = nil;
-    }
+ 
 }
 
 @end
