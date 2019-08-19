@@ -59,20 +59,6 @@
 
 
 /**
- 初始化媒体信息
- 
- @param mediaTrack 媒体资源音/视频轨
- @return 媒体信息
- */
-- (instancetype)initWithMediaTrack:(AVAssetTrack *)mediaTrack;
-{
-    if (self = [super init]) {
-        self.mediaTrack = mediaTrack;
-    }
-    return self;
-}
-
-/**
  设置默认参数配置(可以重置父类的默认参数，不设置的话，父类的默认参数会无效)
  */
 - (void)setConfig;
@@ -110,7 +96,7 @@
  
  @param mediaAsset 媒体素材
  */
-- (void)setMediaAsset:(AVAsset *)mediaAsset{
+- (void)setMediaAsset:(AVURLAsset *)mediaAsset{
     if(_mediaAsset == mediaAsset) return;
     _mediaAsset = mediaAsset;
     
@@ -120,24 +106,26 @@
         _atTimeRange = _mediaTimeRange;
     }
     
-    NSArray *mediaTracks = [_mediaAsset tracksWithMediaType:AVMediaTypeAudio];
-    if (mediaTracks.count > 0) {
+    NSArray *audioTracks = [_mediaAsset tracksWithMediaType:AVMediaTypeAudio];
+    if (audioTracks.count > 0) {
         
-        self.mediaTrack = mediaTracks.firstObject;
+        self.audioTrack = audioTracks.firstObject;
     }else{
         
-        fslLWarn(@"This mediaAsset has no tracks，Please check if the meidaURL is correct");
+        fslLWarn(@"This mediaAsset has no audio tracks，Please check if the meidaURL is correct");
     }
-}
-
-/**
- 设置媒体音轨
- 
- @param mediaTrack 音轨
- */
-- (void)setMediaTrack:(AVAssetTrack *)mediaTrack{
-    if(_mediaTrack == mediaTrack) return;
-    _mediaTrack = mediaTrack;
+    
+    if (_meidaType == FSLAVMediaTypeVideo) {
+        
+        NSArray *videoTracks = [_mediaAsset tracksWithMediaType:AVMediaTypeVideo];
+        if (videoTracks.count > 0) {
+            
+            self.videoTrack = videoTracks.firstObject;
+        }else{
+            
+            fslLWarn(@"This mediaAsset has no video tracks，Please check if the meidaURL is correct");
+        }
+    }
 }
 
 /**
@@ -145,36 +133,94 @@
  
  @param atTimeRange 音效播放区间
  */
-- (void)setAtTimeRange:(FSLAVTimeRange *)atTimeRange;
-{
-    if(_atTimeRange == atTimeRange) return;
-    _atTimeRange = atTimeRange;
-    
-    //判断设置的持续时间是否大于素材本身的持续时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.duration, >, _mediaTimeRange.duration)) {
-        fslLWarn(@"_atTimeRange.duration > _mediaTimeRange.duration : %f > %f",_atTimeRange.durationSeconds,_mediaTimeRange.durationSeconds);
+//- (void)setAtTimeRange:(FSLAVTimeRange *)atTimeRange;
+//{
+//    if(_atTimeRange == atTimeRange) return;
+//    _atTimeRange = atTimeRange;
+//
+//    //判断设置的持续时间是否大于素材本身的持续时间
+//    if (CMTIME_COMPARE_INLINE(_atTimeRange.duration, >, _mediaTimeRange.duration)) {
+//        fslLWarn(@"_atTimeRange.duration > _mediaTimeRange.duration : %f > %f",_atTimeRange.durationSeconds,_mediaTimeRange.durationSeconds);
+//
+//        _atTimeRange.duration = _mediaTimeRange.duration;
+//    }
+//
+//    //判断开始时间是否大于结束时间
+//    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _atTimeRange.end)) {
+//        fslLWarn(@"_atTimeRange.start > _atTimeRange.end : %f > %f",_atTimeRange.startSeconds,_atTimeRange.endSeconds);
+//
+//        CMTime start = _atTimeRange.start;
+//        CMTime end = _atTimeRange.end;
+//        _atTimeRange.start = end;
+//        _atTimeRange.end = start;
+//        _atTimeRange.duration = CMTimeSubtract(_atTimeRange.end, _atTimeRange.start);
+//    }
+//
+//    //判断开始时间是否大于素材本身的持续时间
+//    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _mediaTimeRange.end)) {
+//            fslLWarn(@"_atTimeRange.start > _mediaTimeRange.end : %f > %f",_atTimeRange.startSeconds,_mediaTimeRange.endSeconds);
+//
+//            _atTimeRange.start = _mediaTimeRange.duration;
+//            _atTimeRange.duration = _mediaTimeRange.start;
+//    }
+//}
+
+- (FSLAVTimeRange *)atTimeRange{
+    if(_atTimeRange){
         
-        _atTimeRange.duration = _mediaTimeRange.duration;
-    }
-    
-    //判断开始时间是否大于结束时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _atTimeRange.end)) {
-        fslLWarn(@"_atTimeRange.start > _atTimeRange.end : %f > %f",_atTimeRange.startSeconds,_atTimeRange.endSeconds);
+        //判断设置的持续时间是否大于素材本身的持续时间
+        if (CMTIME_COMPARE_INLINE(_atTimeRange.duration, >, _mediaTimeRange.duration)) {
+            fslLWarn(@"_atTimeRange.duration > _mediaTimeRange.duration : %f > %f",_atTimeRange.durationSeconds,_mediaTimeRange.durationSeconds);
+            
+            _atTimeRange.duration = _mediaTimeRange.duration;
+        }
         
-        CMTime start = _atTimeRange.start;
-        CMTime end = _atTimeRange.end;
-        _atTimeRange.start = end;
-        _atTimeRange.end = start;
-        _atTimeRange.duration = CMTimeSubtract(_atTimeRange.end, _atTimeRange.start);
-    }
-    
-    //判断开始时间是否大于素材本身的持续时间
-    if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _mediaTimeRange.end)) {
+        //判断开始时间是否大于结束时间
+        if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _atTimeRange.end)) {
+            fslLWarn(@"_atTimeRange.start > _atTimeRange.end : %f > %f",_atTimeRange.startSeconds,_atTimeRange.endSeconds);
+            
+            CMTime start = _atTimeRange.start;
+            CMTime end = _atTimeRange.end;
+            _atTimeRange.start = end;
+            _atTimeRange.end = start;
+            _atTimeRange.duration = CMTimeSubtract(_atTimeRange.end, _atTimeRange.start);
+        }
+        
+        //判断开始时间是否大于素材本身的持续时间
+        if (CMTIME_COMPARE_INLINE(_atTimeRange.start, >, _mediaTimeRange.end)) {
             fslLWarn(@"_atTimeRange.start > _mediaTimeRange.end : %f > %f",_atTimeRange.startSeconds,_mediaTimeRange.endSeconds);
             
             _atTimeRange.start = _mediaTimeRange.duration;
             _atTimeRange.duration = _mediaTimeRange.start;
+        }
     }
+    return _atTimeRange;
+}
+
+- (CMTime)atNodeTime{
+    
+    if (CMTIME_IS_VALID(_atNodeTime) && CMTIME_COMPARE_INLINE(_atNodeTime, >, kCMTimeZero)) {
+        
+        //开始合成时间节点时间与该音频持续时间的和
+        CMTime atNodeDuration = CMTimeAdd(_atNodeTime, _atTimeRange.duration);
+        //判断是否大于主音轨的持续时间
+        if (CMTIME_COMPARE_INLINE(atNodeDuration, >=, _atTimeRange.duration)) {
+            atNodeDuration = kCMTimeZero;
+            _atNodeTime = atNodeDuration;
+        }
+    }else{
+        
+        _atNodeTime = kCMTimeZero;
+    }
+    return _atNodeTime;
+}
+
+- (NSTimeInterval)mediaDuration{
+    if (!_mediaDuration) {
+        
+        _mediaDuration = CMTimeGetSeconds(self.mediaAsset.duration);
+    }
+    return _mediaDuration;
 }
 
 /**

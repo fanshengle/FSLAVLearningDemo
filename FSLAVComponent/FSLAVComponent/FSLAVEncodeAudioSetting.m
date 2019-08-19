@@ -74,7 +74,6 @@
         //指定文件或硬件中的通道布局
         AudioChannelLayout acl;
         bzero( &acl, sizeof(acl));
-        //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
         if (_audioChannels == 1) {
             
             //指示布局的AudioChannelLayoutTag值
@@ -116,6 +115,7 @@
                 break;
             default:
             {
+                //转码格式为aac时，不能设置采样位数AVEncoderBitDepthHintKey，也不能设置AVEncoderAudioQualityKey音频质量
                 _audioConfigure = @{
                                     AVFormatIDKey:@(_audioFormat),//音频格式
                                     AVSampleRateKey:@(_audioSampleRat),//采样率

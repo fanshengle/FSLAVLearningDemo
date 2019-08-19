@@ -6,7 +6,7 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "FSLAVCoreBase.h"
 #import "FSLProxy.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger, FSLAVPlayerType) {
 /**
  音视频播放的基础类
  */
-@interface FSLAVPlayCoreBase : NSObject
+@interface FSLAVPlayCoreBase : FSLAVCoreBase
 {
     NSURL *_currentURL;//内部将_currentURLStr转为URL形式
     NSString *_currentURLStr;

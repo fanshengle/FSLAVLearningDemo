@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didCompletedMixVideoOutputFilePath:(NSString *)filePath onVideoMix:(FSLAVVideoMixer *)videoMixer;
 
 /**
- 视频片段时间合成才会有进度通知代理
+ 视频片段时间合成进度通知代理
  
  @param progress 合成进度
  @param videoMixer 合成器

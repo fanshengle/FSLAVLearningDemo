@@ -12,8 +12,8 @@
 {
     //导出素材会话
     AVAssetExportSession *_exporter;
-    //编辑视频环境
-    AVMutableComposition *_mixComposition;
+    //剪辑 编辑视频环境
+    AVMutableComposition *_clipComposition;
 }
 
 @end
@@ -82,10 +82,10 @@
     }
     [self notifyStatus:FSLAVClipStatusClipping];
 
-    if(!_mixComposition){
+    if(!_clipComposition){
         
         //编辑素材环境，创建新组合的可变对象。保证该对象是唯一的
-        _mixComposition = [[AVMutableComposition alloc]init];
+        _clipComposition = [[AVMutableComposition alloc]init];
     }
     
 
@@ -102,11 +102,11 @@
 {
     
     //在音频素材的编辑环境下添加音轨
-    AVMutableCompositionTrack *compositionTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack *compositionTrack = [_clipComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
     NSError *error = nil;
     BOOL insertResult = NO;
     //将源跟踪的时间范围插入到组合的音轨中。
-    insertResult = [compositionTrack insertTimeRange:_clipAudio.atTimeRange.CMTimeRange ofTrack:_clipAudio.mediaTrack atTime:_clipAudio.atNodeTime error:&error];
+    insertResult = [compositionTrack insertTimeRange:_clipAudio.atTimeRange.CMTimeRange ofTrack:_clipAudio.audioTrack atTime:_clipAudio.atNodeTime error:&error];
     if (!insertResult) {
         fslLError(@"mix insert error : %@",error);
     }
@@ -184,14 +184,9 @@
  */
 - (void)cancelClipping;
 {
-    if (_exporter) {
-        if (_exporter.status == AVAssetExportSessionStatusExporting || _exporter.status == AVAssetExportSessionStatusWaiting) {
-            
-            [_clipAudio clearOutputFilePath];
-            [self notifyStatus:FSLAVClipStatusCancelled];
-            [self resetClipperOperation];
-        }
-    }
+    [self notifyStatus:FSLAVClipStatusCancelled];
+    [self resetClipperOperation];
+    [_clipAudio clearOutputFilePath];
 }
 
 #pragma mark -- private methods
@@ -237,7 +232,15 @@
         if (_exporter) {
             [_exporter cancelExport];
         }
+        
+        if (_clipComposition) {
+            [[_clipComposition tracks] enumerateObjectsUsingBlock:^(AVMutableCompositionTrack * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+               
+                [self->_clipComposition removeTrack:obj];
+            }];
+        }
         _exporter = nil;
+        _clipComposition = nil;
     }
 }
 

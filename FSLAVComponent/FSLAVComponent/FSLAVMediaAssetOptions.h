@@ -27,10 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSURL *mediaURL;
 
 // 媒体素材 mediaAsset
-@property (nonatomic, strong) AVAsset *mediaAsset;
+@property (nonatomic, strong) AVURLAsset *mediaAsset;
 
-// 媒体音轨/视频轨
-@property (nonatomic, strong) AVAssetTrack *mediaTrack;
+// 媒体音轨
+@property (nonatomic, strong) AVAssetTrack *audioTrack;
+
+// 媒体视频轨
+@property (nonatomic, strong) AVAssetTrack *videoTrack;
 
 // 媒体片段所在时间（剪辑的实际有效时间范围）, 默认 整个媒体资源的时间范围
 @property (nonatomic, strong) FSLAVTimeRange *atTimeRange;
@@ -76,13 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithMediaAsset:(AVURLAsset *)mediaAsset;
 
-/**
- 初始化媒体信息
- 
- @param mediaTrack 媒体资源音/视频轨
- @return 媒体信息
- */
-- (instancetype)initWithMediaTrack:(AVAssetTrack *)mediaTrack;
 
 @end
 

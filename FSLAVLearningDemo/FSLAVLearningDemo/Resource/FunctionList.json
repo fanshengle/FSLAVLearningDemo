@@ -46,7 +46,10 @@
                     "itemName" : "音视频混合"
                 },
                 {
-                    "itemName" : "视频播放器"
+                    "itemName" : "视频剪辑"
+                },
+                {
+                    "itemName" : "视频拼接"
                 },
             ]
         }

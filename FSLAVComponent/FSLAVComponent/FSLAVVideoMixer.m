@@ -35,8 +35,6 @@
 @property (nonatomic, assign) CMTime videoAtNodeTime;
 // 媒体素材 mediaAsset
 @property (nonatomic, strong) AVAsset *videoAsset;
-// 保存到本地FSLAVSandboxDirType下的音视频文件Str路径
-@property (nonatomic, strong) NSString *outputFilePath;
 
 @end
 
@@ -58,7 +56,6 @@
     _videoTimeRange = _mainVideo.atTimeRange;
     _videoAtNodeTime = _mainVideo.atNodeTime;
     _videoAsset = _mainVideo.mediaAsset;
-    _outputFilePath = _mainVideo.outputFilePath;
 }
 
 #pragma mark -- mixing methods
@@ -166,7 +163,7 @@
                 
                 AVAssetTrack *mainAudioTrack = [audioTracks firstObject];
                 mainAudio = [[FSLAVAudioMixerOptions alloc] init];
-                mainAudio.mediaTrack = mainAudioTrack;
+                mainAudio.audioTrack = mainAudioTrack;
                 //是否循环添加音频
                 mainAudio.enableCycleAdd = _enableCycleAdd;
                 //将视频轨设置的参数赋给视频的音轨
@@ -174,7 +171,7 @@
                 mainAudio.atNodeTime = _videoAtNodeTime;
             }else{
                 
-                fslLError(@"This video has no audio tracks.");
+                fslLWarn(@"This video has no audio tracks.");
                 mainAudio = [[FSLAVAudioMixerOptions alloc]init];
                 mainAudio.enableCycleAdd = NO;
                 mainAudio.atTimeRange = _videoTimeRange;
@@ -212,7 +209,7 @@
                 FSLAVAudioMixerOptions *mainAudio = [[FSLAVAudioMixerOptions alloc] init];
                 //是否循环添加音频
                 mainAudio.enableCycleAdd = _enableCycleAdd;
-                mainAudio.mediaTrack = mainAudioTrack;
+                mainAudio.audioTrack = mainAudioTrack;
                 //将视频轨设置的参数赋给视频的音轨
                 mainAudio.atTimeRange = _videoTimeRange;
                 mainAudio.atNodeTime = _videoAtNodeTime;
@@ -272,6 +269,8 @@
  */
 - (void)exportVideoWithMixAudioPath:(NSString *)mixAudioPath CompletionHandler:(void (^)(NSString* outputFilePath, FSLAVMixStatus status))handler;
 {
+    
+    AVMutableAudioMix *audioMix = nil;
     if (mixAudioPath) {
         
         //1-1.创建音轨接收器。
@@ -285,13 +284,22 @@
         if (error) {
             fslLError(@"compositionAudioTrack insert error : %@",error);
         }
+        
+        //4-1.将音频轨道添加到混合时使用的参数,如：音量控制。
+        AVMutableAudioMixInputParameters *mixInput = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:compositionAudioTrack];
+        //设置音轨音量
+        [mixInput setVolume:_mainVideo.audioVolume atTime:_videoAtNodeTime];
+        
+        //5-1.创建一个可变的音频混合对象,将音频音量设置加到audioMix
+        audioMix = [AVMutableAudioMix audioMix];
+        audioMix.inputParameters = @[mixInput];
     }
     
     //1-2.分离视频轨
     AVAssetTrack *assetVideoTrack = [[_videoAsset tracksWithMediaType:AVMediaTypeVideo] firstObject];
     // 注：视频 音频 的duration会存在不一致的情况，所以整体时间应以 视频的时间 为准
     NSUInteger videoBitRate = (NSUInteger)[assetVideoTrack estimatedDataRate];
-    _renderSize = assetVideoTrack.naturalSize;
+    CGSize videoSize = assetVideoTrack.naturalSize;
     
     //2-2.创建视频轨接收器。输出前需要调整方向 和 构建 videoComposition;
     AVMutableCompositionTrack *compositionVideoTrack = [_mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -304,7 +312,7 @@
     }
     
     //4.注意：视频方向不对会引起导出问题；调整视频方向;一个对象，用于修改应用于可变组合中给定轨道的变换、裁剪和不透明度坡道。
-    AVMutableVideoCompositionLayerInstruction *layerInstruction = [self adjustVideoOrientationWith:compositionVideoTrack assetTrack:assetVideoTrack];
+    AVMutableVideoCompositionLayerInstruction *layerInstruction = [self adjustVideoOrientationWith:compositionVideoTrack assetTrack:assetVideoTrack videoSize:videoSize atTime:_videoAtNodeTime];
     // 创建最终视频输出方向使用的 VideoComposition
     AVMutableVideoCompositionInstruction *mainInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     //指令生效的时间范围。
@@ -332,6 +340,10 @@
     _exporter.outputURL = _mainVideo.outputFileURL;
     //导出视频类型
     _exporter.outputFileType = _mainVideo.appOutputFileType;
+    //指示是否启用视频合成导出，并提供视频合成说明。
+    _exporter.videoComposition = mainComposition;
+    //设置混音
+    _exporter.audioMix = audioMix;
     //导出视频的时间范围
     _exporter.timeRange = CMTimeRangeMake(kCMTimeZero, _videoTimeRange.duration);
     //指示是否应优化电影以供网络使用。
@@ -400,7 +412,6 @@
         }
         
         //合成状态通知回调
-        self.mainVideo.mixStatus = exportStatus;
         [self notifyStatus:exportStatus];
         //视频进度通知回调
         if (handler) {
@@ -420,74 +431,60 @@
  @param assetVideoTrack 要添加的视频轨道
  @return 视频合成的转换layer
  */
-- (AVMutableVideoCompositionLayerInstruction *)adjustVideoOrientationWith:(AVMutableCompositionTrack *)videoTrack assetTrack:(AVAssetTrack *)assetVideoTrack;
+- (AVMutableVideoCompositionLayerInstruction *)adjustVideoOrientationWith:(AVMutableCompositionTrack *)videoTrack assetTrack:(AVAssetTrack *)assetVideoTrack videoSize:(CGSize)videoSize atTime:(CMTime)time;
 {
     UIImageOrientation videoOrientation = UIImageOrientationUp;
-    //判断方向是否改变了
     BOOL isAssetPortrait = NO;
-    /**
-     用于绘制二维图形的仿射变换矩阵:在轨道的存储容器中指定的转换。 放大、缩小、平移
-     a: 对应sx就是视图宽放大或缩小的比例，初始值1，一倍大小。
-     b: 旋转会用到，初始值0。
-     c: 旋转会用到，初始值0。
-     d: 对应sy就是视图高放大或缩小的比例，初始值1，一倍大小。
-     tx: 视图x轴平移，初始值0，没有平移。
-     ty: 视图y轴平移，初始值0，没有平移。
-     CGAffineTransform的（a，b，c，d，tx，ty）：默认：[ 1 0 0 1 0 0 ]
-     */
     CGAffineTransform transform = assetVideoTrack.preferredTransform;
     
     CGFloat translationX = 0;
     CGFloat translationY = 0;
     CGFloat radio = 0;
-    CGFloat videoWidth = _renderSize.width;
-    CGFloat videoHeight = _renderSize.height;
-    
+    CGFloat videoWidth = videoSize.width;
+    CGFloat videoHeight = videoSize.height;
     if (transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0) {
         videoOrientation = UIImageOrientationRight;
         isAssetPortrait = YES;
         translationX = videoWidth * (videoHeight/videoWidth);
         translationY = 0;
         radio = M_PI_2;
-    }else if (transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0) {
+    }else if (transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0){
         videoOrientation = UIImageOrientationLeft;
         isAssetPortrait = YES;
+        translationX = 0;
         translationY = videoHeight * (videoWidth/videoHeight);
         radio = M_PI_2*3;
-    }else if (transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0) {
+    }else if (transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0){
         videoOrientation = UIImageOrientationDown;
         translationX = videoWidth;
         translationY = videoHeight;
         radio = M_PI;
     }else{
-        //正常
         videoOrientation = UIImageOrientationUp;
         translationX = 0;
         translationY = 0;
         radio = 0;
     }
     
-    
-    // 旋转
     CGAffineTransform rotation = CGAffineTransformMakeRotation(radio);
-    // 平移
     CGAffineTransform translateToCenter = CGAffineTransformMakeTranslation(translationX, translationY);
-    //返回由组合两个现有仿射变换构造的仿射变换矩阵。
     CGAffineTransform mixedTransform = CGAffineTransformConcat(rotation, translateToCenter);
     
-    if (isAssetPortrait) {
+    if (isAssetPortrait ) {
         //交换宽高
-        CGSize tempSize = _renderSize;
-        _renderSize = CGSizeMake(tempSize.height, tempSize.width);
+        CGSize tempSize = videoSize;
+        videoSize = CGSizeMake(tempSize.height, tempSize.width);
     }
-    
+    if (CGSizeEqualToSize(_renderSize, CGSizeZero)) {
+        _renderSize = videoSize;
+    }
     // 调整视频方向
-    AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
-    //在指令的时间范围内每次设置转换值。
-    [layerInstruction setTransform:mixedTransform atTime:kCMTimeZero];
+    AVMutableVideoCompositionLayerInstruction * layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    [layerInstruction setTransform:mixedTransform atTime:time];
     
     return layerInstruction;
 }
+
 
 // 重置混合状态
 - (void)resetMixOperation;
@@ -508,7 +505,6 @@
         
         _exporter = nil;
         _mixComposition = nil;
-        _exporter = nil;
     }
 }
 
@@ -519,45 +515,47 @@
  */
 - (void)notifyStatus:(FSLAVMixStatus)status;
 {
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if ([self.mixDelegate respondsToSelector:@selector(didMixingVideoStatusChanged:onVideoMix:)]) {
-                [self.mixDelegate didMixingVideoStatusChanged:status onVideoMix:self];
-            }
-        });
-    }else{
+    if (self.mainVideo.mixStatus == status) return;
+    self.mainVideo.mixStatus = status;
+
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        
         //合成的状态
         if ([self.mixDelegate respondsToSelector:@selector(didMixingVideoStatusChanged:onVideoMix:)]) {
             [self.mixDelegate didMixingVideoStatusChanged:status onVideoMix:self];
         }
-    }
-    if (status == FSLAVMixStatusCompleted) {
-        
-        //合成的所有结果返回
-        if ([self.mixDelegate respondsToSelector:@selector(didMixedVideoResult:onVideoMix:)]) {
-            [self.mixDelegate didMixedVideoResult:_mainVideo onVideoMix:self];
+        if (status == FSLAVMixStatusCompleted) {
+            
+            //合成的所有结果返回
+            if ([self.mixDelegate respondsToSelector:@selector(didMixedVideoResult:onVideoMix:)]) {
+                [self.mixDelegate didMixedVideoResult:self.mainVideo onVideoMix:self];
+            }
+            //合成视频的输出地址返回
+            if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoOutputFilePath:onVideoMix:)]) {
+                [self.mixDelegate didCompletedMixVideoOutputFilePath:self.mainVideo.outputFilePath onVideoMix:self];
+            }
+            //合成视频的输出总时长返回
+            if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoTotalTime:onVideoMix:)]) {
+                [self.mixDelegate didCompletedMixVideoTotalTime:CMTimeGetSeconds(self.videoTimeRange.duration) onVideoMix:self];
+            }
         }
-        //合成视频的输出地址返回
-        if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoOutputFilePath:onVideoMix:)]) {
-            [self.mixDelegate didCompletedMixVideoOutputFilePath:_mainVideo.outputFilePath onVideoMix:self];
-        }
-        if ([self.mixDelegate respondsToSelector:@selector(didCompletedMixVideoTotalTime:onVideoMix:)]) {
-            [self.mixDelegate didCompletedMixVideoTotalTime:CMTimeGetSeconds(_mainVideo.atTimeRange.duration) onVideoMix:self];
-        }
-    }
+    });
 }
 
 
 /**
- 通知分段时间片段合成进度
+ 通知音视频合成进度
  
  @param progress 当前进度
  */
 - (void)notifyProgress:(CGFloat)progress{
 
-    if ([self.mixDelegate respondsToSelector:@selector(didMixingVideoProgressChanged:onVideoMix:)]) {
-        [self.mixDelegate didMixingVideoProgressChanged:progress onVideoMix:self];
-    }
+    dispatch_sync(dispatch_get_main_queue(), ^{
+    
+        if ([self.mixDelegate respondsToSelector:@selector(didMixingVideoProgressChanged:onVideoMix:)]) {
+            [self.mixDelegate didMixingVideoProgressChanged:progress onVideoMix:self];
+        }
+    });
 }
 
 #pragma mark - FSLAVAssetExportSessionDelegate
