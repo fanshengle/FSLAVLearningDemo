@@ -1,5 +1,5 @@
 //
-//  FSLAudioMixViewController.h
+//  FSLVideoClipViewController.h
 //  FSLAVLearningDemo
 //
 //  Created by tutu on 2018/6/15.
@@ -9,8 +9,10 @@
 #import "BaseNavigationViewController.h"
 
 /**
- 多音轨混合
+ 视频时间裁剪
  */
-@interface FSLAVAudioMixViewController : BaseNavigationViewController
+@interface FSLAVVideoClipViewController : BaseNavigationViewController
+
+@property (nonatomic, strong) NSURL *inputURL;
 
 @end

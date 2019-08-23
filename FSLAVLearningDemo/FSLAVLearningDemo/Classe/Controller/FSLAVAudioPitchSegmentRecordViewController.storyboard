@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--音频变声变调分段录制-->
+        <!--Audio Pitch Segment Record View Controller-->
         <scene sceneID="GFZ-iS-h4l">
             <objects>
-                <viewController title="音频变声变调分段录制" id="3b7-3s-ojZ" customClass="FSLAVAudioPitchSegmentRecordViewController" sceneMemberID="viewController">
+                <viewController id="3b7-3s-ojZ" customClass="FSLAVAudioPitchSegmentRecordViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="I4O-lT-sF3"/>
                         <viewControllerLayoutGuide type="bottom" id="yGa-v3-q3X"/>
@@ -106,7 +106,7 @@
                                             <action selector="pitchSegmentBtn:" destination="3b7-3s-ojZ" eventType="valueChanged" id="lhs-ze-Og2"/>
                                         </connections>
                                     </view>
-                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mH-b5-azH" customClass="speedSegmentButton">
+                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mH-b5-azH" customClass="SpeedSegmentButton">
                                         <rect key="frame" x="18" y="10" width="284" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>

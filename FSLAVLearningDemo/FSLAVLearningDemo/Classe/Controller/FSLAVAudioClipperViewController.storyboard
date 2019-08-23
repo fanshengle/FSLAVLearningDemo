@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--单视频剪辑-->
+        <!--Audio Clipper View Controller-->
         <scene sceneID="xBc-rf-QoT">
             <objects>
-                <viewController storyboardIdentifier="FSLAVAudioClipperViewController" title="单视频剪辑" id="EYs-Hb-JH1" customClass="FSLAVAudioClipperViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FSLAVAudioClipperViewController" id="EYs-Hb-JH1" customClass="FSLAVAudioClipperViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eh0-5M-pkB"/>
                         <viewControllerLayoutGuide type="bottom" id="XUY-Ss-I3D"/>

@@ -45,7 +45,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    //[self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewDidLoad {
@@ -70,7 +70,6 @@
 
 
 #pragma mark - setup
-
 - (void)setupAudiClipper {
     // 原音
     NSURL *mainAudioURL = [self fileURLWithName:@"111.mp3"];
@@ -115,6 +114,7 @@
     [_audioClipper cancelClipping];
 }
 
+// 播放音频
 - (void)playTheAudioWithURL:(NSURL *)URL {
     if (_audioPlayer) {
         [_audioPlayer stop];
@@ -139,6 +139,7 @@
     [_audioPlayer play];
 }
 
+// 开始剪辑音频
 - (IBAction)startClipAudio {
     // 暂停播放素材音乐
     [self pauseMaterialAudioPlay];
@@ -157,12 +158,13 @@
   
 }
 
-
+// 取消剪辑音频
 - (IBAction)cancelClipAudio {
  
     [self cancelAudiosClipping];
 }
 
+// 删除剪辑导出的音频
 - (IBAction)deleteAudio {
     
     if (_clipAudio.outputFileURL) {
@@ -178,19 +180,21 @@
     [self playMaterialAudio];
 }
 
+// 播放剪辑之后的导出音频
 - (IBAction)playClipAudio {
     if (_clipAudio.outputFileURL) {
         [self playTheAudioWithURL:_clipAudio.outputFileURL];
     }
 }
 
+// 暂停播放剪辑导出的音频
 - (IBAction)pauseClipAudio {
     if (_audioPlayer) {
         [_audioPlayer pause];
     }
 }
 
-
+// 音量条滑动
 - (void)volumeSliderAction:(UISlider *)sender {
     
     CGFloat volume = sender.value;

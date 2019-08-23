@@ -19,6 +19,7 @@
 #import "FSLAVAudioPitchRecordViewController.h"
 #import "FSLAVAudioPitchSegmentRecordViewController.h"
 
+#import "FSLAVVideoClipViewController.h"
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -216,8 +217,9 @@
             }
             case 4:
             {
-                FSLAVPlayerViewController *vc = [[FSLAVPlayerViewController alloc] init];
-                [self.navigationController pushViewController:vc animated:YES];
+                [self performSegueWithIdentifier:@"FSLAVVideoClipViewController" sender:nil];
+//                FSLAVPlayerViewController *vc = [[FSLAVPlayerViewController alloc] init];
+//                [self.navigationController pushViewController:vc animated:YES];
             }
                 break;
             

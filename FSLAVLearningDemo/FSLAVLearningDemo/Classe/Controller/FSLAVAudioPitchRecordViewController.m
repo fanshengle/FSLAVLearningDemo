@@ -8,7 +8,7 @@
 
 #import "FSLAVAudioPitchRecordViewController.h"
 #import "FSLAVAudioPitchEngineRecorder.h"
-#import "speedSegmentButton.h"
+#import "SpeedSegmentButton.h"
 #import "PitchSegmentButton.h"
 
 @interface FSLAVAudioPitchRecordViewController ()<FSLAVAudioRecorderDelegate>
@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *stopAudioRecordBtn;
 @property (weak, nonatomic) IBOutlet UIButton *playAudioRecordBtn;
 
-@property (weak, nonatomic) IBOutlet speedSegmentButton *speedBar;
+@property (weak, nonatomic) IBOutlet SpeedSegmentButton *speedBar;
 @property (weak, nonatomic) IBOutlet PitchSegmentButton *pitchBar;
 
 @end
@@ -36,12 +36,22 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    //[self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated;
+{
+    [_audioPlayer pause];
+    [_audioPitchRecoder cancelRecord];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad;
 {
     [super viewDidLoad];
+    
+    self.navTitle = @"音频变声、变调、变速录制与播放";
 
     // AVPlayer 用以演示音频播放
     _audioPlayer = [[AVPlayer alloc] init];
@@ -60,15 +70,6 @@
     [_actionButtons[1] setTitle:@"结束录音" forState:UIControlStateNormal];
     [_actionButtons[2] setTitle:@"重新录音" forState:UIControlStateNormal];
     [_actionButtons[3] setTitle:@"播放录音" forState:UIControlStateNormal];
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated;
-{
-    [_audioPlayer pause];
-    [_audioPitchRecoder cancelRecord];
-    
-    [super viewWillDisappear:animated];
 }
 
 /**
@@ -130,8 +131,10 @@
 }
 
 #pragma mark - action
-
-- (IBAction)speedSegmentButtionAction:(speedSegmentButton *)sender {
+/**
+ 变声、变速分段按钮点击事件
+ */
+- (IBAction)speedSegmentButtionAction:(SpeedSegmentButton *)sender {
     _audioPitchRecoder.pitchOptions.speedMode = sender.speedMode;
     
     _pitchBar.selectedIndex = 2;
@@ -139,7 +142,7 @@
 
 
 /**
- 变声分段按钮点击事件
+ 变声、变调分段按钮点击事件
  */
 - (IBAction)pitchSegmentButtonAction:(PitchSegmentButton *)sender {
     
@@ -149,7 +152,7 @@
 }
 
 
-#pragma mark APIAudioPitchEngineRecorderDelegate
+#pragma mark FSLAVAudioRecorderDelegate
 
 /**
  录制完成

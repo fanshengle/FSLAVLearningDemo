@@ -2,7 +2,7 @@
 //  FSLAVAudioMixViewController.m
 //  FSLAVLearningDemo
 //
-//  Created by bqlin on 2018/6/15.
+//  Created by tutu on 2018/6/15.
 //  Copyright © 2018年 tutu. All rights reserved.
 //
 
@@ -84,12 +84,13 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    //[self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navTitle = @"多音频混合";
+
     [self setupAudioPlayer];
     [self setupAudioMixer];
 }
@@ -176,6 +177,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     [_audioMixer cancelMixing];
 }
 
+// 播放音频
 - (void)playTheAudioWithURL:(NSURL *)URL {
     if (_audioPlayer) {
         [_audioPlayer stop];
@@ -257,6 +259,7 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
     }
 }
 
+// 音量slider滑动
 - (IBAction)volumeSliderAction:(UISlider *)sender {
     AudioIndex index = [self.volumeSliders indexOfObject:sender];
     CGFloat volume = sender.value;

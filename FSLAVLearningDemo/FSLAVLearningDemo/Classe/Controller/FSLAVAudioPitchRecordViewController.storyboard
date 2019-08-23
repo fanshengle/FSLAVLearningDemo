@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--音频变声-->
+        <!--Audio Pitch Record View Controller-->
         <scene sceneID="8Q6-Kl-TMn">
             <objects>
-                <viewController storyboardIdentifier="FSLAVAudioPitchRecordViewController" title="音频变声" id="qQ5-nw-aFH" customClass="FSLAVAudioPitchRecordViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FSLAVAudioPitchRecordViewController" id="qQ5-nw-aFH" customClass="FSLAVAudioPitchRecordViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jqw-ZQ-toh"/>
                         <viewControllerLayoutGuide type="bottom" id="RWt-Ym-kqi"/>
@@ -24,7 +24,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ttv-Nw-WZq">
                                 <rect key="frame" x="48" y="302" width="224" height="256"/>
                                 <subviews>
-                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4A8-LP-pVU" customClass="speedSegmentButton">
+                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4A8-LP-pVU" customClass="SpeedSegmentButton">
                                         <rect key="frame" x="0.0" y="0.0" width="224" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>

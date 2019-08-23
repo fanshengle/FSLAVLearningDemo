@@ -2,7 +2,7 @@
 //  FSLAVVideoMixViewController.m
 //  FSLAVLearningDemo
 //
-//  Created by bqlin on 2018/6/15.
+//  Created by tutu on 2018/6/15.
 //  Copyright © 2018年 tutu All rights reserved.
 //
 
@@ -75,11 +75,12 @@ typedef NS_ENUM(NSInteger, AudioIndex) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    //[self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navTitle = @"音视频混合";
     
     [self setupUI];
     [self setupVideoPlayer];

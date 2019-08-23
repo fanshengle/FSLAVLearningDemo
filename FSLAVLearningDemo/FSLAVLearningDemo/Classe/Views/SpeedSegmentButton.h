@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface speedSegmentButton : SegmentButton
+@interface SpeedSegmentButton : SegmentButton
 /**
  变速音效的类型
  */

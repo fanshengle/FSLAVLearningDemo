@@ -8,7 +8,7 @@
 
 #import "FSLAVAudioPitchSegmentRecordViewController.h"
 #import "MarkableProgressView.h"
-#import "speedSegmentButton.h"
+#import "SpeedSegmentButton.h"
 #import "PitchSegmentButton.h"
 #import "RecordButton.h"
 
@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *actionPanel;
 @property (weak, nonatomic) IBOutlet MarkableProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomBarHeightLayout;
-@property (weak, nonatomic) IBOutlet speedSegmentButton *speedBar;
+@property (weak, nonatomic) IBOutlet SpeedSegmentButton *speedBar;
 @property (weak, nonatomic) IBOutlet PitchSegmentButton *pitchBar;
 
 // AVPlayer 用以演示音频播放
@@ -40,14 +40,6 @@
 @end
 
 @implementation FSLAVAudioPitchSegmentRecordViewController
-
-+ (CGFloat)bottomContentOffset {
-    return 40;
-}
-
-+ (CGFloat)bottomPreviewOffset {
-    return 220;
-}
 
 - (void)viewWillDisappear:(BOOL)animated;
 {
@@ -81,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.navTitle = @"音频变声、变调、变速分段录制与播放";
     _maxReocrdDuration = 30;
     
     // AVPlayer 用以演示音频播放
@@ -99,17 +91,25 @@
     _actionPanel.hidden = YES;
 }
 
+// 更新进度条进度显示
 - (void)updateActionPanel {
     
     self.actionPanel.hidden = _progressView.progress <= 0.0;
 }
-- (IBAction)speedSegmentBtn:(speedSegmentButton *)sender {
+
+/**
+ 变声、变速分段按钮点击事件
+ */
+- (IBAction)speedSegmentBtn:(SpeedSegmentButton *)sender {
     
     _audioRecorder.pitchOptions.speedMode = sender.speedMode;
     
     _pitchBar.selectedIndex = 2;
 }
 
+/**
+ 变声、变调分段按钮点击事件
+ */
 - (IBAction)pitchSegmentBtn:(PitchSegmentButton *)sender {
     
     _audioRecorder.pitchOptions.pitchType = sender.pitchType;
@@ -130,6 +130,7 @@
     
     [self updateActionPanel];
 }
+
 /**
  完成按钮事件
  */
@@ -138,6 +139,7 @@
     // 完成录制
     [_audioRecorder stopRecord];
 }
+
 /**
  录制按钮抬手事件
  

@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--多音轨混合-->
+        <!--Audio Mix View Controller-->
         <scene sceneID="SCE-Ea-uPB">
             <objects>
-                <viewController storyboardIdentifier="FSLAVAudioMixViewController" title="多音轨混合" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Nzn-Uh-G09" customClass="FSLAVAudioMixViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FSLAVAudioMixViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Nzn-Uh-G09" customClass="FSLAVAudioMixViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tZd-8w-dXp"/>
                         <viewControllerLayoutGuide type="bottom" id="sDk-68-fKz"/>

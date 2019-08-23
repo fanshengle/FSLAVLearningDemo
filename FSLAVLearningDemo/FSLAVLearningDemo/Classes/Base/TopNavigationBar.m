@@ -2,7 +2,7 @@
 //  TopNavigationBar.m
 //  FSLAVLearningDemo
 //
-//  Created by bqlin on 2018/6/20.
+//  Created by tutu on 2018/6/20.
 //  Copyright © 2018年 tutu. All rights reserved.
 //
 
@@ -55,17 +55,17 @@
         safeBounds = UIEdgeInsetsInsetRect(safeBounds, self.safeAreaInsets);
     }
     
-    CGFloat backButtonWidth = 42;
+    CGFloat backButtonWidth = CGRectGetHeight(safeBounds);
     _backButton.frame =
     CGRectMake(CGRectGetMinX(safeBounds), (CGRectGetHeight(safeBounds) - backButtonWidth) / 2 + CGRectGetMinY(safeBounds),
                backButtonWidth, backButtonWidth);
     
-    _titleLab.frame = CGRectMake(backButtonWidth, (CGRectGetHeight(safeBounds) - backButtonWidth) / 2 + CGRectGetMinY(safeBounds), CGRectGetWidth(safeBounds) - 2*backButtonWidth, CGRectGetHeight(safeBounds) - 20);
+    _titleLab.frame = CGRectMake(backButtonWidth, (CGRectGetHeight(safeBounds) - backButtonWidth) / 2 + CGRectGetMinY(safeBounds), CGRectGetWidth(safeBounds) - 2*backButtonWidth, backButtonWidth);
     
     [self.rightButton sizeToFit];
     CGSize rightButtonCompactSize = self.rightButton.bounds.size;
     CGFloat rightButtonWidth = rightButtonCompactSize.width + 20;
-    CGFloat rightButtonHeight = 30;
+    CGFloat rightButtonHeight = backButtonWidth;
     _rightButton.frame =
     CGRectMake(CGRectGetMaxX(safeBounds) - rightButtonWidth - 10,
                (CGRectGetHeight(safeBounds) - rightButtonHeight) / 2 + CGRectGetMinY(safeBounds),

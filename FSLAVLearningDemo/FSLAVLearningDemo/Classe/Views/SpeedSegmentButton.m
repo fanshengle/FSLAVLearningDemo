@@ -6,9 +6,9 @@
 //  Copyright © 2019 tutu. All rights reserved.
 //
 
-#import "speedSegmentButton.h"
+#import "SpeedSegmentButton.h"
 
-@implementation speedSegmentButton
+@implementation SpeedSegmentButton
 
 
 - (void)commonInit {
