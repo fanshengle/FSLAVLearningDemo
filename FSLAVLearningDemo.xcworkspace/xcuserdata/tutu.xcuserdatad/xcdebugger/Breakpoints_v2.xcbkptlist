@@ -25,7 +25,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "317"
             endingLineNumber = "317"
-            landmarkName = "-FSLAVPlayerStateChange:player:"
+            landmarkName = "-didChangedPlayState:player:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -203,38 +203,6 @@
             endingLineNumber = "271"
             landmarkName = "handleInputBuffer()"
             landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "handleInputBuffer"
-                  moduleName = "FSLAVLearningDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/FSLAVComponent/FSLAVThreeAudioRecorder.m"
-                  timestampString = "586766562.945484"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "220">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__handleInputBuffer_block_invoke"
-                  moduleName = "FSLAVLearningDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/FSLAVComponent/FSLAVThreeAudioRecorder.m"
-                  timestampString = "586766562.947155"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -356,7 +324,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FSLAVLearningDemo/FSLAVLearningDemo/Classe/Views/MarkableProgressView.m"
-            timestampString = "585819376.411584"
+            timestampString = "588065647.927772"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -372,7 +340,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Classe/Views/MarkableProgressView.m"
-                  timestampString = "586766562.969083"
+                  timestampString = "588082355.1766829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
@@ -387,7 +355,7 @@
                   moduleName = "FSLAVLearningDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVLearningDemo/FSLAVLearningDemo/Classe/Views/MarkableProgressView.m"
-                  timestampString = "586766562.970601"
+                  timestampString = "588082355.178099"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
@@ -395,22 +363,6 @@
                   offsetFromSymbolStart = "96">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FSLAVComponent/FSLAVComponent/FSLAVMediaAssetOptions.m"
-            timestampString = "586436933.795392"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "-setMediaPath:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -427,6 +379,118 @@
             endingLineNumber = "706"
             landmarkName = "-notifyRecordResult:isOutputFilePath:isOutputDuration:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVVideoClipper.m"
+            timestampString = "588065647.927875"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-startClippingVideoWithCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVVideoClipper.m"
+            timestampString = "588065647.927932"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "-processMediaOfVideoTrack"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVVideoClipper.m"
+            timestampString = "588065647.927979"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "-exportClippedVideoWithVideoComposition:completionHandler:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/FSLAVComponent/FSLAVVideoClipper.m"
+            timestampString = "588065647.928026"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "-exportClippedVideoWithVideoComposition:completionHandler:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FSLAVComponent/Framework/FSLAVComponent/FSLAVVideoMixer.m"
+            timestampString = "588082354.825407"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
+            landmarkName = "-notifyStatus:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[FSLAVVideoMixer notifyStatus:]"
+                  moduleName = "FSLAVLearningDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/Framework/FSLAVComponent/FSLAVVideoMixer.m"
+                  timestampString = "588082355.184641"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "521"
+                  endingLineNumber = "521"
+                  offsetFromSymbolStart = "228">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[FSLAVVideoMixer notifyStatus:]_block_invoke"
+                  moduleName = "FSLAVLearningDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tutu/Desktop/FSLAVLearningDemo/FSLAVComponent/Framework/FSLAVComponent/FSLAVVideoMixer.m"
+                  timestampString = "588082355.186107"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "521"
+                  endingLineNumber = "521"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

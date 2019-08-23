@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FSLAVComponent/FSLAVComponent.xcodeproj">
+      location = "group:FSLAVComponent/Framework/FSLAVComponent.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:FSLAVLearningDemo/FSLAVLearningDemo.xcodeproj">
