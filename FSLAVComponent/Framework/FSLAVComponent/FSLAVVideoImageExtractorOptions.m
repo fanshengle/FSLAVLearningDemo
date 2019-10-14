@@ -15,9 +15,7 @@
     self = [super init];
     if (self) {
         _extractFrameCount = 15;
-        _extractFrameTimeInterval = 2.0;
-        _isAccurate = YES;
-        _outputMaxImageSize = CGSizeMake(80, 80);
+        _isAccurate = NO;
     }
     return self;
 }
@@ -81,9 +79,27 @@
 
 #pragma mark -- setter getter
 
+/**
+ 设置媒体资源Asset
+
+ @param videoAsset 媒体资源Asset
+ */
+- (void)setVideoAsset:(AVAsset *)videoAsset{
+    if (_videoAsset == videoAsset) return;
+    _videoAsset = videoAsset;
+    
+    self.videoAssets = @[videoAsset];
+}
+
+/**
+ 设置媒体url路径
+
+ @param videoPath url路径
+ */
 - (void)setVideoPath:(NSString *)videoPath{
     if(_videoPath == videoPath) return;
     _videoPath = videoPath;
+    
     self.videoURL = [self retrieveURL:videoPath];
 }
 
@@ -95,9 +111,42 @@
 - (void)setVideoURL:(NSURL *)videoURL{
     if(_videoURL == videoURL) return;
     _videoURL = videoURL;
+    
     self.videoAsset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];
 }
 
+/**
+ 设置图片提取的数量
+
+ @param extractFrameCount 提取的数量
+ */
+- (void)setExtractFrameCount:(NSUInteger)extractFrameCount{
+    
+    _extractFrameCount = extractFrameCount;
+    _extractFrameTimeInterval = self.videoDuration / _extractFrameCount * 1.0;
+}
+
+
+/**
+ 设置图片提取的时间间隔
+ 
+ @param extractFrameTimeInterval 提取的时间间隔
+ */
+- (void)setExtractFrameTimeInterval:(CGFloat)extractFrameTimeInterval{
+    
+    if (_extractFrameCount == 0) {//同时设置优先使用_extractFrameCount
+        
+        _extractFrameTimeInterval = extractFrameTimeInterval;
+        _extractFrameCount = self.videoDuration / _extractFrameTimeInterval * 1.0;
+    }
+}
+
+
+/**
+ 所有媒体的视频总时长
+
+ @return 视频总时长
+ */
 - (NSTimeInterval)videoDuration{
     if (!_videoDuration) {
         
@@ -113,24 +162,6 @@
         }
     }
     return _videoDuration;
-}
-
-- (void)setExtractFrameCount:(NSUInteger)extractFrameCount{
-    if(_extractFrameCount == extractFrameCount) return;
-    
-    if(_extractFrameTimeInterval == 0){
-        
-        _extractFrameTimeInterval = self.videoDuration / _extractFrameCount * 1.0;
-    }
-}
-
-- (void)setExtractFrameTimeInterval:(CGFloat)extractFrameTimeInterval{
-    if(_extractFrameTimeInterval == extractFrameTimeInterval) return;
-    
-    if (_extractFrameCount == 0) {
-        
-        _extractFrameCount = self.videoDuration / _extractFrameTimeInterval * 1.0;
-    }
 }
 
 #pragma mark -- private methods

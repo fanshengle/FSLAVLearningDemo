@@ -20,6 +20,8 @@
 #import "FSLAVAudioPitchSegmentRecordViewController.h"
 
 #import "FSLAVVideoClipViewController.h"
+
+#import "FSLAVVideoThumbnailsViewController.h"
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -218,8 +220,18 @@
             case 4:
             {
                 [self performSegueWithIdentifier:@"FSLAVVideoClipViewController" sender:nil];
-//                FSLAVPlayerViewController *vc = [[FSLAVPlayerViewController alloc] init];
-//                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+
+            case 5:
+            {
+                [self performSegueWithIdentifier:@"FSLAVVideoClipViewController" sender:nil];
+     
+            }
+                break;
+            case 6:
+            {
+                [self performSegueWithIdentifier:@"FSLAVVideoThumbnailsViewController" sender:nil];
             }
                 break;
             
@@ -232,6 +244,27 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     NSLog(@"可以在这里做一些页面跳转属性传值的操作");
+    
+    if ([self segue:segue matchRowIndexKey:@"FSLAVVideoThumbnailsViewController"]) {
+        // 获取缩略图
+        FSLAVVideoThumbnailsViewController *thumbnailsViewController = (FSLAVVideoThumbnailsViewController *)segue.destinationViewController;
+        thumbnailsViewController.inputURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"555.MP4" ofType:nil]];
+    } else if ([self segue:segue matchRowIndexKey:@"FSLAVVideoClipViewController"]) {
+        // 视频时间裁剪
+        FSLAVVideoClipViewController *clipViewController = (FSLAVVideoClipViewController *)segue.destinationViewController;
+        clipViewController.inputURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"555.MP4" ofType:nil]];
+    }
+//    else if ([self segue:segue matchRowIndexKey:APIRowIndexImageVideoComposer]) {
+//        // 图片视频拼接
+//    }
+}
+
+- (BOOL)segue:(UIStoryboardSegue *)segue matchRowIndexKey:(NSString *)rowIndexKey {
+    return [segue.identifier isEqualToString:rowIndexKey] && [segue.destinationViewController isKindOfClass:NSClassFromString(rowIndexKey)];
+}
+
+- (void)dealloc{
+    NSLog(@"7777");
 }
 
 /*

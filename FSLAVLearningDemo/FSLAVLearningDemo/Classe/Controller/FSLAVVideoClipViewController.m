@@ -75,7 +75,6 @@
     [super viewDidLoad];
 
     self.navTitle = @"单视频时间剪辑";
-    self.inputURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"555.MP4" ofType:nil]];
     
     // 执行 _actionsAfterViewDidLoad 存储的任务
     for (void (^action)(void) in _actionsAfterViewDidLoad) {
@@ -84,8 +83,8 @@
     _actionsAfterViewDidLoad = nil;
     
     // 国际化
-    _usageLabel.text = NSLocalizedStringFromTable(@"tu_APIMovieClipViewController_usage", @"VideoDemo", @"APIMovieClipViewController_usage");
-    [_actionButtons[0] setTitle:NSLocalizedStringFromTable(@"tu_视频裁剪", @"VideoDemo", @"视频裁剪") forState:UIControlStateNormal];
+    _usageLabel.text = @"";
+    [_actionButtons[0] setTitle:@"视频裁剪" forState:UIControlStateNormal];
 }
 
 /**
@@ -188,12 +187,17 @@
 }
 
 - (void)setupThumbnails {
-//    TuSDKVideoImageExtractor *imageExtractor = [TuSDKVideoImageExtractor createExtractor];
-//    imageExtractor.videoPath = _inputURL;
-//    imageExtractor.extractFrameCount = 20;
-//    [imageExtractor asyncExtractImageList:^(NSArray<UIImage *> * images) {
-//        self.trimmerView.thumbnailsView.thumbnails = images;
-//    }];
+    FSLAVVideoImageExtractorOptions *videoOptions = [[FSLAVVideoImageExtractorOptions alloc] init];
+    videoOptions.videoURL = _inputURL;
+    videoOptions.extractFrameCount = 20;
+    
+    FSLAVVideoImageExtractor *imageExtractor = [FSLAVVideoImageExtractor extractor];
+    imageExtractor.videoOptions = videoOptions;
+    [imageExtractor asyncExtractImageList:^(NSArray<UIImage *> * images) {
+        self.trimmerView.thumbnailsView.thumbnails = images;
+    }];
+    //该方法会阻塞主线程渲染，请慎用。
+    //self.trimmerView.thumbnailsView.thumbnails = [imageExtractor syncExtractImageList];
 }
 
 - (void)readyToPlay {

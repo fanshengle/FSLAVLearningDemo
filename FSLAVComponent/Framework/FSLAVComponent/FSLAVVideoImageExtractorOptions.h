@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) AVVideoComposition *videoComposition;
 
 /**
- 提取的视频帧数，自动根据视频长度均匀获取 (extractFrameCount 和 extractFrameTimeInterval 都设置时 优先使用mExtractFrameCount)
+ 提取的视频帧数，自动根据视频长度均匀获取 (extractFrameCount 和 extractFrameTimeInterval 都设置时 优先使用extractFrameCount)
  */
 @property (nonatomic, assign) NSUInteger extractFrameCount;
 
@@ -54,7 +54,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat extractFrameTimeInterval;
 
-
 /**
  输出的图片尺寸，不设置则按视频宽高比例计算
  注意：要得到清晰图像，需要宽高分别乘以 [UIScreen mainScreen].scale。
@@ -62,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGSize outputMaxImageSize;
 
 /**
- 是否需要精确时间帧获取图片, 默认NO
+ 是否需要精确时间帧获取图片, 默认NO，注意：如果设置为YES，这个精确时间帧获取图片的过程会很耗时，开启需特别注意提升用户体验。
  */
 @property (nonatomic, assign) BOOL isAccurate;
 
@@ -101,6 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return 视频信息
  */
 - (instancetype)initWithVideoAssets:(NSArray <AVURLAsset *> *)videoAssets;
+
 @end
 
 NS_ASSUME_NONNULL_END

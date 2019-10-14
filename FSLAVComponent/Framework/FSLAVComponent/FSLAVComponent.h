@@ -59,6 +59,8 @@
 #import "FSLAVVideoMixer.h"
 /**视频剪辑器*/
 #import "FSLAVVideoClipper.h"
+/**视频图片提取器*/
+#import "FSLAVVideoImageExtractor.h"
 
 /**视频拼接器*/
 #import "FSLAVVideoSplicer.h"

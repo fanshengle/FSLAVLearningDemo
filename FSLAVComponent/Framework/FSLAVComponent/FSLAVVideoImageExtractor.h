@@ -10,8 +10,8 @@
 #import "FSLAVVideoImageExtractorOptions.h"
 
 
-typedef void(^TuSDKVideoImageExtractorBlock)(NSArray<UIImage *> *_Nullable frameImages);
-typedef void(^TuSDKVideoImageExtractorStepImageBlock)(UIImage *_Nonnull frameImage, NSUInteger index);
+typedef void(^FSLAVVideoImageExtractorBlock)(NSArray<UIImage *> *_Nullable frameImages);
+typedef void(^FSLAVVideoImageExtractorStepImageBlock)(UIImage *_Nonnull frameImage, NSUInteger index);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FSLAVVideoImageExtractor : FSLAVCoreBase
 
 /**
- 一组视频资源
+ 一/多组视频资源
  */
-@property (nonatomic, strong, nullable) NSArray<FSLAVVideoImageExtractorOptions *> *videoOptionsList;
+@property (nonatomic, strong) FSLAVVideoImageExtractorOptions *videoOptions;
 
 #pragma mark -- init
 /**
@@ -34,12 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)extractor;
 
 /**
- 视频缩略图提取器，用init初始化也可以，需要另外配置videoOptionsList
+ 视频缩略图提取器，用init初始化也可以，需要另外配置videoOptions
  
- @param videoOptionsList 拼接多视频的配置项
+ @param videoOptions 拼接多视频的配置项
  @return FSLAVVideoImageExtractor
  */
-- (instancetype)initWithVideoImageExtractorOptionsList:(NSArray<FSLAVVideoImageExtractorOptions *> *)videoOptionsList;
+- (instancetype)initWithVideoImageExtractorOptions:(FSLAVVideoImageExtractorOptions *)videoOptions;
 
 #pragma mark -- public methods
 /**
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param handler 所有缩略图获取完成后处理器
  @since v1.0.0
  */
-- (void)asyncExtractImageList:(TuSDKVideoImageExtractorBlock _Nonnull)handler;
+- (void)asyncExtractImageList:(FSLAVVideoImageExtractorBlock _Nonnull)handler;
 
 /**
  异步获取视频缩略图
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param handler 获取到每帧缩略图时的处理回调
  @since v1.0.0
  */
-- (void)asyncExtractImageWithHandler:(TuSDKVideoImageExtractorStepImageBlock _Nonnull)handler;
+- (void)asyncExtractImageWithHandler:(FSLAVVideoImageExtractorStepImageBlock _Nonnull)handler;
 
 
 @end

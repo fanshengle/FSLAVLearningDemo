@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)LibraryPath;
 
-
 /**
  *  返回Cache目录的路径
  *
